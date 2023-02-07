@@ -7,6 +7,7 @@ import 'firebase/storage';
 import "firebase/firestore";
 import "firebase/auth";
 
+
 firebase.initializeApp({
     apiKey: "AIzaSyCCFJQ3d2CByNJ57yMOEevRy06OezzrWrs",
     authDomain: "what-do-we-eat-92c3a.firebaseapp.com",
@@ -24,3 +25,4 @@ const firestore = firebase.firestore()
 const functions = firebase.app().functions('asia-northeast3')
 
 export {auth, firestore, functions, firebase}
+
