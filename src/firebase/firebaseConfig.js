@@ -25,3 +25,4 @@ const firestore = firebase.firestore()
 const functions = firebase.app().functions('asia-northeast3')
 
 export {auth, firestore, functions, firebase}
+
