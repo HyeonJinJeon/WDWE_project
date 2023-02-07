@@ -14,4 +14,4 @@
 - 마감 예정일 : 2023년 2월 20일 월
 
 ## 📚 Documents
-![img.png](img.png)
+<img width="1000" alt="WDWE_mindnode" src="https://user-images.githubusercontent.com/40857551/217178013-f841451d-e489-4abf-b1b0-f8ec74f0bb89.png">
