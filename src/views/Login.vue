@@ -1,56 +1,71 @@
 <template>
-  <div class="backgroundImg">
-    <div style="width: 750px; height: 100vh; margin: 0 auto">
-      <div class = "title">
-        <p>
-          <span style="font-size:100px;">W</span>
-          <span style="font-size:50px;">hat </span>
-          <span style="font-size:100px;">D</span>
-          <span style="font-size:50px;">o </span>
-          <span style="font-size:100px;">W</span>
-          <span style="font-size:50px;">e </span>
-          <span style="font-size:100px;">E</span>
-          <span style="font-size:50px;">at</span>
-        </p>
-      </div>
+  <v-app>
+    <v-main>
+      <div class="backgroundImg">
+<!--        <div style="width: 750px; height: 100vh; margin: 0 auto">-->
+        <div class = "center3">
+          <div class = "title">
+            <p>
+              <span style="font-size:100px;">W</span>
+              <span style="font-size:50px;">hat </span>
+              <span style="font-size:100px;">D</span>
+              <span style="font-size:50px;">o </span>
+              <span style="font-size:100px;">W</span>
+              <span style="font-size:50px;">e </span>
+              <span style="font-size:100px;">E</span>
+              <span style="font-size:50px;">at</span>
+            </p>
+          </div>
 
-      <div>
-        <div class="textLink">
-          <P>아직</P>
-           <router-link to="signUp" class="signUpLink">회원가입</router-link>
+          <div class="white-bg">
+            <p class="h4 text-center mb-4">Sign in</p>
+            <label for="idIn" class="grey-text" >Your email</label>
+            <input type="text" id="idIn" class="form-control" v-model = "id">
+            <br />
+            <label for="pwIn" class="grey-text">Your password</label>
+            <input type="password" id="pwIn" class="form-control" v-model = "pw" v-on:keypress.enter.prevent=login>
+            <div class="text-center mt-4">
+              <button class="btn btn-indigo" type="submit" @click="login" style="color: white;">Login</button>
+              <button class="btn btn-indigo" type="submit" @click="goSignUp" style="color: white;">sign up</button>
+            </div>
+            <!-- Default form login -->
+          </div>
         </div>
-      </div>
-      <div class="white-bg">
-        <p class="h4 text-center mb-4">Sign in</p>
-        <label for="idIn" class="grey-text" >Your id</label>
-        <input type="text" id="idIn" class="form-control" v-model = "id">
-        <br />
-        <label for="pwIn" class="grey-text">Your password</label>
-        <input type="password" id="pwIn" class="form-control" v-model = "password" v-on:keypress.enter.prevent=login>
-        <div class="text-center mt-4">
-          <button class="btn btn-indigo" type="submit" @click="login" style="color: white;">Login</button>
-          <button class="btn btn-indigo" type="submit" @click="goMain" style="color: white;">뒤로가기</button>
         </div>
-        <!-- Default form login -->
-      </div>
 
-
-
-    </div>
-  </div>
+<!--      </div>-->
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-// import {firebase} from "@/firebase/firebaseConfig";
+import {firebase} from "@/firebase/firebaseConfig";
 
 export default {
   name: 'login',
   data() {
     return {
       fbCollection: 'users',
+      id: '',
+      pw: '',
     }
   },
   methods: {
+    login() {
+      const self = this;
+      firebase.auth().signInWithEmailAndPassword(self.id+'wdweproject.co.kr', self.pw)
+          .then(() => {
+            alert('로그인 완료')
+            self.$router.push('/mainPg')
+          })
+          .catch((error) => {
+            alert(error)
+          })
+    },
+    goSignUp() {
+        this.$router.push('/mainPg')
+
+      },
 
   },
 }
@@ -62,17 +77,21 @@ export default {
   height: 100vh;
   width: 100%;
   background-size: cover;
+  /*padding-top: 30vh;*/
 }
+
 .white-bg {
-  width: 35%;
-  background-color:white;
-  opacity: 0.5;
+  /*opacity: 0.5;*/
+  max-width: 600px;
+  align: center;
+  background: white;
   border-radius: 8px;
-  padding: 50px;
-  position: absolute;
-  top: 30%;
-  left: 37%;
-  margin: -50px 0 0 -50px;
+  padding: 60px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
 }
 a {
   text-decoration:none;
@@ -81,26 +100,19 @@ a {
 
 }
 .title {
-  position: absolute;
-  /*width: 35%;*/
-  /*height: 40%;*/
-  /*left: 10px;*/
-  top: 10vh;
-
-  /*font-family: 'Roboto';*/
+  position: fixed;
+  top: 25%;
+  left: 35%;
+  /*left: 35%;*/
+  /*top: 10vh;*/
+  font-family: 'Roboto';
   font-style: normal;
-  font-weight: 700;
-  font-size: 500px;
-  line-height: 59px;
   color: #FFFFFF;
-
+  text-align: center;
   text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
 }
-.smallTitle  {
-  position: relative;
-  top: 6vh;
-  padding-bottom: 30px;
-  padding-top: 10px;
+.center3 {
+  margin: auto;
 }
 h2{
   font-style: normal;
@@ -138,10 +150,6 @@ h3{
   top: 65vh;
 }
 
-.textLink {
-  position: relative;
-  top: -4vh;
-  text-align: center;
-}
 </style>
+
 
