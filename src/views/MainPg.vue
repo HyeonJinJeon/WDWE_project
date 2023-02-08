@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-icon icon="list"></b-icon>
+    <b-icon icon="list" style="margin-top: 20px; margin-left: 20px;"></b-icon>
   </div>
 </template>
 
