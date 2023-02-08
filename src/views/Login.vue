@@ -53,7 +53,7 @@ export default {
   methods: {
     login() {
       const self = this;
-      firebase.auth().signInWithEmailAndPassword(self.id+'wdweproject.co.kr', self.pw)
+      firebase.auth().signInWithEmailAndPassword(self.id+'@wdweproject.co.kr', self.pw)
           .then(() => {
             alert('로그인 완료')
             self.$router.push('/mainPg')
