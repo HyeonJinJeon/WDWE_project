@@ -98,7 +98,7 @@ export default {
                     })
                 alert('회원가입 완료!');
                 user.updateProfile({displayName: self.name})
-                firebase.auth().signOut()
+                // firebase.auth().signOut()
                 this.$router.push('/');
               }).catch(err => {
             console.error(err);
