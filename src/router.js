@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Home from './views/Home.vue'
 
 Vue.use(Router)
 
@@ -11,9 +12,9 @@ export default new Router({
       component: () => import('./views/Login'),
     },
     {
-      path: '/mainPg',
-      name: 'mainPg',
-      component: () => import('./views/MainPg.vue'),
+      path: '/signUp',
+      name: 'SignUp',
+      component: () => import('./views/SignUp'),
     },
   ]
 })
