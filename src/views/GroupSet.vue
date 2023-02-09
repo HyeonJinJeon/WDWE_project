@@ -55,7 +55,7 @@
 import {firebase} from "@/firebase/firebaseConfig";
 
 export default {
-  name: "groupSet",
+  name: "GroupSet",
   data() {
     return {
       fbCollection: "users",

@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: "mapPg"
+  name: "MapPg"
 }
 </script>
 
