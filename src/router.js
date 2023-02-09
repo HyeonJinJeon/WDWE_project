@@ -12,23 +12,28 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'login',
+      name: 'logLoginin',
       component: () => import('./views/Login'),
     },
     {
       path: '/signUp',
-      name: 'signUp',
+      name: 'SignUp',
       component: () => import('./views/SignUp'),
     },
     {
       path: '/mainPg',
-      name: 'mainPg',
+      name: 'MainPg',
       component: () => import('./views/MainPg.vue'),
     },
     {
       path: '/groupSet',
-      name: 'groupSet',
+      name: 'GroupSet',
       component: () => import('./views/GroupSet.vue'),
+    },
+    {
+      path: '/receiptPg',
+      name: 'ReceiptPg',
+      component: () => import('./views/ReceiptPg.vue'),
     },
   ]
 })

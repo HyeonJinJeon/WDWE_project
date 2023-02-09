@@ -42,7 +42,7 @@
 import {firebase} from "@/firebase/firebaseConfig";
 
 export default {
-  name: 'login',
+  name: 'Login',
   data() {
     return {
       fbCollection: 'users',
