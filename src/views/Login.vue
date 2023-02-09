@@ -63,7 +63,7 @@ export default {
           })
     },
     goSignUp() {
-        this.$router.push('/mainPg')
+        this.$router.push('/signUp')
 
       },
 
