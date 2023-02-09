@@ -99,7 +99,7 @@ export default {
                 alert('회원가입 완료!');
                 user.updateProfile({displayName: self.name})
                 // firebase.auth().signOut()
-                this.$router.push('/');
+                this.$router.push('/groupSet');
               }).catch(err => {
             console.error(err);
             alert('에러 : ' + err.message)
