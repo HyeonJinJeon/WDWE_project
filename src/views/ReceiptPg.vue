@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "AddBill"
+  name: "receiptPg"
 }
 </script>
 
