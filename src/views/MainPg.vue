@@ -1,12 +1,24 @@
 <template>
-  <div>
-    <b-icon icon="list" style="margin-top: 20px; margin-left: 20px;"></b-icon>
-  </div>
+  <FullCalendar :options="calendarOptions" />
 </template>
 
 <script>
+import FullCalendar from '@fullcalendar/vue'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction'
 export default {
-  name: "MainPg"
+  name: "MainPg",
+  components: {
+    FullCalendar // make the <FullCalendar> tag available
+  },
+  data() {
+    return {
+      calendarOptions: {
+        plugins: [ dayGridPlugin, interactionPlugin ],
+        initialView: 'dayGridMonth'
+      }
+    }
+  }
 }
 </script>
 
