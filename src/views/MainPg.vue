@@ -24,24 +24,24 @@
         <div class="horizontal-line"></div>
 
 
-        <div class="item">
-          <div class="item_name"></div>
-          <p>{{dataList}}</p>
-          <div class="item_menu">menu(데이터바인딩)</div>
-          <div class="item_price">price(데이터바인딩)</div>
+        <div v-for="(dataList,i) in dataList" :key="i" class="item">
+          <div class="item_name"><p>{{dataList.who[i].name}}</p></div>
+
+          <div class="item_menu"><p>{{dataList.who[i].menu}}</p></div>
+          <div class="item_price"><p>{{dataList.who[i].price}}원</p></div>
         </div>
 
-        <div class="item">
-          <div class="item_name">name</div>
-          <div class="item_menu">menu</div>
-          <div class="item_price">price</div>
-        </div>
+<!--        <div class="item">-->
+<!--          <div class="item_name">name</div>-->
+<!--          <div class="item_menu">menu</div>-->
+<!--          <div class="item_price">price</div>-->
+<!--        </div>-->
 
-        <div class="item">
-          <div class="item_name">name</div>
-          <div class="item_menu">menu</div>
-        <div class="item_price">price</div>
-      </div>
+<!--        <div class="item">-->
+<!--          <div class="item_name">name</div>-->
+<!--          <div class="item_menu">menu</div>-->
+<!--        <div class="item_price">price</div>-->
+<!--      </div>-->
       </div>
       <!-- Summary -->
       <div class="horizontal-line"></div>
@@ -68,7 +68,7 @@ export default {
     FullCalendar // make the <FullCalendar> tag available
   },
   mounted() {
-    this.getDatalist()
+    // this.getDatalist()
   },
   data() {
     return {
@@ -86,27 +86,35 @@ export default {
       resType: "",
       resNumber: "",
       resGeo: "",
-      who: [{name: "", menu: "", price: ""}],
       resUid: "",
       groupUid: "",
     }
   },
   methods: {
     handleDateClick: function(arg) {
+      this.dataList = [];
       // alert('date click! ' + arg.dateStr)
-      console.log(arg.dateStr)
-      // arg.dateStr.setHours(0,0,0,0)
-      console.log(arg.date)
+      // console.log(arg.dateStr)
+      const date = arg.dateStr;
+      const da = new Date();
+      console.log(da)
+      let start = new Date(date);
+      start.setHours(0,0,0,0)
+      let finish = new Date(date);
+      finish.setHours(23,59,59, 999)
+      console.log(start)
+      console.log(finish)
 
 
 
-      this.getDatalist(arg)
+      this.getDatalist(start, finish)
     },
-    getDatalist(arg) {
+    getDatalist(start, finish) {
       const self = this;
       const db = firebase.firestore();
       db.collection("receipt")
-          .where("date",'==', arg.dateStr + "00:00:00")
+          .where("date",'>=', start)
+          .where("date", '<=', finish )
           .get()
           .then((querySnapshot) => {
             if (querySnapshot.size === 0) {
