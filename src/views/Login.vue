@@ -2,9 +2,9 @@
   <v-app>
     <v-main>
       <div class="backgroundImg">
-<!--        <div style="width: 750px; height: 100vh; margin: 0 auto">-->
-        <div class = "center3">
-          <div class = "title">
+        <!--        <div style="width: 750px; height: 100vh; margin: 0 auto">-->
+        <div class="center">
+          <div class="title">
             <p>
               <span style="font-size:100px;">W</span>
               <span style="font-size:50px;">hat </span>
@@ -19,11 +19,11 @@
 
           <div class="white-bg">
             <p class="h4 text-center mb-4">Sign in</p>
-            <label for="idIn" class="grey-text" >Your email</label>
-            <input type="text" id="idIn" class="form-control" v-model = "id">
-            <br />
+            <label for="idIn" class="grey-text">Your id</label>
+            <input type="text" id="idIn" class="form-control" v-model="id">
+            <br/>
             <label for="pwIn" class="grey-text">Your password</label>
-            <input type="password" id="pwIn" class="form-control" v-model = "pw" v-on:keypress.enter.prevent=login>
+            <input type="password" id="pwIn" class="form-control" v-model="pw" v-on:keypress.enter.prevent=login>
             <div class="text-center mt-4">
               <button class="btn btn-indigo" type="submit" @click="login" style="color: white;">Login</button>
               <button class="btn btn-indigo" type="submit" @click="goSignUp" style="color: white;">sign up</button>
@@ -31,9 +31,9 @@
             <!-- Default form login -->
           </div>
         </div>
-        </div>
+      </div>
 
-<!--      </div>-->
+      <!--      </div>-->
     </v-main>
   </v-app>
 </template>
@@ -53,7 +53,7 @@ export default {
   methods: {
     login() {
       const self = this;
-      firebase.auth().signInWithEmailAndPassword(self.id+'@wdweproject.co.kr', self.pw)
+      firebase.auth().signInWithEmailAndPassword(self.id + '@wdweproject.co.kr', self.pw)
           .then(() => {
             alert('로그인 완료')
             self.$router.push('/mainPg')
@@ -63,9 +63,9 @@ export default {
           })
     },
     goSignUp() {
-        this.$router.push('/mainPg')
+      this.$router.push('/signUp')
 
-      },
+    },
 
   },
 }
@@ -73,7 +73,7 @@ export default {
 
 <style scoped>
 .backgroundImg {
-  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../assets/images/startBg.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../assets/images/startBg.jpg");
   height: 100vh;
   width: 100%;
   background-size: cover;
@@ -93,12 +93,13 @@ export default {
   transform: translate(-50%, -50%);
   margin: 0 auto;
 }
+
 a {
-  text-decoration:none;
+  text-decoration: none;
   color: white;
   font-weight: 600;
-
 }
+
 .title {
   position: fixed;
   top: 25%;
@@ -111,15 +112,21 @@ a {
   text-align: center;
   text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
 }
-.center3 {
+
+.center {
+  /*position: absolute;*/
+  width: 700px;
   margin: auto;
+  /*text-align: center;*/
 }
-h2{
+
+h2 {
   font-style: normal;
   font-weight: 700;
   font-size: 75px;
   line-height: 59px;
 }
+
 hr {
   position: relative;
   top: 30vh;
@@ -127,7 +134,8 @@ hr {
   color: #ffffff;
   float: right;
 }
-h3{
+
+h3 {
   position: relative;
   top: 29vh;
   font-style: normal;
@@ -137,17 +145,6 @@ h3{
   line-height: 59px;
   float: right;
   padding-right: 15px;
-}
-.text-red {
-  color: rgba(105, 120, 168, 0.99);
-}
-
-.signUpLink {
-  position: relative;
-  font-size:23px;
-  color: white;
-  padding:15px;
-  top: 65vh;
 }
 
 </style>

@@ -99,7 +99,7 @@ export default {
                 alert('회원가입 완료!');
                 user.updateProfile({displayName: self.name})
                 // firebase.auth().signOut()
-                this.$router.push('/');
+                this.$router.push('/groupSet');
               }).catch(err => {
             console.error(err);
             alert('에러 : ' + err.message)
@@ -216,7 +216,7 @@ export default {
 
 <style scoped>
 .backgroundImg {
-  background-image: url("../assets/images/WDWEBg.jpg");
+  background-image: url("../assets/images/startBg.jpg");
   background-color:rgba(0, 0, 0, 0.5);
   height: 100vh;
   width: 100%;
