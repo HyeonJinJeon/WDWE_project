@@ -1,59 +1,60 @@
 <template>
   <div>
     <div class="calendarDiv">
-      <FullCalendar style="float: right; width:70%; margin-right: 120px; padding-left: 30px" :options="calendarOptions" />
+      <FullCalendar style="float: right; width:70%; margin-right: 120px; padding-left: 30px"
+                    :options="calendarOptions"/>
     </div>
     <i class="fas fa-bars" style="margin-top: 30px; margin-left: 30px;"></i>
     <router-link to="receiptPg">영수증 등록</router-link>
     <v-app>
       <v-main>
-    <div class="receiptDiv">
-      <div class="main">
-      <div class="title">영수증</div>
-      <!-- Add Items -->
-      <div class="add">
-        <input type="add_text">
-        <input type="number" class="add_price">
-        <i class="add_add-button fas fa-plus-circle"></i>
-      </div>
-      <!-- Item List -->
-      <div class="item-list">
-        <p>상호명(데이터바인딩)</p>
-        <p>가게 타입(데이터바인딩)</p>
-        <p>전화번호(데이터바인딩)</p>
-        <p>주소(데이터바인딩)</p>
+        <div class="receiptDiv">
+          <div class="main">
+            <div class="title">영수증</div>
+            <!-- Add Items -->
+            <div class="add">
+              <input type="add_text">
+              <input type="number" class="add_price">
+              <i class="add_add-button fas fa-plus-circle"></i>
+            </div>
+            <!-- Item List -->
+            <div class="item-list">
+              <p>상호명(데이터바인딩)</p>
+              <p>가게 타입(데이터바인딩)</p>
+              <p>전화번호(데이터바인딩)</p>
+              <p>주소(데이터바인딩)</p>
 
-        <div class="horizontal-line"></div>
+              <div class="horizontal-line"></div>
 
 
-        <div class="item">
-          <div class="item_name"></div>
-          <p>{{dataList[0]}}</p>
-          <div class="item_menu">menu(데이터바인딩)</div>
-          <div class="item_price">price(데이터바인딩)</div>
+              <div class="item">
+                <div class="item_name"></div>
+                <p>{{ dataList[0] }}</p>
+                <div class="item_menu">menu(데이터바인딩)</div>
+                <div class="item_price">price(데이터바인딩)</div>
+              </div>
+
+              <div class="item">
+                <div class="item_name">name</div>
+                <div class="item_menu">menu</div>
+                <div class="item_price">price</div>
+              </div>
+
+              <div class="item">
+                <div class="item_name">name</div>
+                <div class="item_menu">menu</div>
+                <div class="item_price">price</div>
+              </div>
+            </div>
+            <!-- Summary -->
+            <div class="horizontal-line"></div>
+            <div class="sum">
+              <div class="sum_total">총 금액: (데이터바인딩)</div>
+              <div class="sum_checked-price">나의 금액: (데이터바인딩)</div>
+              <div class="sum_unchecked-price"></div>
+            </div>
+          </div>
         </div>
-
-        <div class="item">
-          <div class="item_name">name</div>
-          <div class="item_menu">menu</div>
-          <div class="item_price">price</div>
-        </div>
-
-        <div class="item">
-          <div class="item_name">name</div>
-          <div class="item_menu">menu</div>
-        <div class="item_price">price</div>
-      </div>
-      </div>
-      <!-- Summary -->
-      <div class="horizontal-line"></div>
-      <div class="sum">
-        <div class="sum_total">총 금액: (데이터바인딩) </div>
-        <div class="sum_checked-price">나의 금액: (데이터바인딩) </div>
-        <div class="sum_unchecked-price"></div>
-      </div>
-    </div>
-    </div>
       </v-main>
     </v-app>
   </div>
@@ -64,7 +65,6 @@ import {firebase} from "@/firebase/firebaseConfig";
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
-
 export default {
   name: "MainPg",
   components: {
@@ -73,10 +73,6 @@ export default {
   data() {
     return {
       calendarOptions: {
-        plugins: [dayGridPlugin, interactionPlugin],
-        initialView: 'dayGridMonth'
-      }
-    }
         plugins: [ dayGridPlugin, interactionPlugin ],
         initialView: 'dayGridMonth',
         dateClick: this.handleDateClick,
@@ -101,8 +97,6 @@ export default {
       console.log(arg.dateStr)
       // arg.dateStr.setHours(0,0,0,0)
       console.log(arg.date)
-
-
       const self = this;
       const db = firebase.firestore();
       db.collection("receipt")
@@ -128,18 +122,15 @@ export default {
           let year = date.getFullYear()
           let month = date.getMonth() + 1
           let day = date.getDate()
-
           if (notFullYear) year = year.toString().slice(2, 4)
           if (month < 10) month = `0${month}`
           if (day < 10) day = `0${day}`
-
           return `${year}${separated}${month}${separated}${day}`
         } else return '';
       }
       this.getDatalist()
     },
     getDatalist() {
-
     },
   }
 }
