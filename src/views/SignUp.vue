@@ -127,10 +127,10 @@ export default {
               self.openBtn = false
               self.closeInput = false
             } else {
-              if(this.validateId(id) == false){
+              if (this.validateId(id) == false) {
                 self.openBtn = false
                 self.closeInput = false
-              }else{
+              } else {
                 alert('사용 가능합니다')
                 self.openBtn = true
                 self.closeInput = true
@@ -217,11 +217,12 @@ export default {
 <style scoped>
 .backgroundImg {
   background-image: url("../assets/images/startBg.jpg");
-  background-color:rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   height: 100vh;
   width: 100%;
   background-size: cover;
 }
+
 .black-bg {
   width: 100%;
   height: 100vh;
@@ -229,12 +230,14 @@ export default {
   position: fixed;
   padding: 50px;
 }
+
 .center {
   /*position: absolute;*/
   width: 700px;
   margin: auto;
   /*text-align: center;*/
 }
+
 .title {
   /*text-align: center;*/
   font-style: normal;
@@ -245,6 +248,7 @@ export default {
 
   text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
 }
+
 .white-bg {
   max-width: 700px;
   align: center;

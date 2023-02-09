@@ -3,8 +3,8 @@
     <v-main>
       <div class="backgroundImg">
         <div class="black-bg">
-          <div class = "center">
-            <div class = "title">
+          <div class="center">
+            <div class="title">
               <p>
                 <span style="font-size:100px;">W</span>
                 <span style="font-size:50px;">hat </span>
@@ -19,22 +19,28 @@
             <div class="white-bg">
               <p class="h4 text-center mb-4" style="color: black">그룹 설정 <span><i class="fas fa-utensils"></i></span></p>
               <hr>
-              {{userInfo}}
+              {{ userInfo }}
               <div style="margin-top:50px;">
-                <h3 class="h4 mb-4" style="color: black;"> <b-icon icon="circle-fill" font-scale="0.5"></b-icon>그룹 생성</h3>
-<!--                <label for="defaultFormRegisterEmailEx" class="grey-text">그룹 이름</label>-->
+                <h3 class="h4 mb-4" style="color: black;">
+                  <b-icon icon="circle-fill" font-scale="0.5"></b-icon>
+                  그룹 생성
+                </h3>
+                <!--                <label for="defaultFormRegisterEmailEx" class="grey-text">그룹 이름</label>-->
                 <div class="input-line">
-                  <input v-model="groupName" type="text" class="form-control" @change="validateId(groupName)" placeholder="생성할 그룹 이름을 입력해주세요" />
-                  <button class="confirmBtn" type="submit">등록</button>
+                  <input v-model="groupName" type="text" class="form-control" placeholder="생성할 그룹 이름을 입력해주세요"/>
+                  <button class="confirmBtn" type="submit" @click="newGroup">등록</button>
                 </div>
               </div>
 
               <div style="margin-top: 100px;">
-                <h3 class="h4 mb-4" style="color: black;"> <b-icon icon="circle-fill" font-scale="0.5"></b-icon>기존 그룹이 있다면</h3>
-<!--                <label for="defaultFormRegisterEmailEx" class="grey-text">입장 코드</label>-->
+                <h3 class="h4 mb-4" style="color: black;">
+                  <b-icon icon="circle-fill" font-scale="0.5"></b-icon>
+                  기존 그룹이 있다면
+                </h3>
+                <!--                <label for="defaultFormRegisterEmailEx" class="grey-text">입장 코드</label>-->
                 <div class="input-line">
-                  <input v-model="enterCode" type="text" class="form-control" @change="validateId(enterCode)" placeholder="입장코드를 입력해주세요."/>
-                  <button class="confirmBtn" type="submit">등록</button>
+                  <input v-model="enterCode" type="text" class="form-control" placeholder="입장코드를 입력해주세요."/>
+                  <button class="confirmBtn" type="submit" @click="existGroup">등록</button>
                 </div>
               </div>
             </div>
@@ -49,13 +55,17 @@
 import {firebase} from "@/firebase/firebaseConfig";
 
 export default {
-  name: "groupSet",
-  data(){
+  name: "GroupSet",
+  data() {
     return {
       fbCollection: "users",
+      userId: this.$store.state.user.uid,
       groupName: "",
+      newCode: '',
       enterCode: "",
       userInfo: [],
+      randomStr: Math.random().toString(36).substring(2, 12),
+      enterCodes: [],
     }
   },
   mounted() {
@@ -66,31 +76,74 @@ export default {
     init() {
       const self = this;
       self.getData();
+      self.newCode = self.randomStr;
     },
     getData() {
-      console.log(self.$store.state.user.uid)
       const self = this;
+      // console.log(userId)
       const db = firebase.firestore();
       db.collection(self.fbCollection)
-          .doc(self.$store.state.user.uid)
+          .doc(self.userId)
           .get()
           .then((snapshot) => {
             self.userInfo = snapshot.data();
           })
     },
-  },
+    newGroup() {
+      const self = this;
+      // console.log(self.userId)
+      const db = firebase.firestore();
+      db.collection("group")
+          .add({
+            groupName: self.groupName,
+            member: firebase.firestore.FieldValue.arrayUnion(self.userId),
+            enterCode: self.newCode,
+            owner: self.$store.state.user.uid,
+          })
+          .then(() => {
+            db.collection(self.fbCollection)
+                .doc(self.userId)
+                .update({enterCodes: firebase.firestore.FieldValue.arrayUnion(self.newCode)})
+                .then(() => {
+                  alert("그룹 생성완료")
+                  self.$router.push('/mainPg')
+                })
+          })
+    },
+    existGroup() {
+      const self = this;
+      const db = firebase.firestore();
+      db.collection("group")
+          .where("enterCode",'==',self.enterCode)  //그룹들의 입장코드와 입력된 입장코드를 비교
+          .get()
+          .then((querySnapshot) => {
+            if (querySnapshot.size === 0) {     //없다면 알림창으로 알려주고 입장코드가 등록되지 않음
+              alert("존재하지않는 입장코드입니다.")
+            }else { //있다면 입장코드를 배열로 저장
+              db.collection("users")
+                  .doc(self.userId)
+                  .update({enterCodes: firebase.firestore.FieldValue.arrayUnion(self.enterCode)})
+                  .then(() => {
+                    alert("등록 완료!")
+                    self.$router.push('/mainPg')
+                  })
+            }
+          })
+    },
 
+  }
 }
 </script>
 
 <style scoped>
 .backgroundImg {
   background-image: url("../assets/images/startBg.jpg");
-  background-color:rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   height: 100vh;
   width: 100%;
   background-size: cover;
 }
+
 .black-bg {
   width: 100%;
   height: 100vh;
@@ -98,12 +151,14 @@ export default {
   position: fixed;
   padding: 50px;
 }
+
 .center {
   /*position: absolute;*/
   width: 700px;
   margin: auto;
   /*text-align: center;*/
 }
+
 .title {
   /*text-align: center;*/
   font-style: normal;
@@ -114,6 +169,7 @@ export default {
 
   text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
 }
+
 .white-bg {
   max-width: 700px;
   align: center;
@@ -125,6 +181,7 @@ export default {
   /*left: 24vh;*/
   margin: 0 auto;
 }
+
 /*.ImButton {*/
 /*  height: 38px !important;*/
 /*  white-space: nowrap;*/
@@ -136,7 +193,8 @@ export default {
   display: flex;
   height: 38px;
 }
-.confirmBtn{
+
+.confirmBtn {
   font-weight: 500;
   font-size: 15px;
   width: 110px;

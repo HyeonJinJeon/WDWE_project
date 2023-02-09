@@ -12,7 +12,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Login',
+      name: 'logLoginin',
       component: () => import('./views/Login'),
     },
     {
@@ -23,12 +23,17 @@ const router = new Router({
     {
       path: '/mainPg',
       name: 'MainPg',
-      component: () => import('./views/MainPg'),
+      component: () => import('./views/MainPg.vue'),
     },
     {
       path: '/groupSet',
-      name: 'groupSet',
+      name: 'GroupSet',
       component: () => import('./views/GroupSet.vue'),
+    },
+    {
+      path: '/receiptPg',
+      name: 'ReceiptPg',
+      component: () => import('./views/ReceiptPg.vue'),
     },
   ]
 })
@@ -71,6 +76,5 @@ router.beforeEach((to, from, next) => {
   })
 
 });
-
 
 export default router
