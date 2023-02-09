@@ -14,10 +14,14 @@
     "start": "vue-cli-service serve --open"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.4",
+    "@fullcalendar/daygrid": "^6.1.4",
+    "@fullcalendar/vue": "^6.1.4",
     "bootstrap": "^5.2.3",
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.1.2",
     "firebase": "^8.2.9",
+    "fullcalendar": "^6.1.4",
     "mdbvue": "^6.7.3",
     "vee-validate": "^3.2.0",
     "vue": "^2.6.14",
