@@ -26,7 +26,7 @@
 
         <div class="item">
           <div class="item_name"></div>
-          <p>{{dataList[0]}}</p>
+          <p>{{dataList}}</p>
           <div class="item_menu">menu(데이터바인딩)</div>
           <div class="item_price">price(데이터바인딩)</div>
         </div>
@@ -67,6 +67,9 @@ export default {
   components: {
     FullCalendar // make the <FullCalendar> tag available
   },
+  mounted() {
+    this.getDatalist()
+  },
   data() {
     return {
       calendarOptions: {
@@ -96,10 +99,14 @@ export default {
       console.log(arg.date)
 
 
+
+      this.getDatalist(arg)
+    },
+    getDatalist(arg) {
       const self = this;
       const db = firebase.firestore();
       db.collection("receipt")
-          .where("resUid",'==', "1111")
+          .where("date",'==', arg.dateStr + "00:00:00")
           .get()
           .then((querySnapshot) => {
             if (querySnapshot.size === 0) {
@@ -109,30 +116,26 @@ export default {
             querySnapshot.forEach((doc) => {
               const _data = doc.data();
               _data.id = doc.id
-              const date = new Date(_data.date.seconds * 1000);
-              _data.date = getDate(date);
+              // const date = new Date(_data.date.seconds * 1000);
+              // _data.date = getDate(date);
               self.dataList.push(_data);
               console.log(_data)
               // console.log(self.memore)
             });
           })
-      const getDate = (date, separated = '-', notFullYear = false) => {
-        if (date instanceof Date) {
-          let year = date.getFullYear()
-          let month = date.getMonth() + 1
-          let day = date.getDate()
-
-          if (notFullYear) year = year.toString().slice(2, 4)
-          if (month < 10) month = `0${month}`
-          if (day < 10) day = `0${day}`
-
-          return `${year}${separated}${month}${separated}${day}`
-        } else return '';
-      }
-      this.getDatalist()
-    },
-    getDatalist() {
-
+      // const getDate = (date, separated = '-', notFullYear = false) => {
+      //   if (date instanceof Date) {
+      //     let year = date.getFullYear()
+      //     let month = date.getMonth() + 1
+      //     let day = date.getDate()
+      //
+      //     if (notFullYear) year = year.toString().slice(2, 4)
+      //     if (month < 10) month = `0${month}`
+      //     if (day < 10) day = `0${day}`
+      //
+      //     return `${year}${separated}${month}${separated}${day}`
+      //   } else return '';
+      // }
     },
   }
 }
