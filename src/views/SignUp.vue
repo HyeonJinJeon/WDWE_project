@@ -1,60 +1,60 @@
 <template>
   <v-app>
     <v-main>
-<div class="backgroundImg">
-  <div class="black-bg">
-    <div class = "center">
-      <div class = "title">
-        <p>
-          <span style="font-size:100px;">W</span>
-          <span style="font-size:50px;">hat </span>
-          <span style="font-size:100px;">D</span>
-          <span style="font-size:50px;">o </span>
-          <span style="font-size:100px;">W</span>
-          <span style="font-size:50px;">e </span>
-          <span style="font-size:100px;">E</span>
-          <span style="font-size:50px;">at</span>
-        </p>
-        </div>
-      <div class="white-bg">
-        <p class="h4 text-center mb-4">회원가입 하기</p>
-        <div>
-          <label for="defaultFormRegisterNameEx" class="grey-text">이름</label>
-          <input v-model="name" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength=10
-                 @change="validateName(name)"/>
-        </div>
-        <div>
-          <label for="defaultFormRegisterNameEx" class="grey-text">영어 이름</label>
-          <input v-model="engName" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength="10"
-                 @change="validateEngName(engName)"/>
-        </div>
-        <div>
-          <label for="defaultFormRegisterEmailEx" class="grey-text">아이디</label>
-          <div class="input-line">
-            <input v-bind:disabled="closeInput==true" v-model="id" type="text" id="defaultFormRegisterEmailEx"
-                   class="form-control" @change="validateId(id)" placeholder="영문자+숫자 조합" />
-            <button class="btn btn-indigo" type="submit" @click="overlapCheckId(id)" style="color: white; width: 90px; height: 35px;">중복확인</button>
+      <div class="backgroundImg">
+        <div class="black-bg">
+          <div class = "center">
+            <div class = "title">
+              <p>
+                <span style="font-size:100px;">W</span>
+                <span style="font-size:50px;">hat </span>
+                <span style="font-size:100px;">D</span>
+                <span style="font-size:50px;">o </span>
+                <span style="font-size:100px;">W</span>
+                <span style="font-size:50px;">e </span>
+                <span style="font-size:100px;">E</span>
+                <span style="font-size:50px;">at</span>
+              </p>
+              </div>
+            <div class="white-bg">
+              <p class="h4 text-center mb-4">회원가입 하기</p>
+              <div>
+                <label for="defaultFormRegisterNameEx" class="grey-text">이름</label>
+                <input v-model="name" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength=10
+                       @change="validateName(name)"/>
+              </div>
+              <div>
+                <label for="defaultFormRegisterNameEx" class="grey-text">영어 이름</label>
+                <input v-model="engName" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength="10"
+                       @change="validateEngName(engName)"/>
+              </div>
+              <div>
+                <label for="defaultFormRegisterEmailEx" class="grey-text">아이디</label>
+                <div class="input-line">
+                  <input v-bind:disabled="closeInput==true" v-model="id" type="text" id="defaultFormRegisterEmailEx"
+                         class="form-control" @change="validateId(id)" placeholder="영문자+숫자 조합" />
+                  <button class="btn" type="submit" @click="overlapCheckId(id)" style="background-color: #385177; color: white; width: 115px; height: 35px; margin: auto; white-space: nowrap;">중복확인</button>
+                </div>
+              </div>
+              <div>
+                <label for="defaultFormRegisterConfirmEx" class="grey-text">비밀번호</label>
+                <input v-model="password" type="password" id="defaultFormRegisterConfirmEx" class="form-control"
+                       @change="validatePw(password)" placeholder="영문자+숫자+특수문자 조합"/>
+              </div>
+              <div>
+                <label for="defaultFormRegisterPasswordEx" class="grey-text">비밀번호 확인</label>
+                <input v-model="comparePassword" type="password" id="defaultFormRegisterPasswordEx" class="form-control"
+                       @change="passwordConfirm" v-on:keypress.enter.prevent=signup>
+                <h10>{{ compare }}</h10>
+              </div>
+              <div class="text-center mt-4">
+                <button class="btn" type="submit" @click="signup" style="color: white; background-color: #385177;">회원가입</button>
+                <button class="btn" type="submit" @click="goMain" style="color: white; background-color: #779BD0;">뒤로가기</button>
+              </div>
+            </div>
           </div>
         </div>
-        <div>
-          <label for="defaultFormRegisterConfirmEx" class="grey-text">비밀번호</label>
-          <input v-model="password" type="password" id="defaultFormRegisterConfirmEx" class="form-control"
-                 @change="validatePw(password)" placeholder="영문자+숫자+특수문자 조합"/>
-        </div>
-        <div>
-          <label for="defaultFormRegisterPasswordEx" class="grey-text">비밀번호 확인</label>
-          <input v-model="comparePassword" type="password" id="defaultFormRegisterPasswordEx" class="form-control"
-                 @change="passwordConfirm" v-on:keypress.enter.prevent=signup>
-          <h10>{{ compare }}</h10>
-        </div>
-        <div class="text-center mt-4">
-          <button class="btn btn-indigo" type="submit" @click="signup" style="color: white;">회원가입</button>
-          <button class="btn btn-indigo" type="submit" @click="goMain" style="color: white;">뒤로가기</button>
-        </div>
       </div>
-    </div>
-  </div>
-</div>
     </v-main>
   </v-app>
 </template>
@@ -216,7 +216,7 @@ export default {
 
 <style scoped>
 .backgroundImg {
-  background-image: url("../assets/images/WDWEBg.jpg");
+  background-image: url("../assets/images/startBg.jpg");
   background-color:rgba(0, 0, 0, 0.5);
   height: 100vh;
   width: 100%;
