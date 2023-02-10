@@ -1,60 +1,63 @@
 <template>
-  <div>
-    <div class="calendarDiv">
-      <FullCalendar style="float: right; width:70%; margin-right: 120px; padding-left: 30px" :options="calendarOptions" />
-    </div>
     <v-app>
       <v-main>
-    <div class="receiptDiv">
-      <div class="main">
-      <div class="title">영수증</div>
-      <!-- Add Items -->
-      <div class="add">
-        <input type="add_text">
-        <input type="number" class="add_price">
-        <i class="add_add-button fas fa-plus-circle"></i>
-      </div>
-      <!-- Item List -->
-      <div class="item-list">
-        <p>상호명(데이터바인딩)</p>
-        <p>가게 타입(데이터바인딩)</p>
-        <p>전화번호(데이터바인딩)</p>
-        <p>주소(데이터바인딩)</p>
+        <div>
+          <MainSideBar></MainSideBar>
+          <div class="calendarDiv">
+            <FullCalendar style="float: right; width:70%; margin-right: 120px; padding-left: 30px"
+                          :options="calendarOptions"/>
+          </div>
+            <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="margin-top: 30px; margin-left: 30px;"></i>
+        <div class="receiptDiv">
+          <div class="main">
+            <div class="title">영수증</div>
+            <!-- Add Items -->
+            <div class="add">
+              <input type="add_text">
+              <input type="number" class="add_price">
+              <i class="add_add-button fas fa-plus-circle"></i>
+            </div>
+            <!-- Item List -->
+            <div class="item-list">
+              <p>상호명(데이터바인딩)</p>
+              <p>가게 타입(데이터바인딩)</p>
+              <p>전화번호(데이터바인딩)</p>
+              <p>주소(데이터바인딩)</p>
 
-        <div class="horizontal-line"></div>
+              <div class="horizontal-line"></div>
 
 
-        <div v-for="(dataList,i) in dataList" :key="i" class="item">
-          <div class="item_name"><p>{{dataList.who[i].name}}</p></div>
+              <div class="item">
+                <div class="item_name"></div>
+                <p>{{ dataList[0] }}</p>
+                <div class="item_menu">menu(데이터바인딩)</div>
+                <div class="item_price">price(데이터바인딩)</div>
+              </div>
 
-          <div class="item_menu"><p>{{dataList.who[i].menu}}</p></div>
-          <div class="item_price"><p>{{dataList.who[i].price}}원</p></div>
+              <div class="item">
+                <div class="item_name">name</div>
+                <div class="item_menu">menu</div>
+                <div class="item_price">price</div>
+              </div>
+
+              <div class="item">
+                <div class="item_name">name</div>
+                <div class="item_menu">menu</div>
+                <div class="item_price">price</div>
+              </div>
+            </div>
+            <!-- Summary -->
+            <div class="horizontal-line"></div>
+            <div class="sum">
+              <div class="sum_total">총 금액: (데이터바인딩)</div>
+              <div class="sum_checked-price">나의 금액: (데이터바인딩)</div>
+              <div class="sum_unchecked-price"></div>
+            </div>
+          </div>
         </div>
-
-<!--        <div class="item">-->
-<!--          <div class="item_name">name</div>-->
-<!--          <div class="item_menu">menu</div>-->
-<!--          <div class="item_price">price</div>-->
-<!--        </div>-->
-
-<!--        <div class="item">-->
-<!--          <div class="item_name">name</div>-->
-<!--          <div class="item_menu">menu</div>-->
-<!--        <div class="item_price">price</div>-->
-<!--      </div>-->
-      </div>
-      <!-- Summary -->
-      <div class="horizontal-line"></div>
-      <div class="sum">
-        <div class="sum_total">총 금액: (데이터바인딩) </div>
-        <div class="sum_checked-price">나의 금액: (데이터바인딩) </div>
-        <div class="sum_unchecked-price"></div>
-      </div>
-    </div>
-    </div>
+        </div>
       </v-main>
     </v-app>
-  </div>
 </template>
 
 <script>
@@ -62,13 +65,13 @@ import {firebase} from "@/firebase/firebaseConfig";
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import MainSideBar from "@/components/MainSideBar.vue";
+
 export default {
   name: "MainPg",
   components: {
-    FullCalendar // make the <FullCalendar> tag available
-  },
-  mounted() {
-    // this.getDatalist()
+    FullCalendar, // make the <FullCalendar> tag available
+    MainSideBar
   },
   data() {
     return {
@@ -86,35 +89,21 @@ export default {
       resType: "",
       resNumber: "",
       resGeo: "",
+      who: [{name: "", me현nu: "", price: ""}],
       resUid: "",
       groupUid: "",
     }
   },
   methods: {
     handleDateClick: function(arg) {
-      this.dataList = [];
       // alert('date click! ' + arg.dateStr)
-      // console.log(arg.dateStr)
-      const date = arg.dateStr;
-      const da = new Date();
-      console.log(da)
-      let start = new Date(date);
-      start.setHours(0,0,0,0)
-      let finish = new Date(date);
-      finish.setHours(23,59,59, 999)
-      console.log(start)
-      console.log(finish)
-
-
-
-      this.getDatalist(start, finish)
-    },
-    getDatalist(start, finish) {
+      console.log(arg.dateStr)
+      // arg.dateStr.setHours(0,0,0,0)
+      console.log(arg.date)
       const self = this;
       const db = firebase.firestore();
       db.collection("receipt")
-          .where("date",'>=', start)
-          .where("date", '<=', finish )
+          .where("resUid",'==', "1111")
           .get()
           .then((querySnapshot) => {
             if (querySnapshot.size === 0) {
@@ -124,44 +113,46 @@ export default {
             querySnapshot.forEach((doc) => {
               const _data = doc.data();
               _data.id = doc.id
-              // const date = new Date(_data.date.seconds * 1000);
-              // _data.date = getDate(date);
+              const date = new Date(_data.date.seconds * 1000);
+              _data.date = getDate(date);
               self.dataList.push(_data);
               console.log(_data)
               // console.log(self.memore)
             });
           })
-      // const getDate = (date, separated = '-', notFullYear = false) => {
-      //   if (date instanceof Date) {
-      //     let year = date.getFullYear()
-      //     let month = date.getMonth() + 1
-      //     let day = date.getDate()
-      //
-      //     if (notFullYear) year = year.toString().slice(2, 4)
-      //     if (month < 10) month = `0${month}`
-      //     if (day < 10) day = `0${day}`
-      //
-      //     return `${year}${separated}${month}${separated}${day}`
-      //   } else return '';
-      // }
+      const getDate = (date, separated = '-', notFullYear = false) => {
+        if (date instanceof Date) {
+          let year = date.getFullYear()
+          let month = date.getMonth() + 1
+          let day = date.getDate()
+          if (notFullYear) year = year.toString().slice(2, 4)
+          if (month < 10) month = `0${month}`
+          if (day < 10) day = `0${day}`
+          return `${year}${separated}${month}${separated}${day}`
+        } else return '';
+      }
+      this.getDatalist()
+    },
+    getDatalist() {
     },
   }
 }
 </script>
 
 <style scoped>
-.calendarDiv{
+.calendarDiv {
   width: 70%;
   float: right;
   margin-top: 130px;
 }
 
-.receiptDiv{
+.receiptDiv {
   width: 30%;
   float: left;
   background-image: url("../assets/images/receipt.jpg");
   margin-top: 130px;
 }
+
 .receipt_top {
   display: block;
   margin: auto;
@@ -236,9 +227,11 @@ export default {
 .item_name {
   width: 40%;
 }
-.item_menu{
+
+.item_menu {
   width: 30%
 }
+
 .item_price {
   width: 20%;
   text-align: right;
