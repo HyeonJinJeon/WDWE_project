@@ -24,28 +24,32 @@
           <span style="margin-left: 110px;">메뉴</span>
           <span style="margin-left: 120px;">가격</span>
           <!--          <button style="margin-left: 130px;">-->
-          <b-icon class="aniBtn" style="margin-left: 100px;" icon="plus-circle" aria-hidden="true"></b-icon>
+
           <!--          </button>-->
         </p>
         <hr style="margin: 10px; border-width:5px 0 0 0;">
-        <div class="input-line" v-for="(list,num) in lists" :key="num">
-          <p style="margin-left: 30px;">{{ num + 1 }}</p>
-<!--          <select v-modal="selected">-->
-<!--            <option-->
-<!--              v-for="(name, index) in "-->
-<!--          </select>-->
-          <input class="underline" v-model="list.menu">
-          <input class="underline" v-model="list.price">
+        <!--        <div class="input-line engNameInput">-->
+        <!--          <input v-model="engName" type="text" class="form-control" placeholder="영어이름"/>-->
+        <!--        </div>-->
+        <select class="engNameInput" v-model="selectedName">
+          <option disabled value="">멤버 선택</option>
+          <option
+              v-for="member in members"
+              :key="member"
+              v-text="member"
+              :value="member">
+          </option>
+        </select>
+        <div class="input-line menuInput">
+          <input v-model="menu" type="text" class="form-control" placeholder="메뉴"/>
         </div>
+        <div class="input-line priceInput">
+          <input v-model="price" type="text" class="form-control" placeholder="가격"/>
+        </div>
+        <b-icon class="aniBtn" @click="receiptAdd(selectedName)" style="margin-left: 100px;" icon="plus-circle"
+                aria-hidden="true"></b-icon>
       </div>
     </div>
-
-    <div style="position: absolute; float: right">
-      <div class="shoplists">
-
-      </div>
-    </div>
-
   </div>
 </template>
 
@@ -54,26 +58,91 @@
 
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
+import {firebase} from "@/firebase/firebaseConfig";
 
 export default {
   name: "ReceiptPg",
   components: {DatePicker},
   data() {
     return {
+      selectedName: '',
       shopName: '',
       date: '',
+      menu: '',
+      engName: '',
+      price: '',
       lists: [
         //initial data
         {engName: 'raina', menu: '돼지고기김치찜', price: 8000},
       ],
+      groupInfo: [],
       total: 0,
-      selected: null,
+      groupData: [],
+      members: [],
+      uids: [],
+      curGroupUid: '',
     }
-
+  },
+  mounted() {
+    const self = this;
+    self.init();
+  },
+  methods: {
+    init() {
+      const self = this;
+      self.getData();
+    },
+    getData() {
+      const self = this;
+      const db = firebase.firestore();
+      db.collection('group')
+          .where('groupName', '==', localStorage.groupName)
+          .get()
+          .then((querySnapshot) => {
+            if (querySnapshot.size === 0) {
+              return
+            }
+            querySnapshot.forEach((doc) => {
+              self.groupInfo = doc.data();
+              self.curGroupUid = doc.id
+              self.groupData.push(self.groupInfo.member);
+              console.log('groupData', self.groupData)
+              for (let i = 0; i < self.groupData.length; i++) {
+                self.members.push(self.groupData[0][i].name);
+                self.uids.push(self.groupData[0][i].uid);
+                console.log('members', self.members)
+              }
+            });
+          })
+    },
+    receiptAdd(selectedName) {
+      const self = this;
+      const db = firebase.firestore();
+      const timestamp = new Date(self.date + " 00:00:00");
+      const _data = {
+        menu: self.menu,
+        name: selectedName,
+        price: self.price,
+      }
+      db.collection('receipt')
+          .add({
+            date: timestamp,
+            who: firebase.firestore.FieldValue.arrayUnion(_data),
+            groupUid: self.curGroupUid,
+            resUid: '',
+          })
+          .then(() => {
+            alert("저장되었습니다")
+            location.reload();
+          })
+          .catch((e) => {          // 실패하면 catch가 실행된다. e는 errer의 약자
+            console.log(e)
+            alert("저장에 실패했습니다.")
+          })
+    },
   },
 }
 </script>
-
 
 
 <style scoped>
@@ -117,8 +186,33 @@ export default {
   background-color: black;
 }
 
+.aniBtn {
+  position: absolute;
+  left: 450px;
+  margin-top: 10px;
+}
+
 .aniBtn:active {
   transform: scale(0.9);
+}
+
+.engNameInput {
+  position: absolute;
+  width: 90px;
+  margin-left: 110px;
+  margin-top: 5px;
+}
+
+.menuInput {
+  position: absolute;
+  width: 120px;
+  margin-left: 250px;
+}
+
+.priceInput {
+  position: absolute;
+  width: 120px;
+  margin-left: 400px;
 }
 
 </style>
