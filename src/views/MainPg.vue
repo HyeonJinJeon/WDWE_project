@@ -4,6 +4,7 @@
     <div class="calendarDiv">
       <FullCalendar style="float: right; width:70%; margin-right: 120px; padding-left: 30px" :options="calendarOptions" />
     </div>
+    <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="margin-top: 30px; margin-left: 30px;"></i>
     <div>
       <MainReceipt  ref="onNextBtn" :resInfo="resInfo" :whose="whose" :dataList="dataList" />
     </div>
