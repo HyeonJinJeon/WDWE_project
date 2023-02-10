@@ -125,21 +125,23 @@ export default {
         name: selectedName,
         price: self.price,
       }
-      db.collection('receipt')
-          .add({
-            date: timestamp,
-            who: firebase.firestore.FieldValue.arrayUnion(_data),
-            groupUid: self.curGroupUid,
-            resUid: '',
-          })
-          .then(() => {
-            alert("저장되었습니다")
-            location.reload();
-          })
-          .catch((e) => {          // 실패하면 catch가 실행된다. e는 errer의 약자
-            console.log(e)
-            alert("저장에 실패했습니다.")
-          })
+      if (self.curReceiptUid == '') {      //만약 작성 중이던 영수증이 없다면 새로 만들어주고
+        db.collection('receipt')
+            .add({
+              date: timestamp,
+              who: firebase.firestore.FieldValue.arrayUnion(_data),
+              groupUid: self.curGroupUid,
+              resUid: '',
+            })
+            .then(() => {
+            })
+            .catch((e) => {          // 실패하면 catch가 실행된다. e는 errer의 약자
+              console.log(e)
+              alert("저장에 실패했습니다.")
+            })
+      } else {    //작성중이던 영수증이 있다면 작성하던 영수증에 기록한다.
+
+      }
     },
   },
 }
