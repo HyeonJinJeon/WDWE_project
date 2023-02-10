@@ -81,6 +81,7 @@ export default {
       members: [],
       uids: [],
       curGroupUid: '',
+      curReceiptUid: '',
     }
   },
   mounted() {
