@@ -18,16 +18,15 @@
                   v-text="groupName"
                   :value="groupName">{{ groupName}}</option>
           </select>
-          <span> 선택함: {{ selected }}</span> <br>
+          <span> <button @click="groupChange(selected)">그룹 변경</button></span> <br>
+          <span> {{selected}}</span> <br>
           <hr>
 
           <router-link to="receiptPg" style="color:black;">영수증 등록</router-link>
           <br>
           <hr>
-
           <router-link to="mapPg" style="color:black;">지도로 보기</router-link>
         </div>
-
 
       </div>
     </b-sidebar>
@@ -76,6 +75,13 @@ export default {
             }
           })
     },
+    groupChange(selected){    //현재 그룹 변경
+      delete localStorage.groupName
+      localStorage.groupName = selected
+      // this.$router.go();
+      // console.log(selected)
+    },
+
   },
 }
 </script>
