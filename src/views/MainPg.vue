@@ -1,63 +1,14 @@
 <template>
-    <v-app>
-      <v-main>
-        <div>
-          <MainSideBar></MainSideBar>
-          <div class="calendarDiv">
-            <FullCalendar style="float: right; width:70%; margin-right: 120px; padding-left: 30px"
-                          :options="calendarOptions"/>
-          </div>
-            <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="margin-top: 30px; margin-left: 30px;"></i>
-        <div class="receiptDiv">
-          <div class="main">
-            <div class="title">영수증</div>
-            <!-- Add Items -->
-            <div class="add">
-              <input type="add_text">
-              <input type="number" class="add_price">
-              <i class="add_add-button fas fa-plus-circle"></i>
-            </div>
-            <!-- Item List -->
-            <div class="item-list">
-              <p>상호명(데이터바인딩)</p>
-              <p>가게 타입(데이터바인딩)</p>
-              <p>전화번호(데이터바인딩)</p>
-              <p>주소(데이터바인딩)</p>
-
-              <div class="horizontal-line"></div>
-
-
-              <div class="item">
-                <div class="item_name"></div>
-                <p>{{ dataList[0] }}</p>
-                <div class="item_menu">menu(데이터바인딩)</div>
-                <div class="item_price">price(데이터바인딩)</div>
-              </div>
-
-              <div class="item">
-                <div class="item_name">name</div>
-                <div class="item_menu">menu</div>
-                <div class="item_price">price</div>
-              </div>
-
-              <div class="item">
-                <div class="item_name">name</div>
-                <div class="item_menu">menu</div>
-                <div class="item_price">price</div>
-              </div>
-            </div>
-            <!-- Summary -->
-            <div class="horizontal-line"></div>
-            <div class="sum">
-              <div class="sum_total">총 금액: (데이터바인딩)</div>
-              <div class="sum_checked-price">나의 금액: (데이터바인딩)</div>
-              <div class="sum_unchecked-price"></div>
-            </div>
-          </div>
-        </div>
-        </div>
-      </v-main>
-    </v-app>
+  <div>
+    <MainSideBar></MainSideBar>
+    <div class="calendarDiv">
+      <FullCalendar style="float: right; width:70%; margin-right: 120px; padding-left: 30px" :options="calendarOptions" />
+    </div>
+    <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="margin-top: 30px; margin-left: 30px;"></i>
+    <div>
+      <MainReceipt  ref="onNextBtn" :resInfo="resInfo" :whose="whose" :dataList="dataList" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -65,13 +16,18 @@ import {firebase} from "@/firebase/firebaseConfig";
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import MainReceipt from '@/components/MainReceipt.vue';
 import MainSideBar from "@/components/MainSideBar.vue";
 
 export default {
   name: "MainPg",
   components: {
+    MainReceipt,
     FullCalendar, // make the <FullCalendar> tag available
     MainSideBar
+  },
+  mounted() {
+    // this.getDatalist()
   },
   data() {
     return {
@@ -84,56 +40,97 @@ export default {
           { title: 'event 2', date: '2019-04-02' }
         ]
       },
-      dataList: [],
+      dataList: [],  //getDatalist()에서 _data를 push한 값
+      resInfo: [],
       resName: "",
       resType: "",
       resNumber: "",
       resGeo: "",
-      who: [{name: "", me현nu: "", price: ""}],
       resUid: "",
       groupUid: "",
+      whose: [], //getDatalist()에서 _data의 who만 push한 값
+      whoCnt: 0,
     }
   },
   methods: {
-    handleDateClick: function(arg) {
+    handleDateClick: async function (arg) {
+      this.dataList.splice(0, this.dataList.length)
+      this.resInfo.splice(0, this.resInfo.length)
+      this.whose.splice(0, this.whose.length);
       // alert('date click! ' + arg.dateStr)
-      console.log(arg.dateStr)
-      // arg.dateStr.setHours(0,0,0,0)
-      console.log(arg.date)
+      // console.log(arg.dateStr)
+      const date = arg.dateStr;
+      const da = new Date();
+      console.log(da)
+      let start = new Date(date);
+      start.setHours(0, 0, 0, 0)
+      let finish = new Date(date);
+      finish.setHours(23, 59, 59, 999)
+      console.log(start)
+      console.log(finish)
+
+
+      await this.getDatalist(start, finish)
+      // await this.$refs.onNextBtn.onNextBtn()
+      console.log(this.resInfo.length)
+    },
+    getDatalist(start, finish) {
       const self = this;
       const db = firebase.firestore();
       db.collection("receipt")
-          .where("resUid",'==', "1111")
+          .where("date",'>=', start)
+          .where("date", '<=', finish )
           .get()
           .then((querySnapshot) => {
             if (querySnapshot.size === 0) {
               console.log("111")
+              self.who = [];
+              this.$refs.onNextBtn.onPrev = false;
+              this.$refs.onNextBtn.onNext = false;
               return
             }
             querySnapshot.forEach((doc) => {
               const _data = doc.data();
               _data.id = doc.id
-              const date = new Date(_data.date.seconds * 1000);
-              _data.date = getDate(date);
+              // const date = new Date(_data.date.seconds * 1000);
+              // _data.date = getDate(date);
               self.dataList.push(_data);
-              console.log(_data)
-              // console.log(self.memore)
+              console.log(self.dataList)
             });
+            for(let i=0; i<self.dataList.length; i++){
+              self.getData(i);
+              self.whose.push(self.dataList[i].who)
+              console.log(self.whose[0][1])
+            }
           })
-      const getDate = (date, separated = '-', notFullYear = false) => {
-        if (date instanceof Date) {
-          let year = date.getFullYear()
-          let month = date.getMonth() + 1
-          let day = date.getDate()
-          if (notFullYear) year = year.toString().slice(2, 4)
-          if (month < 10) month = `0${month}`
-          if (day < 10) day = `0${day}`
-          return `${year}${separated}${month}${separated}${day}`
-        } else return '';
-      }
-      this.getDatalist()
+      // const getDate = (date, separated = '-', notFullYear = false) => {
+      //   if (date instanceof Date) {
+      //     let year = date.getFullYear()
+      //     let month = date.getMonth() + 1
+      //     let day = date.getDate()
+      //
+      //     if (notFullYear) year = year.toString().slice(2, 4)
+      //     if (month < 10) month = `0${month}`
+      //     if (day < 10) day = `0${day}`
+      //
+      //     return `${year}${separated}${month}${separated}${day}`
+      //   } else return '';
+      // }
     },
-    getDatalist() {
+    getData(i) {
+      const self = this;
+      const db = firebase.firestore();
+      db.collection("restaurant")
+          .doc(self.dataList[i].resUid)
+          .get()
+          .then((snapshot) => {
+            self.resInfo.push(snapshot.data());
+          console.log(self.resInfo)
+          })
+      console.log()
+      console.log(this.whose.length)
+      this.$refs.onNextBtn.onNextBtn();
+      // this.$refs.onNextBtn.sumPrice();
     },
   }
 }
@@ -146,123 +143,4 @@ export default {
   margin-top: 130px;
 }
 
-.receiptDiv {
-  width: 30%;
-  float: left;
-  background-image: url("../assets/images/receipt.jpg");
-  margin-top: 130px;
-}
-
-.receipt_top {
-  display: block;
-  margin: auto;
-  width: 500px;
-}
-
-.main {
-  margin: auto;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 500px;
-}
-
-/* Title */
-/*.title {*/
-/*  font-size: var(--font-large);*/
-/*  padding: 10px;*/
-/*}*/
-
-/*!* Add Items *!*/
-/*.add_button {*/
-/*  width: 90%;*/
-/*  font-size: var(--font-medium);*/
-/*  text-align: right;*/
-/*  margin-bottom: 3px;*/
-/*}*/
-
-/*.add {*/
-/*  width: 90%;*/
-/*  font-size: var(--font-regular);*/
-/*  margin-bottom: 5px;*/
-/*}*/
-
-/*.add_input {*/
-/*  height: 30px;*/
-/*  width: 47%;*/
-/*  border-top: none;*/
-/*  border-right: none;*/
-/*  border-bottom: 2px solid black;*/
-/*  border-left: none;*/
-/*  font-size: var(--font-regular);*/
-/*}*/
-
-/* Item List */
-.item-list {
-  display: flex;
-  flex-direction: column;
-  width: 90%;
-  margin-top: 5px;
-}
-
-.item-list button {
-  width: fit-content;
-  border: 2px solid black;
-  /*border-radius: var(--size-border-radius);*/
-  background-color: transparent;
-  /*font-size: var(--font-regular);*/
-  margin-bottom: 5px;
-}
-
-.item {
-  display: flex;
-  justify-content: space-between;
-}
-
-.item_checkbox {
-  margin-right: 10px;
-}
-
-.item_name {
-  width: 40%;
-}
-
-.item_menu {
-  width: 30%
-}
-
-.item_price {
-  width: 20%;
-  text-align: right;
-  margin-right: 10px;
-}
-
-/* Summary */
-.horizontal-line {
-  width: 90%;
-  height: 2px;
-  margin: 10px 0;
-  background-color: black;
-}
-
-.sum {
-  display: flex;
-  flex-direction: column;
-  width: 90%;
-}
-
-.sum_item {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
-}
-
-/* Receipt Layout */
-.receipt_bottom {
-  display: block;
-  margin: auto;
-  transform: rotate(180deg);
-  width: 500px;
-}
 </style>
