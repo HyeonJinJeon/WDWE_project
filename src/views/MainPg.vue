@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <div class="calendarDiv">
-      <FullCalendar style="float: right; width:70%; margin-right: 120px; padding-left: 30px"
-                    :options="calendarOptions"/>
-    </div>
-    <i class="fas fa-bars" style="margin-top: 30px; margin-left: 30px;"></i>
-    <router-link to="receiptPg">영수증 등록</router-link>
     <v-app>
       <v-main>
+        <div>
+          <MainSideBar></MainSideBar>
+          <div class="calendarDiv">
+            <FullCalendar style="float: right; width:70%; margin-right: 120px; padding-left: 30px"
+                          :options="calendarOptions"/>
+          </div>
+            <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="margin-top: 30px; margin-left: 30px;"></i>
         <div class="receiptDiv">
           <div class="main">
             <div class="title">영수증</div>
@@ -55,9 +55,9 @@
             </div>
           </div>
         </div>
+        </div>
       </v-main>
     </v-app>
-  </div>
 </template>
 
 <script>
@@ -65,10 +65,13 @@ import {firebase} from "@/firebase/firebaseConfig";
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import MainSideBar from "@/components/MainSideBar.vue";
+
 export default {
   name: "MainPg",
   components: {
-    FullCalendar // make the <FullCalendar> tag available
+    FullCalendar, // make the <FullCalendar> tag available
+    MainSideBar
   },
   data() {
     return {
