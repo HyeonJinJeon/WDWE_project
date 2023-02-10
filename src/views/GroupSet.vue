@@ -93,10 +93,15 @@ export default {
       const self = this;
       // console.log(self.userId)
       const db = firebase.firestore();
+      const _data = {
+        uid: self.userId,
+        name: self.userInfo.engName,
+      }
+
       db.collection("group")
           .add({
             groupName: self.groupName,
-            member: firebase.firestore.FieldValue.arrayUnion(self.userId),
+            member: firebase.firestore.FieldValue.arrayUnion(_data),
             enterCode: self.newCode,
             owner: self.$store.state.user.uid,
           })
