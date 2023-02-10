@@ -80,6 +80,7 @@ export default {
             if (querySnapshot.size === 0) {
               console.log("111")
               self.who = [];
+              this.$refs.onNextBtn.onPrev = false;
               this.$refs.onNextBtn.onNext = false;
               return
             }
@@ -124,7 +125,7 @@ export default {
       console.log()
       console.log(this.whose.length)
       this.$refs.onNextBtn.onNextBtn();
-      this.$refs.onNextBtn.sumPrice();
+      // this.$refs.onNextBtn.sumPrice();
     },
   }
 }
