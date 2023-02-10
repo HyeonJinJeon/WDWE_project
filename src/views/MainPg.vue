@@ -89,7 +89,7 @@ export default {
       resType: "",
       resNumber: "",
       resGeo: "",
-      who: [{name: "", menu: "", price: ""}],
+      who: [{name: "", me현nu: "", price: ""}],
       resUid: "",
       groupUid: "",
     }
