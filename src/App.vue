@@ -10,11 +10,20 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 div#sidebar-1 {
   width: 360px;
   position: absolute;
   z-index: 2;
   height: 100vh;
+  background-color: white;
+}
+
+div#sidebar-1 {
+.close {
+  z-index: 100;
+  color: white !important;
+  background-color: #24376e;
+}
 }
 </style>
