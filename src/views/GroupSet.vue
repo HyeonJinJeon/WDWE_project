@@ -108,7 +108,7 @@ export default {
           .then(() => {
             db.collection(self.fbCollection)
                 .doc(self.userId)
-                .update({enterCodes: firebase.firestore.FieldValue.arrayUnion(self.newCode)})
+                .update({enterCodes: firebase.firestore.FieldValue.arrayUnion(_data)})
                 .then(() => {
                   alert("그룹 생성완료")
                   self.$router.push('/mainPg')

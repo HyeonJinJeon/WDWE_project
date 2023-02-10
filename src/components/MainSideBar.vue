@@ -16,10 +16,10 @@
                   v-for="groupName in groupNames"
                   :key="groupName"
                   v-text="groupName"
-                  :value="groupName">{{ groupName}}</option>
+                  :value="groupName">
+              </option>
           </select>
-          <span> <button @click="groupChange(selected)">그룹 변경</button></span> <br>
-          <span> {{selected}}</span> <br>
+          <span> <button class="groupSetBtn" @click="groupChange(selected)">그룹 변경</button></span> <br>
           <hr>
 
           <router-link to="receiptPg" style="color:black;">영수증 등록</router-link>
@@ -94,5 +94,14 @@ export default {
   background: #24376e;
   height: 100px;
   width: 360px;
+}
+.groupSetBtn {
+  width: 90px;
+  margin-left: 30px;
+  border: none;
+  background-color: #92bbe1;
+  border-radius: 7px;
+  color: white;
+  font-weight: 600;
 }
 </style>
