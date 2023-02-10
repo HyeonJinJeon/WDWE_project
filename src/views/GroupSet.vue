@@ -93,17 +93,22 @@ export default {
       const self = this;
       // console.log(self.userId)
       const db = firebase.firestore();
+      const _data = {
+        uid: self.userId,
+        name: self.userInfo.engName,
+      }
+
       db.collection("group")
           .add({
             groupName: self.groupName,
-            member: firebase.firestore.FieldValue.arrayUnion(self.userId),
+            member: firebase.firestore.FieldValue.arrayUnion(_data),
             enterCode: self.newCode,
             owner: self.$store.state.user.uid,
           })
           .then(() => {
             db.collection(self.fbCollection)
                 .doc(self.userId)
-                .update({enterCodes: firebase.firestore.FieldValue.arrayUnion(self.newCode)})
+                .update({enterCodes: firebase.firestore.FieldValue.arrayUnion(_data)})
                 .then(() => {
                   alert("그룹 생성완료")
                   self.$router.push('/mainPg')
@@ -113,6 +118,10 @@ export default {
     existGroup() {
       const self = this;
       const db = firebase.firestore();
+      const _data = {
+        enterCode: self.newCode,
+        groupName: self.groupName,
+      }
       db.collection("group")
           .where("enterCode",'==',self.enterCode)  //그룹들의 입장코드와 입력된 입장코드를 비교
           .get()
@@ -122,7 +131,7 @@ export default {
             }else { //있다면 입장코드를 배열로 저장
               db.collection("users")
                   .doc(self.userId)
-                  .update({enterCodes: firebase.firestore.FieldValue.arrayUnion(self.enterCode)})
+                  .update({groups: firebase.firestore.FieldValue.arrayUnion(_data)})
                   .then(() => {
                     alert("등록 완료!")
                     self.$router.push('/mainPg')

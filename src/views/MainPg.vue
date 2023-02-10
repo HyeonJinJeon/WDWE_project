@@ -1,5 +1,6 @@
 <template>
   <div>
+    <MainSideBar></MainSideBar>
     <div class="calendarDiv">
       <FullCalendar style="float: right; width:70%; margin-right: 120px; padding-left: 30px" :options="calendarOptions" />
     </div>
@@ -15,11 +16,14 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import MainReceipt from '@/components/MainReceipt.vue';
+import MainSideBar from "@/components/MainSideBar.vue";
+
 export default {
   name: "MainPg",
   components: {
     MainReceipt,
-    FullCalendar // make the <FullCalendar> tag available
+    FullCalendar, // make the <FullCalendar> tag available
+    MainSideBar
   },
   mounted() {
     // this.getDatalist()
@@ -132,7 +136,7 @@ export default {
 </script>
 
 <style scoped>
-.calendarDiv{
+.calendarDiv {
   width: 70%;
   float: right;
   margin-top: 130px;
