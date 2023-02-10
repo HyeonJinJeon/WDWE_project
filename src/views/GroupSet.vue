@@ -118,6 +118,10 @@ export default {
     existGroup() {
       const self = this;
       const db = firebase.firestore();
+      const _data = {
+        enterCode: self.newCode,
+        groupName: self.groupName,
+      }
       db.collection("group")
           .where("enterCode",'==',self.enterCode)  //그룹들의 입장코드와 입력된 입장코드를 비교
           .get()
@@ -127,7 +131,7 @@ export default {
             }else { //있다면 입장코드를 배열로 저장
               db.collection("users")
                   .doc(self.userId)
-                  .update({enterCodes: firebase.firestore.FieldValue.arrayUnion(self.enterCode)})
+                  .update({groups: firebase.firestore.FieldValue.arrayUnion(_data)})
                   .then(() => {
                     alert("등록 완료!")
                     self.$router.push('/mainPg')
