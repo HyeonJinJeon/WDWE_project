@@ -50,8 +50,7 @@
           <div class="input-line">
             <input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder="메뉴"/>
             <input v-model="price[index-1]" type="text" class="form-control priceInput" placeholder="가격"/>
-            <b-icon class="aniBtn" style="margin-left: 100px;" icon="dash-circle"
-                    aria-hidden="true"></b-icon>
+            <b-icon class="aniBtn" style="margin-left: 100px;" @click="deleteRow(index-1)" icon="dash-circle" aria-hidden="true"></b-icon>
           </div>
         </div>
         <button class="confirmBtn" @click="getReceipt">등록</button>
@@ -67,6 +66,7 @@ import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import {firebase} from "@/firebase/firebaseConfig";
 import MainSideBar from "@/components/MainSideBar.vue";
+import vue from "vue";
 
 export default {
   name: "ReceiptPg",
@@ -164,9 +164,12 @@ export default {
 
     deleteRow(index) {
       console.log(index)
-      self.selectedName.splice(index - 1, 1);
-      self.menu.splice(index - 1, 1);
-      self.price.splice(index - 1, 1);
+      vue.delete(this.selectedName, index);
+      vue.delete(this.menu, index);
+      vue.delete(this.price, index);
+      // self.selectedName.splice(index);
+      // self.menu.splice(index);
+      // self.price.splice(index, 1);
       this.receiptNums -= 1;
     },
 
