@@ -36,6 +36,11 @@ const router = new Router({
       component: () => import('./views/ReceiptPg.vue'),
     },
     {
+      path: '/add/restaurant',
+      name: 'AddRestaurant',
+      component: () => import('./views/AddRestaurant.vue'),
+    },
+    {
       path: '/mapPg',
       name: 'MapPg',
       component: () => import('./views/MapPg.vue'),
