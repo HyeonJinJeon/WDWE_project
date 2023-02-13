@@ -23,6 +23,8 @@
           <span style="margin-left: 70px;">이름</span>
           <span style="margin-left: 110px;">메뉴</span>
           <span style="margin-left: 120px;">가격</span>
+          <b-icon class="aniBtn" @click="addNum" style="margin-left: 100px;" icon="plus-circle"
+                  aria-hidden="true"></b-icon>
           <!--          <button style="margin-left: 130px;">-->
 
           <!--          </button>-->
@@ -31,23 +33,26 @@
         <!--        <div class="input-line engNameInput">-->
         <!--          <input v-model="engName" type="text" class="form-control" placeholder="영어이름"/>-->
         <!--        </div>-->
-        <select class="engNameInput" v-model="selectedName">
-          <option disabled value="">멤버 선택</option>
-          <option
-              v-for="member in members"
-              :key="member"
-              v-text="member"
-              :value="member">
-          </option>
-        </select>
-        <div class="input-line menuInput">
-          <input v-model="menu" type="text" class="form-control" placeholder="메뉴"/>
+
+        <div v-for="index in receiptNums" :key="index" style="margin-bottom:10px;">
+          <p style="position: absolute;margin-left: 30px; margin-top: 5px;">{{ index }}</p>
+          <select class="engNameInput" v-model="selectedName[index-1]">
+            <option disabled value="">멤버 선택</option>
+            <option
+                v-for="member in members"
+                :key="member"
+                v-text="member"
+                :value="member">
+            </option>
+          </select>
+          <div class="input-line">
+            <input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder="메뉴"/>
+            <input v-model="price[index-1]" type="text" class="form-control priceInput" placeholder="가격"/>
+            <b-icon class="aniBtn" style="margin-left: 100px;" icon="dash-circle"
+                    aria-hidden="true"></b-icon>
+          </div>
         </div>
-        <div class="input-line priceInput">
-          <input v-model="price" type="text" class="form-control" placeholder="가격"/>
-        </div>
-        <b-icon class="aniBtn" @click="receiptAdd(selectedName)" style="margin-left: 100px;" icon="plus-circle"
-                aria-hidden="true"></b-icon>
+        <button class="confirmBtn" @click="getReceipt">등록</button>
       </div>
     </div>
   </div>
@@ -62,19 +67,16 @@ import {firebase} from "@/firebase/firebaseConfig";
 
 export default {
   name: "ReceiptPg",
-  components: {DatePicker},
+  components: {DatePicker,},
   data() {
     return {
-      selectedName: '',
+      selectedName: [],
       shopName: '',
       date: '',
-      menu: '',
+      menu: [],
       engName: '',
-      price: '',
-      lists: [
-        //initial data
-        {engName: 'raina', menu: '돼지고기김치찜', price: 8000},
-      ],
+      price: [],
+      list: [],
       groupInfo: [],
       total: 0,
       groupData: [],
@@ -82,6 +84,8 @@ export default {
       uids: [],
       curGroupUid: '',
       curReceiptUid: '',
+      curShop: '',
+      receiptNums: 1,
     }
   },
   mounted() {
@@ -92,6 +96,7 @@ export default {
     init() {
       const self = this;
       self.getData();
+      // self.getReceipt();
     },
     getData() {
       const self = this;
@@ -116,33 +121,52 @@ export default {
             });
           })
     },
-    receiptAdd(selectedName) {
+    getReceipt() {
+      const self = this;
+      for (let i = 0; i < self.menu.length; i++) {
+        self.list.push({
+          name: self.selectedName[i],
+          menu: self.menu[i],
+          price: self.price[i],
+        });
+      }
+      console.log(self.list);
+      self.receiptAdd();
+    },
+    receiptAdd() {
       const self = this;
       const db = firebase.firestore();
       const timestamp = new Date(self.date + " 00:00:00");
-      const _data = {
-        menu: self.menu,
-        name: selectedName,
-        price: self.price,
-      }
-      if (self.curReceiptUid == '') {      //만약 작성 중이던 영수증이 없다면 새로 만들어주고
         db.collection('receipt')
             .add({
+              shopName: self.shopName,
               date: timestamp,
-              who: firebase.firestore.FieldValue.arrayUnion(_data),
+              who: self.list,
               groupUid: self.curGroupUid,
               resUid: '',
             })
             .then(() => {
+              alert("등록되었습니다.")
             })
-            .catch((e) => {          // 실패하면 catch가 실행된다. e는 errer의 약자
+            .catch((e) => {          // 실패하면 catch가 실행된다.
               console.log(e)
               alert("저장에 실패했습니다.")
             })
-      } else {    //작성중이던 영수증이 있다면 작성하던 영수증에 기록한다.
 
-      }
     },
+    addNum() {
+      this.receiptNums += 1;
+      console.log(this.receiptNums);
+    },
+
+    deleteRow(index) {
+      console.log(index)
+      self.selectedName.splice(index - 1, 1);
+      self.menu.splice(index - 1, 1);
+      self.price.splice(index - 1, 1);
+      this.receiptNums -= 1;
+    },
+
   },
 }
 </script>
@@ -209,13 +233,24 @@ export default {
 .menuInput {
   position: absolute;
   width: 120px;
-  margin-left: 250px;
+  margin-left: 210px;
 }
 
 .priceInput {
   position: absolute;
   width: 120px;
+  margin-left: 360px;
+}
+
+.confirmBtn {
+  position: absolute;
+  width: 90px;
+  height: 38px;
   margin-left: 400px;
+  color: white;
+  background-color: #2c3e50;
+  border-radius: 5px;
+  font-weight: 700;
 }
 
 </style>
