@@ -42,6 +42,7 @@ export default {
           {title: 'event 2', date: '2019-04-02'}
         ]
       },
+      eventsArray: Array.from({length: 31}, () => 0),
       dataList: [],  //getDatalist()에서 _data를 push한 값
       resInfo: [],
       resName: "",
@@ -62,6 +63,8 @@ export default {
       this.dataList.splice(0, this.dataList.length)
       this.resInfo.splice(0, this.resInfo.length)
       this.whose.splice(0, this.whose.length);
+      this.sumMyOneResPrice = 0;
+      this.sumAllOneResPrice = 0;
       this.$refs.onNextBtn.frontIndex = 0;
       this.$refs.onNextBtn.onNext = false;
       this.$refs.onNextBtn.onPrev = false;
