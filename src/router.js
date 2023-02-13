@@ -12,7 +12,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'logLoginin',
+      name: 'login',
       component: () => import('./views/Login'),
     },
     {
@@ -39,6 +39,11 @@ const router = new Router({
       path: '/add/restaurant',
       name: 'AddRestaurant',
       component: () => import('./views/AddRestaurant.vue'),
+    },
+    {
+      path: '/mapPg',
+      name: 'MapPg',
+      component: () => import('./views/MapPg.vue'),
     },
   ]
 })
