@@ -97,7 +97,7 @@ export default {
                       id: self.id,
                     })
                 alert('회원가입 완료!');
-                user.updateProfile({displayName: self.name})
+                user.updateProfile({displayName: self.engName})
                 // firebase.auth().signOut()
                 this.$router.push('/groupSet');
               }).catch(err => {
