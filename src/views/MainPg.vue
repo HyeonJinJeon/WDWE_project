@@ -2,11 +2,12 @@
   <div>
     <MainSideBar></MainSideBar>
     <div class="calendarDiv">
-      <FullCalendar style="float: right; width:70%; margin-right: 120px; padding-left: 30px" :options="calendarOptions" />
+      <FullCalendar style="float: right; width:70%; margin-right: 120px; padding-left: 30px"
+                    :options="calendarOptions"/>
     </div>
     <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="margin-top: 30px; margin-left: 30px;"></i>
     <div>
-      <MainReceipt  ref="onNextBtn" :resInfo="resInfo" :whose="whose" :dataList="dataList" />
+      <MainReceipt ref="onNextBtn" :resInfo="resInfo" :whose="whose" :dataList="dataList" :sumMyPrice="sumMyPrice" :sumMyOneResPrice="sumMyOneResPrice" :sumAllOneResPrice="sumAllOneResPrice" />
     </div>
   </div>
 </template>
@@ -31,13 +32,14 @@ export default {
   },
   data() {
     return {
+      userName: this.$store.state.user.displayName,
       calendarOptions: {
-        plugins: [ dayGridPlugin, interactionPlugin ],
+        plugins: [dayGridPlugin, interactionPlugin],
         initialView: 'dayGridMonth',
         dateClick: this.handleDateClick,
         events: [
-          { title: 'event 1', date: '2019-04-01' },
-          { title: 'event 2', date: '2019-04-02' }
+          {title: this.sumMyPrice, date: '2023-02-09'},
+          {title: 'event 2', date: '2019-04-02'}
         ]
       },
       dataList: [],  //getDatalist()에서 _data를 push한 값
@@ -50,6 +52,9 @@ export default {
       groupUid: "",
       whose: [], //getDatalist()에서 _data의 who만 push한 값
       whoCnt: 0,
+      sumMyPrice: 0,
+      sumMyOneResPrice: 0,
+      sumAllOneResPrice: 0,
     }
   },
   methods: {
@@ -57,6 +62,11 @@ export default {
       this.dataList.splice(0, this.dataList.length)
       this.resInfo.splice(0, this.resInfo.length)
       this.whose.splice(0, this.whose.length);
+      this.$refs.onNextBtn.frontIndex = 0;
+      this.$refs.onNextBtn.onNext = false;
+      this.$refs.onNextBtn.onPrev = false;
+      this.sumMyPrice = 0;
+
       // alert('date click! ' + arg.dateStr)
       // console.log(arg.dateStr)
       const date = arg.dateStr;
@@ -73,15 +83,16 @@ export default {
       await this.getDatalist(start, finish)
       // await this.$refs.onNextBtn.onNextBtn()
       console.log(this.resInfo.length)
+
     },
     getDatalist(start, finish) {
       const self = this;
       const db = firebase.firestore();
       db.collection("receipt")
-          .where("date",'>=', start)
-          .where("date", '<=', finish )
+          .where("date", '>=', start)
+          .where("date", '<=', finish)
           .get()
-          .then((querySnapshot) => {
+          .then(async (querySnapshot) => {
             if (querySnapshot.size === 0) {
               console.log("111")
               self.who = [];
@@ -97,11 +108,15 @@ export default {
               self.dataList.push(_data);
               console.log(self.dataList)
             });
-            for(let i=0; i<self.dataList.length; i++){
-              self.getData(i);
+            for (let i = 0; i < self.dataList.length; i++) {
+              await self.getData(i);
               self.whose.push(self.dataList[i].who)
-              console.log(self.whose[0][1])
+              console.log(self.whose.length)
             }
+            await this.sumMyDayPrice();
+            console.log(this.sumMyPrice)
+            this.sumMyOneResDayPrice();
+            this.sumAllOneResDayPrice();
           })
       // const getDate = (date, separated = '-', notFullYear = false) => {
       //   if (date instanceof Date) {
@@ -117,7 +132,7 @@ export default {
       //   } else return '';
       // }
     },
-    getData(i) {
+    async getData(i) {
       const self = this;
       const db = firebase.firestore();
       db.collection("restaurant")
@@ -125,13 +140,68 @@ export default {
           .get()
           .then((snapshot) => {
             self.resInfo.push(snapshot.data());
-          console.log(self.resInfo)
+            console.log(self.resInfo)
           })
       console.log()
       console.log(this.whose.length)
-      this.$refs.onNextBtn.onNextBtn();
-      // this.$refs.onNextBtn.sumPrice();
+      self.$refs.onNextBtn.onNextBtn();
+      // await this.sumMyDayPrice();
+      setTimeout(function () {
+      }, 3);
     },
+    sumMyDayPrice() {
+      for (let i = 0; i < this.whose.length; i++) {
+        for (let j = 0; j < this.whose[i].length; j++) {
+          if (this.whose[i][j].name === this.userName) {
+            this.sumMyPrice = this.sumMyPrice + this.whose[i][j].price;
+          }
+        }
+      }
+    },
+    sumMyOneResDayPrice(){
+      this.sumMyOneResPrice = 0;
+      const frontIndex = this.$refs.onNextBtn.frontIndex;
+      console.log("frontIndex.len", this.whose[frontIndex].length)
+      for (let i = 0; i < this.whose[frontIndex].length; i++) {
+        if (this.whose[frontIndex][i].name === this.userName) {
+          console.log('whose.name',this.whose[frontIndex][i].name)
+          this.sumMyOneResPrice = this.sumMyOneResPrice + this.whose[frontIndex][i].price;
+          console.log('sumMyOneResPrice',this.sumMyOneResPrice)
+        }
+      }
+    },
+    sumAllOneResDayPrice() {
+      this.sumAllOneResPrice = 0;
+      const frontIndex = this.$refs.onNextBtn.frontIndex;
+      console.log("frontIndex.len", this.whose[frontIndex].length)
+      for (let i = 0; i < this.whose[frontIndex].length; i++) {
+        this.sumAllOneResPrice = this.sumAllOneResPrice + this.whose[frontIndex][i].price;
+      }
+    }
+    // getSumMyDayPrice(start, finish){
+    //   const self = this;
+    //   const db = firebase.firestore();
+    //   console.log("123");
+    //   db.collection("receipt")
+    //       .where("date",'>=', start)
+    //       .where("date", '<=', finish )
+    //       // .where("who[]", "==", self.$store.state.user.displayName)
+    //       .get()
+    //       .then((querySnapshot) => {
+    //         if (querySnapshot.size === 0) {
+    //           console.log("나의 가격정보 없음")
+    //           return
+    //         }
+    //         querySnapshot.forEach((doc) => {
+    //           const _data = doc.data();
+    //           _data.id = doc.id
+    //           // let i = 0
+    //           self.priceList.push(_data.who[1].price);
+    //           console.log(self.priceList)
+    //           // i++;
+    //         });
+    //     });
+    // },
   }
 }
 </script>

@@ -34,8 +34,8 @@
             <!-- Summary -->
             <div class="horizontal-line"></div>
             <div class="sum">
-              <div class="sum_total">총 금액: {{totalPrice}} </div>
-              <div class="sum_checked-price">나의 금액: (데이터바인딩) </div>
+              <div class="sum_total">총 금액: {{sumAllOneResPrice}} </div>
+              <div class="sum_checked-price">나의 금액: {{sumMyOneResPrice}}</div>
               <div class="sum_unchecked-price"></div>
             </div>
           </div>
@@ -67,6 +67,8 @@ export default {
     resInfo: [],
     whose: [],
     dataList: [],
+    sumMyOneResPrice: Number,
+    sumAllOneResPrice: Number
   },
   mounted() {
     this.onNextBtn();
@@ -78,6 +80,8 @@ export default {
       if(this.frontIndex == 0){
         this.onPrev= false;
       }
+      this.$parent.sumMyOneResDayPrice();
+      this.$parent.sumAllOneResDayPrice();
     },
     nextPage() {
       this.frontIndex++;
@@ -87,6 +91,8 @@ export default {
       if (this.frontIndex + 1 == this.resInfo.length){
         this.onNext = false;
       }
+      this.$parent.sumMyOneResDayPrice();
+      this.$parent.sumAllOneResDayPrice();
     },
     onNextBtn(){
       if(this.whose.length == 0){
@@ -95,12 +101,6 @@ export default {
           this.onNext = true;
       }
     },
-    sumPrice(){
-      for(let i=0; i < this.whose[this.frontIndex].length; i++){
-        this.totalPrice = this.totalPrice + this.whose[this.frontIndex].price;
-        console.log(this.totalPrice)
-      }
-    }
   },
 }
 </script>
