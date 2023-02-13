@@ -1,5 +1,7 @@
 <template>
   <div>
+    <MainSideBar></MainSideBar>
+    <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="margin-top: 30px; margin-left: 30px;"></i>
     <div class="bgImg">
       <!--    <img src="../assets/images/receipt.jpg">-->
       <div>
@@ -64,10 +66,11 @@
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import {firebase} from "@/firebase/firebaseConfig";
+import MainSideBar from "@/components/MainSideBar.vue";
 
 export default {
   name: "ReceiptPg",
-  components: {DatePicker,},
+  components: {DatePicker, MainSideBar},
   data() {
     return {
       selectedName: [],
