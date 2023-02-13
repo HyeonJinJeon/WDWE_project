@@ -8455,6 +8455,18 @@ load-json-file@^1.0.0:
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
 
+load-script-once@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/load-script-once/-/load-script-once-2.0.1.tgz#9aee85db9817452501106bfefd086090c43af0dc"
+  integrity sha512-kiOI7KEUqjbbFNmau4xZ1ZFDA7HjeYvtE91V68jJ/rcvNXnT2GLfz5Wz8geCu3Ug5kwMYZf4eHxsG5/c+sQP1Q==
+  dependencies:
+    load-script "~1.0.0"
+
+load-script@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/load-script/-/load-script-1.0.0.tgz#0491939e0bee5643ee494a7e3da3d2bac70c6ca4"
+  integrity sha512-kPEjMFtZvwL9TaZo0uZ2ml+Ye9HUMmPwbYRJ324qF9tqMejwykJ5ggTyvzmrbBeapCAbk98BSbTeovHEEP1uCA==
+
 loader-fs-cache@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/loader-fs-cache/-/loader-fs-cache-1.0.3.tgz#f08657646d607078be2f0a032f8bd69dd6f277d9"
@@ -12897,6 +12909,13 @@ vue-clickaway@^2.2.2:
   integrity sha512-25SpjXKetL06GLYoLoC8pqAV6Cur9cQ//2g35GRFBV4FgoljbZZjTINR8g2NuVXXDMLSUXaKx5dutgO4PaDE7A==
   dependencies:
     loose-envify "^1.2.0"
+
+vue-daum-map@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vue-daum-map/-/vue-daum-map-1.1.0.tgz#529d803739b5d00316f0cb99c2d0cbee15ebfbdf"
+  integrity sha512-a8MuZuRxSD9KGV6zMwrp1qFACNaUvrpTYdBPYNwvq0JnVUoWAi9FPN2sNxaPAfpq3yeYKGeRxgUwxPe0BbZLyg==
+  dependencies:
+    load-script-once "^2.0.1"
 
 vue-eslint-parser@^5.0.0:
   version "5.0.0"

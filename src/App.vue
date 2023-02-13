@@ -14,7 +14,7 @@ export default {
 div#sidebar-1 {
   width: 360px;
   position: absolute;
-  z-index: 2;
+  z-index: 10;
   height: 100vh;
   background-color: white;
 }

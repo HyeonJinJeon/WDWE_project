@@ -12,7 +12,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'logLoginin',
+      name: 'login',
       component: () => import('./views/Login'),
     },
     {
@@ -34,6 +34,11 @@ const router = new Router({
       path: '/receiptPg',
       name: 'ReceiptPg',
       component: () => import('./views/ReceiptPg.vue'),
+    },
+    {
+      path: '/mapPg',
+      name: 'MapPg',
+      component: () => import('./views/MapPg.vue'),
     },
   ]
 })
