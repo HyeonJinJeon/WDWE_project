@@ -35,6 +35,11 @@ const router = new Router({
       name: 'ReceiptPg',
       component: () => import('./views/ReceiptPg.vue'),
     },
+    {
+      path: '/add/restaurant',
+      name: 'AddRestaurant',
+      component: () => import('./views/AddRestaurant.vue'),
+    },
   ]
 })
 const makeTitle = (title) =>
