@@ -14,10 +14,10 @@
           <select v-model="selected">
             <option disabled value="">그룹 선택</option>
               <option
-                  v-for="groupName in groupNames"
+                  v-for="(groupName, i) in groupNames"
                   :key="groupName"
                   v-text="groupName"
-                  :value="groupName">
+                  :value="enterCodes[i]">
               </option>
           </select>
           <span> <button class="groupSetBtn" @click="groupChange(selected)">그룹 변경</button></span> <br>
@@ -75,12 +75,15 @@ export default {
               self.groupNames.push(self.groups[0][i].groupName);
               // self.enterCodes.push(group.enterCode);
               console.log(self.groupNames)
+              self.enterCodes.push(self.groups[0][i].enterCode)
+              console.log(self.enterCodes)
+
             }
           })
     },
     groupChange(selected){    //현재 그룹 변경
-      delete localStorage.groupName
-      localStorage.groupName = selected
+      delete localStorage.groupCode
+      localStorage.groupCode = selected
       // this.$router.go();
       // console.log(selected)
     },
