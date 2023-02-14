@@ -189,19 +189,6 @@ export default {
             this.sumMyOneResDayPrice();
             this.sumAllOneResDayPrice();
           })
-      // const getDate = (date, separated = '-', notFullYear = false) => {
-      //   if (date instanceof Date) {
-      //     let year = date.getFullYear()
-      //     let month = date.getMonth() + 1
-      //     let day = date.getDate()
-      //
-      //     if (notFullYear) year = year.toString().slice(2, 4)
-      //     if (month < 10) month = `0${month}`
-      //     if (day < 10) day = `0${day}`
-      //
-      //     return `${year}${separated}${month}${separated}${day}`
-      //   } else return '';
-      // }
     },
     async getData(i) {
       const self = this;
@@ -249,30 +236,6 @@ export default {
         this.sumAllOneResPrice = this.sumAllOneResPrice + this.whose[frontIndex][i].price;
       }
     }
-    // getSumMyDayPrice(start, finish){
-    //   const self = this;
-    //   const db = firebase.firestore();
-    //   console.log("123");
-    //   db.collection("receipt")
-    //       .where("date",'>=', start)
-    //       .where("date", '<=', finish )
-    //       // .where("who[]", "==", self.$store.state.user.displayName)
-    //       .get()
-    //       .then((querySnapshot) => {
-    //         if (querySnapshot.size === 0) {
-    //           console.log("나의 가격정보 없음")
-    //           return
-    //         }
-    //         querySnapshot.forEach((doc) => {
-    //           const _data = doc.data();
-    //           _data.id = doc.id
-    //           // let i = 0
-    //           self.priceList.push(_data.who[1].price);
-    //           console.log(self.priceList)
-    //           // i++;
-    //         });
-    //     });
-    // },
   }
 }
 </script>
