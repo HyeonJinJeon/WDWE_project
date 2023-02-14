@@ -1,61 +1,62 @@
 <template>
   <div>
     <MainSideBar></MainSideBar>
-    <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="margin-top: 30px; margin-left: 30px;"></i>
-    <div class="bgImg">
-      <!--    <img src="../assets/images/receipt.jpg">-->
+    <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="position: absolute; z-index:3; margin-top: 30px; margin-left: 30px;"></i>
+    <!--    <div class="bgImg">-->
+        <img class="receiptImg" src="../assets/images/receipt.jpg">
+
+    <div class="inputs">
+      <h3 style="margin-left:240px; font-weight: 600;">영수증</h3>
+      <hr style=" margin: 10px; border-style: double; border-width:5px 0 0 0;">
+      <div style="margin-left: 10px;">
+        <h5 class="grey-text" style=" font-weight: 400; color: black;">상호 정보</h5>
+        <p><span style="font-weight: bold">상호명: </span> {{shopInfo.name}}</p>
+        <p><span style="font-weight: bold">상호타입: </span> {{shopInfo.type}}</p>
+        <p><span style="font-weight: bold">전화번호: </span> {{shopInfo.number}}</p>
+        <p><span style="font-weight: bold">주소: </span> {{shopInfo.geo}}</p>
+      </div>
       <div>
-        <h3 style="position: absolute; top: 160px; left:450px; font-weight: 600; ">영수증</h3>
+        <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">날짜 선택</label> <br>
+        <date-picker v-model="date" valueType="format" style="margin-left: 20px;"></date-picker>
+        <!--          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>-->
       </div>
-      <div class="inputs">
-        <hr style="margin: 10px; border-style: double; border-width:5px 0 0 0;">
+      <hr style="margin: 10px; border-width:5px 0 0 0;">
+      <p style="font-weight: 400; font-size: 20px; margin-left: 20px;">
+        <span>No.</span>
+        <span style="margin-left: 70px;">이름</span>
+        <span style="margin-left: 110px;">메뉴</span>
+        <span style="margin-left: 120px;">가격</span>
+        <b-icon class="aniBtn" @click="addNum" style="margin-left: 100px;" icon="plus-circle"
+                aria-hidden="true"></b-icon>
+      </p>
+      <hr style="margin: 10px; border-width:5px 0 0 0;">
 
-        <label class="grey-text" style="margin:10px; font-weight: 400; color: black;">상호 명</label>
+      <button class="confirmBtn" @click="getReceipt">등록</button>
+    </div>
+
+    <div class="receiptAdd">
+      <div v-for="index in receiptNums" :key="index" style="margin-bottom:10px; ">
+        <p style="position: absolute;margin-left: 30px; margin-top: 5px;">{{ index }}</p>
+        <select class="engNameInput" v-model="selectedName[index-1]">
+          <option disabled value="">멤버 선택</option>
+          <option
+              v-for="member in members"
+              :key="member"
+              v-text="member"
+              :value="member">
+          </option>
+        </select>
         <div class="input-line">
-          <input v-model="shopName" type="text" class="form-control" placeholder=""/>
-        </div>
-        <div>
-          <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">날짜 선택</label> <br>
-          <date-picker v-model="date" valueType="format" style="margin-left: 20px;"></date-picker>
-          <!--          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>-->
-        </div>
-        <hr style="margin: 10px; border-width:5px 0 0 0;">
-        <p style="font-weight: 400; font-size: 20px; margin-left: 20px;">
-          <span>No.</span>
-          <span style="margin-left: 70px;">이름</span>
-          <span style="margin-left: 110px;">메뉴</span>
-          <span style="margin-left: 120px;">가격</span>
-          <b-icon class="aniBtn" @click="addNum" style="margin-left: 100px;" icon="plus-circle"
+          <input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder="메뉴"/>
+          <input v-model="price[index-1]" type="text" class="form-control priceInput" placeholder="가격"/>
+          <b-icon class="aniBtn" @click="deleteRow(index-1)" icon="dash-circle"
                   aria-hidden="true"></b-icon>
-          <!--          <button style="margin-left: 130px;">-->
-
-          <!--          </button>-->
-        </p>
-        <hr style="margin: 10px; border-width:5px 0 0 0;">
-        <!--        <div class="input-line engNameInput">-->
-        <!--          <input v-model="engName" type="text" class="form-control" placeholder="영어이름"/>-->
-        <!--        </div>-->
-
-        <div v-for="index in receiptNums" :key="index" style="margin-bottom:10px;">
-          <p style="position: absolute;margin-left: 30px; margin-top: 5px;">{{ index }}</p>
-          <select class="engNameInput" v-model="selectedName[index-1]">
-            <option disabled value="">멤버 선택</option>
-            <option
-                v-for="member in members"
-                :key="member"
-                v-text="member"
-                :value="member">
-            </option>
-          </select>
-          <div class="input-line">
-            <input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder="메뉴"/>
-            <input v-model="price[index-1]" type="text" class="form-control priceInput" placeholder="가격"/>
-            <b-icon class="aniBtn" style="margin-left: 100px;" icon="dash-circle"
-                    aria-hidden="true"></b-icon>
-          </div>
         </div>
-        <button class="confirmBtn" @click="getReceipt">등록</button>
       </div>
+    </div>
+    <!--    </div>-->
+    <div class="shopList">
+      <RestaurantList @changeShop="shopInfo=$event"></RestaurantList>
     </div>
   </div>
 </template>
@@ -67,16 +68,19 @@ import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import {firebase} from "@/firebase/firebaseConfig";
 import MainSideBar from "@/components/MainSideBar.vue";
+import vue from "vue";
+import RestaurantList from "@/components/RestaurantList.vue";
 
 export default {
   name: "ReceiptPg",
-  components: {DatePicker, MainSideBar},
+  components: {RestaurantList, DatePicker, MainSideBar},
   data() {
     return {
       selectedName: [],
       shopName: '',
       date: '',
       menu: [],
+      shopInfo: [],
       engName: '',
       price: [],
       list: [],
@@ -140,21 +144,21 @@ export default {
       const self = this;
       const db = firebase.firestore();
       const timestamp = new Date(self.date + " 00:00:00");
-        db.collection('receipt')
-            .add({
-              shopName: self.shopName,
-              date: timestamp,
-              who: self.list,
-              groupUid: self.curGroupUid,
-              resUid: '',
-            })
-            .then(() => {
-              alert("등록되었습니다.")
-            })
-            .catch((e) => {          // 실패하면 catch가 실행된다.
-              console.log(e)
-              alert("저장에 실패했습니다.")
-            })
+      db.collection('receipt')
+          .add({
+            shopName: self.shopInfo.name,
+            date: timestamp,
+            who: self.list,
+            groupUid: self.curGroupUid,
+            resUid: '',
+          })
+          .then(() => {
+            alert("등록되었습니다.")
+          })
+          .catch((e) => {          // 실패하면 catch가 실행된다.
+            console.log(e)
+            alert("저장에 실패했습니다.")
+          })
 
     },
     addNum() {
@@ -164,9 +168,12 @@ export default {
 
     deleteRow(index) {
       console.log(index)
-      self.selectedName.splice(index - 1, 1);
-      self.menu.splice(index - 1, 1);
-      self.price.splice(index - 1, 1);
+      vue.delete(this.selectedName, index);
+      vue.delete(this.menu, index);
+      vue.delete(this.price, index);
+      // self.selectedName.splice(index);
+      // self.menu.splice(index);
+      // self.price.splice(index, 1);
       this.receiptNums -= 1;
     },
 
@@ -176,10 +183,12 @@ export default {
 
 
 <style scoped>
-.bgImg {
-  background-image: url("../assets/images/receipt.jpg");
-  /*height: 8px;*/
-  width: 1000px;
+.receiptImg {
+  /*background-image: url("../assets/images/receipt.jpg");*/
+  position: absolute;
+  left:20px;
+  height: 1000px;
+  width: 950px;
   background-size: cover;
 }
 
@@ -188,24 +197,15 @@ export default {
   height: 38px;
   margin-left: 20px;
   width: 210px;
+  overflow: auto;
 }
 
 .inputs {
   position: absolute;
   width: 600px;
-  height: 600px;
-  top: 200px;
+  height: 700px;
+  top: 150px;
   left: 200px;
-}
-
-.shoplists {
-  position: relative;
-  width: 500px;
-  height: 500px;
-  display: block;
-  float: right;
-  /*top: 200px;*/
-  /*left: 200px;*/
 }
 
 /* Summary */
@@ -220,6 +220,7 @@ export default {
   position: absolute;
   left: 450px;
   margin-top: 10px;
+  margin-left: 100px;
 }
 
 .aniBtn:active {
@@ -249,11 +250,31 @@ export default {
   position: absolute;
   width: 90px;
   height: 38px;
-  margin-left: 400px;
+  margin-left: 500px;
   color: white;
   background-color: #2c3e50;
   border-radius: 5px;
   font-weight: 700;
+  top: 780px;
+}
+
+.shopList {
+  position: relative;
+  float: right;
+  width: 500px;
+  height: 800px;
+  right: 200px;
+  top: 100px;
+  overflow: auto;
+}
+
+.receiptAdd {
+  position: absolute;
+  overflow: auto;
+  left: 200px;
+  top: 580px;
+  width: 600px;
+  height: 300px;
 }
 
 </style>

@@ -32,7 +32,9 @@
 
       <label class="grey-text" style="margin:10px; font-weight: 400; color: black;">위치 지정</label>
       <div class="input-line">
-        <input v-model="resGeo" type="text" class="form-control" placeholder=""/>
+        <input v-model="resGeo" type="text" class="form-control" placeholder="Search" aria-label="Search"/>
+        <button style="white-space:nowrap; margin: 0 auto; background-color: #455a64; color: #FFFFFF" class="btn"  @click="searchGeo(resGeo)" >이동</button>
+
       </div>
 
 
@@ -78,14 +80,14 @@
       <button class="confirmBtn" @click="addRestaurant()">등록</button>
     </div>
   </div>
-  <div style="width: 50vh; height: 80vh; margin-top: 300px; margin-left: 800px">
+  <div style="width: 85vh; height: 80vh; margin-top: 100px; margin-left: 80vh">
     <vue-daum-map id="addMap"
                   :appKey="appkey"
                   :center.sync="center"
                   :level.sync="level"
                   :mapTypeId="mapTypeId"
                   :libraries="libraries"
-                  style="width:100%; height:30vh;"
+                  style="width:100%; height:70vh;"
                   @load="onLoad"
     >
     </vue-daum-map>
@@ -94,6 +96,7 @@
 </template>
 
 <script>
+/*global kakao*/
 // import DatePicker from 'vue2-datepicker';
 // import 'vue2-datepicker/index.css';
 // import {firebase} from '@/firebase/firebaseConfig';
@@ -132,13 +135,16 @@ export default {
     addRestaurant(){
       const self = this;
       const db = firebase.firestore();
+      const marker = new firebase.firestore.GeoPoint(this.lat, this.long);
+      const _data = {            // data()에 있는 데이터가 바로 들어갈 수 없다.
+        name: self.resName,
+        number: self.resNum,
+        type: self.resType,
+        // marker: self.marker,
+        geo: marker,
+      }
       db.collection('restaurant')
-          .add({
-            name: self.resName,
-            number: self.resNum,
-            type: self.resType,
-            geo: self.resGeo,
-          })
+          .add(_data)
           .then(() => {
             alert("등록되었습니다.")
           })
@@ -178,8 +184,10 @@ export default {
       });
     },
     searchGeo(geo) {
+      console.log(kakao)
+      console.log(kakao.maps.services)
 
-      const ps = new kakao.map.services.Places();
+      const ps = new kakao.maps.services.Places();
       console.log('11', kakao.maps.services)
       ps.keywordSearch(geo, placesSearchCB);
       console.log('22', ps.keywordSearch)
@@ -214,7 +222,10 @@ export default {
   width: 1000px;
   background-size: cover;
 }
-
+#addMap{
+  width: 100px;
+  height: 1000px;
+}
 .input-line {
   display: flex;
   height: 38px;
@@ -278,10 +289,11 @@ export default {
 }
 
 .confirmBtn {
-  position: absolute;
+  position: relative;
   width: 90px;
   height: 38px;
-  margin-left: 400px;
+  margin-top: 300px;
+  margin-left: 72vh;
   color: white;
   background-color: #2c3e50;
   border-radius: 5px;
