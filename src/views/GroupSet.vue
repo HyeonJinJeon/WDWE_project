@@ -64,8 +64,10 @@ export default {
       newCode: '',
       enterCode: "",
       userInfo: [],
+      groupInfo: [],
       randomStr: Math.random().toString(36).substring(2, 12),
       enterCodes: [],
+
     }
   },
   mounted() {
@@ -97,7 +99,10 @@ export default {
         uid: self.userId,
         name: self.userInfo.engName,
       }
-
+      const _data2 = {
+        enterCode: self.newCode,
+        groupName: self.groupName,
+      }
       db.collection("group")
           .add({
             groupName: self.groupName,
@@ -108,7 +113,7 @@ export default {
           .then(() => {
             db.collection(self.fbCollection)
                 .doc(self.userId)
-                .update({enterCodes: firebase.firestore.FieldValue.arrayUnion(_data)})
+                .update({groups: firebase.firestore.FieldValue.arrayUnion(_data2)})
                 .then(() => {
                   alert("그룹 생성완료")
                   self.$router.push('/mainPg')
@@ -118,25 +123,44 @@ export default {
     existGroup() {
       const self = this;
       const db = firebase.firestore();
-      const _data = {
-        enterCode: self.newCode,
-        groupName: self.groupName,
-      }
       db.collection("group")
-          .where("enterCode",'==',self.enterCode)  //그룹들의 입장코드와 입력된 입장코드를 비교
+          .where("enterCode", '==', self.enterCode)  //그룹들의 입장코드와 입력된 입장코드를 비교
           .get()
           .then((querySnapshot) => {
             if (querySnapshot.size === 0) {     //없다면 알림창으로 알려주고 입장코드가 등록되지 않음
               alert("존재하지않는 입장코드입니다.")
-            }else { //있다면 입장코드를 배열로 저장
-              db.collection("users")
-                  .doc(self.userId)
-                  .update({groups: firebase.firestore.FieldValue.arrayUnion(_data)})
-                  .then(() => {
-                    alert("등록 완료!")
-                    self.$router.push('/mainPg')
-                  })
             }
+            querySnapshot.forEach((doc) => {  //있다면 groupInfo에 그룹 정보를 저장하고 setGroupMember() 호출
+              const _data = doc.data();
+              _data.id = doc.id
+              self.groupInfo = _data;
+            });
+            self.setGroupMember()
+            // console.log(self.groupInfo)
+          })
+    },
+    setGroupMember() {    //기존 그룹 등록할 때 users와 group에 정보 넣어주는 함수
+      const self = this;
+      const db = firebase.firestore();
+      const _data1 = {
+        enterCode: self.enterCode,
+        groupName: self.groupInfo.groupName,
+      }
+      const _data2 = {
+        uid: self.userId,
+        name: self.userInfo.engName,
+      }
+      // console.log(_data1)
+      // console.log(_data2)
+      db.collection("users")    //users에 등록한 그룹 정보 저장
+          .doc(self.userId)
+          .update({groups: firebase.firestore.FieldValue.arrayUnion(_data1)})
+          .then(() => {
+            db.collection("group")    //group에 유저 정보 저장
+                .doc(self.groupInfo.id)
+                .update({member: firebase.firestore.FieldValue.arrayUnion(_data2)})
+            alert("등록 완료!")
+            // self.$router.push('/mainPg')
           })
     },
 

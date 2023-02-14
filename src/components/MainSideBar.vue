@@ -71,9 +71,7 @@ export default {
             self.userInfo = snapshot.data();
             self.groups.push(self.userInfo.groups);
             for(let i=0; i <= self.groups.length; i++) {
-            //   let group = this.groups[i];
               self.groupNames.push(self.groups[0][i].groupName);
-              // self.enterCodes.push(group.enterCode);
               console.log(self.groupNames)
               self.enterCodes.push(self.groups[0][i].enterCode)
               console.log(self.enterCodes)
