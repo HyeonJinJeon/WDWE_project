@@ -8,7 +8,7 @@
           <h3 style="color: #FFFFFF;">
             {{ userInfo.engName }}
             <span>
-              <button class="logOutBtn">Logout</button>
+              <button class="logOutBtn" @click="logout">Logout</button>
 
             </span>
           </h3>
@@ -88,6 +88,10 @@ export default {
       localStorage.groupCode = selected
       // this.$router.go();
       // console.log(selected)
+    },
+    logout() {
+      firebase.auth().signOut()
+      this.$router.push('/')
     },
 
   },
