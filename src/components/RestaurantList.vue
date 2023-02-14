@@ -1,14 +1,8 @@
 <template>
   <div>
-    <h3>식당 리스트<span>
-      <b-icon class="aniBtn" icon="plus-square"
-              aria-hidden="true"></b-icon>
-      </span></h3>
+
     <div style="overflow:auto;">
-
-
-
-      <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
+      <table class="table" border="1" style="margin-left: auto; margin-right: auto;">
         <thead>
         <tr>
         </tr>
@@ -27,9 +21,15 @@
 
 <script>
 import {firebase} from "@/firebase/firebaseConfig";
+import addRestaurant from "@/views/AddRestaurant.vue";
 
 export default {
   name: "RestaurantList",
+  computed: {
+    addRestaurant() {
+      return addRestaurant
+    }
+  },
   data() {
     return {
       shopList: [],
@@ -68,6 +68,7 @@ export default {
           })
     },
 
+
   }
 }
 </script>
@@ -75,5 +76,9 @@ export default {
 <style scoped>
 .aniBtn:active {
   transform: scale(0.9);
+}
+table {
+  background-color: white;
+  border-radius: 7px;
 }
 </style>
