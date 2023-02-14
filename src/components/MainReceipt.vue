@@ -9,7 +9,6 @@
             <div class="add">
               <input type="add_text">
               <input type="number" class="add_price">
-              <i class="add_add-button fas fa-plus-circle"></i>
             </div>
             <!-- Item List -->
             <div class="item-list">
