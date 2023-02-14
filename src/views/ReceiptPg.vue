@@ -48,7 +48,7 @@
         </select>
         <div class="input-line">
           <input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder="메뉴"/>
-          <input v-model="price[index-1]" type="text" class="form-control priceInput" placeholder="가격"/>
+          <input v-model="price[index-1]" type="number"  min="0" class="form-control priceInput" placeholder="가격"/>
           <b-icon class="aniBtn" @click="deleteRow(index-1)" icon="dash-circle"
                   aria-hidden="true"></b-icon>
         </div>
@@ -149,7 +149,7 @@ export default {
             shopName: self.shopInfo.name,
             date: timestamp,
             who: self.list,
-            groupUid: self.curGroupUid,
+            groupCode: self.groupInfo.enterCode,
             resUid: '',
           })
           .then(() => {
@@ -165,7 +165,6 @@ export default {
       this.receiptNums += 1;
       console.log(this.receiptNums);
     },
-
     deleteRow(index) {
       console.log(index)
       vue.delete(this.selectedName, index);

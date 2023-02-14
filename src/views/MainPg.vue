@@ -1,5 +1,15 @@
 <template>
   <div>
+    <div>
+      <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">날짜 선택</label> <br>
+      <date-picker v-model="startDate" valueType="format" style="margin-left: 20px;"></date-picker>
+    </div>
+    <div>
+      <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">날짜 선택</label> <br>
+      <date-picker v-model="finishDate" valueType="format" style="margin-left: 20px;"></date-picker>
+    </div>
+    <button class="confirmBtn" @click="getPriceDataSum">등록</button>
+
     <MainSideBar></MainSideBar>
     <div class="calendarDiv">
       <FullCalendar style="float: right; width:70%; margin-right: 120px; padding-left: 30px"
@@ -8,6 +18,10 @@
     <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="margin-top: 30px; margin-left: 30px;"></i>
     <div>
       <MainReceipt ref="onNextBtn" :resInfo="resInfo" :whose="whose" :dataList="dataList" :sumMyPrice="sumMyPrice" :sumMyOneResPrice="sumMyOneResPrice" :sumAllOneResPrice="sumAllOneResPrice" />
+    </div>
+    <div>
+      <p>내가 먹은 총 금액</p>
+      <h3>{{setDateMyPrice}}</h3>
     </div>
   </div>
 </template>
@@ -19,13 +33,15 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import MainReceipt from '@/components/MainReceipt.vue';
 import MainSideBar from "@/components/MainSideBar.vue";
+import DatePicker from 'vue2-datepicker';
 
 export default {
   name: "MainPg",
   components: {
     MainReceipt,
     FullCalendar, // make the <FullCalendar> tag available
-    MainSideBar
+    MainSideBar,
+    DatePicker,
   },
   mounted() {
     // this.getDatalist()
@@ -56,6 +72,12 @@ export default {
       sumMyPrice: 0,
       sumMyOneResPrice: 0,
       sumAllOneResPrice: 0,
+
+      startDate: "",
+      finishDate: "",
+      setDateData: [],
+      setDateMyData: [],
+      setDateMyPrice: 0,
     }
   },
   methods: {
@@ -88,12 +110,58 @@ export default {
       console.log(this.resInfo.length)
 
     },
+    getPriceDataSum() {
+      this.setDateData = [];
+      this.setDateMyData = [];
+      this.setDateMyPrice = 0;
+      let start = new Date(this.startDate)
+      start.setHours(0, 0, 0, 0)
+      console.log(start)
+      let finish = new Date(this.finishDate);
+      finish.setHours(23, 59, 59, 999)
+      console.log(finish)
+      const self = this;
+      const db = firebase.firestore();
+      db.collection("receipt")
+          .where("date", '>=', start)
+          .where("date", '<=', finish)
+          .where("groupCode", "==", localStorage.groupCode)
+
+
+          // .where("who.name", "==", self.userName)
+          .get()
+          .then(async (querySnapshot) => {
+            if (querySnapshot.size === 0) {
+              console.log("그동안 먹은거 없음")
+              return
+            }
+            let i = 0
+            querySnapshot.forEach((doc) => {
+              const _data = doc.data();
+              // _data.id = doc.id
+              // const date = new Date(_data.date.seconds * 1000);
+              // _data.date = getDate(date);
+              self.setDateData.push(_data);
+              console.log("설정한 그룹의 기간 내 모든 데이터",self.setDateData)
+              self.setDateMyData.push(self.setDateData[i].who.filter((value) => value.name == self.userName))
+              // [[{name: james, price: 10000},], [{name: james, price: 20000},{name: james, price: 12300}]]
+              console.log("설정한 그룹의 기간 내 모든 나의 데이터", self.setDateMyData)
+
+              for(let j=0; j < self.setDateMyData[i].length; j++){
+                self.setDateMyPrice = self.setDateMyPrice + self.setDateMyData[i][j].price
+              }
+              console.log("설정한 그룹의 기간 내 내가 먹은 총 금액", self.setDateMyPrice)
+              i++
+            });
+          })
+    },
     getDatalist(start, finish) {
       const self = this;
       const db = firebase.firestore();
       db.collection("receipt")
           .where("date", '>=', start)
           .where("date", '<=', finish)
+          .where("groupCode", "==", localStorage.groupCode)
           .get()
           .then(async (querySnapshot) => {
             if (querySnapshot.size === 0) {
@@ -121,19 +189,6 @@ export default {
             this.sumMyOneResDayPrice();
             this.sumAllOneResDayPrice();
           })
-      // const getDate = (date, separated = '-', notFullYear = false) => {
-      //   if (date instanceof Date) {
-      //     let year = date.getFullYear()
-      //     let month = date.getMonth() + 1
-      //     let day = date.getDate()
-      //
-      //     if (notFullYear) year = year.toString().slice(2, 4)
-      //     if (month < 10) month = `0${month}`
-      //     if (day < 10) day = `0${day}`
-      //
-      //     return `${year}${separated}${month}${separated}${day}`
-      //   } else return '';
-      // }
     },
     async getData(i) {
       const self = this;
@@ -181,30 +236,6 @@ export default {
         this.sumAllOneResPrice = this.sumAllOneResPrice + this.whose[frontIndex][i].price;
       }
     }
-    // getSumMyDayPrice(start, finish){
-    //   const self = this;
-    //   const db = firebase.firestore();
-    //   console.log("123");
-    //   db.collection("receipt")
-    //       .where("date",'>=', start)
-    //       .where("date", '<=', finish )
-    //       // .where("who[]", "==", self.$store.state.user.displayName)
-    //       .get()
-    //       .then((querySnapshot) => {
-    //         if (querySnapshot.size === 0) {
-    //           console.log("나의 가격정보 없음")
-    //           return
-    //         }
-    //         querySnapshot.forEach((doc) => {
-    //           const _data = doc.data();
-    //           _data.id = doc.id
-    //           // let i = 0
-    //           self.priceList.push(_data.who[1].price);
-    //           console.log(self.priceList)
-    //           // i++;
-    //         });
-    //     });
-    // },
   }
 }
 </script>
