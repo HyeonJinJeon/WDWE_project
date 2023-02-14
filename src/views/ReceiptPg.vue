@@ -119,7 +119,7 @@ export default {
       const self = this;
       const db = firebase.firestore();
       db.collection('group')
-          .where('groupName', '==', localStorage.groupName)
+          .where('enterCode', '==', localStorage.groupCode)
           .get()
           .then((querySnapshot) => {
             if (querySnapshot.size === 0) {
@@ -140,11 +140,12 @@ export default {
     },
     getReceipt() {
       const self = this;
+      const intAry = self.price.split(',').map(Number);
       for (let i = 0; i < self.menu.length; i++) {
         self.list.push({
           name: self.selectedName[i],
           menu: self.menu[i],
-          price: self.price[i],
+          price: intAry[i],
         });
       }
       console.log(self.list);
@@ -164,6 +165,7 @@ export default {
           })
           .then(() => {
             alert("등록되었습니다.")
+            this.$router.go();
           })
           .catch((e) => {          // 실패하면 catch가 실행된다.
             console.log(e)
