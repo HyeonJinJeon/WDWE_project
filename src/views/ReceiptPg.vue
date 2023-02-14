@@ -161,7 +161,7 @@ export default {
             date: timestamp,
             who: self.list,
             groupCode: self.groupInfo.enterCode,
-            resUid: '',
+            resUid: self.shopInfo.id,
           })
           .then(() => {
             alert("등록되었습니다.")
