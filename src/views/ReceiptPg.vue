@@ -1,16 +1,19 @@
 <template>
   <div>
     <MainSideBar></MainSideBar>
-    <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="margin-top: 30px; margin-left: 30px;"></i>
+    <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="position: absolute; z-index:3; margin-top: 30px; margin-left: 30px;"></i>
     <!--    <div class="bgImg">-->
-    <!--    <img src="../assets/images/receipt.jpg">-->
+        <img class="receiptImg" src="../assets/images/receipt.jpg">
 
     <div class="inputs">
       <h3 style="margin-left:240px; font-weight: 600;">영수증</h3>
       <hr style=" margin: 10px; border-style: double; border-width:5px 0 0 0;">
-      <label class="grey-text" style="margin:10px; font-weight: 400; color: black;">상호 명</label>
-      <div class="input-line">
-        <input v-model="shopName" type="text" class="form-control" placeholder=""/>
+      <div style="margin-left: 10px;">
+        <h5 class="grey-text" style=" font-weight: 400; color: black;">상호 정보</h5>
+        <p><span style="font-weight: bold">상호명: </span> {{shopInfo.name}}</p>
+        <p><span style="font-weight: bold">상호타입: </span> {{shopInfo.type}}</p>
+        <p><span style="font-weight: bold">전화번호: </span> {{shopInfo.number}}</p>
+        <p><span style="font-weight: bold">주소: </span> {{shopInfo.geo}}</p>
       </div>
       <div>
         <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">날짜 선택</label> <br>
@@ -46,14 +49,14 @@
         <div class="input-line">
           <input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder="메뉴"/>
           <input v-model="price[index-1]" type="text" class="form-control priceInput" placeholder="가격"/>
-          <b-icon class="aniBtn" style="margin-left: 100px;" @click="deleteRow(index-1)" icon="dash-circle"
+          <b-icon class="aniBtn" @click="deleteRow(index-1)" icon="dash-circle"
                   aria-hidden="true"></b-icon>
         </div>
       </div>
     </div>
     <!--    </div>-->
     <div class="shopList">
-      <RestaurantList @change="center.lat=$event"></RestaurantList>
+      <RestaurantList @changeShop="shopInfo=$event"></RestaurantList>
     </div>
   </div>
 </template>
@@ -77,6 +80,7 @@ export default {
       shopName: '',
       date: '',
       menu: [],
+      shopInfo: [],
       engName: '',
       price: [],
       list: [],
@@ -142,7 +146,7 @@ export default {
       const timestamp = new Date(self.date + " 00:00:00");
       db.collection('receipt')
           .add({
-            shopName: self.shopName,
+            shopName: self.shopInfo.name,
             date: timestamp,
             who: self.list,
             groupUid: self.curGroupUid,
@@ -179,12 +183,14 @@ export default {
 
 
 <style scoped>
-/*.bgImg {*/
-/*  background-image: url("../assets/images/receipt.jpg");*/
-/*  !*height: 8px;*!*/
-/*  width: 1000px;*/
-/*  background-size: cover;*/
-/*}*/
+.receiptImg {
+  /*background-image: url("../assets/images/receipt.jpg");*/
+  position: absolute;
+  left:20px;
+  height: 1000px;
+  width: 950px;
+  background-size: cover;
+}
 
 .input-line {
   display: flex;
@@ -214,6 +220,7 @@ export default {
   position: absolute;
   left: 450px;
   margin-top: 10px;
+  margin-left: 100px;
 }
 
 .aniBtn:active {
@@ -243,12 +250,12 @@ export default {
   position: absolute;
   width: 90px;
   height: 38px;
-  margin-left: 400px;
+  margin-left: 500px;
   color: white;
   background-color: #2c3e50;
   border-radius: 5px;
   font-weight: 700;
-  top: 630px;
+  top: 780px;
 }
 
 .shopList {
@@ -265,7 +272,7 @@ export default {
   position: absolute;
   overflow: auto;
   left: 200px;
-  top: 465px;
+  top: 580px;
   width: 600px;
   height: 300px;
 }
