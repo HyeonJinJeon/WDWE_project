@@ -112,6 +112,7 @@ export default {
     },
     getPriceDataSum() {
       this.setDateData = [];
+      this.setDateMyData = [];
       this.setDateMyPrice = 0;
       let start = new Date(this.startDate)
       start.setHours(0, 0, 0, 0)
@@ -141,11 +142,15 @@ export default {
               // const date = new Date(_data.date.seconds * 1000);
               // _data.date = getDate(date);
               self.setDateData.push(_data);
-              console.log(self.setDateData)
+              console.log("설정한 그룹의 기간 내 모든 데이터",self.setDateData)
               self.setDateMyData.push(self.setDateData[i].who.filter((value) => value.name == self.userName))
-              console.log(self.setDateMyData)
-              self.setDateMyPrice = self.setDateMyPrice + self.setDateMyData[i][0].price
-              console.log(self.setDateMyPrice)
+              // [[{name: james, price: 10000},], [{name: james, price: 20000},{name: james, price: 12300}]]
+              console.log("설정한 그룹의 기간 내 모든 나의 데이터", self.setDateMyData)
+
+              for(let j=0; j < self.setDateMyData[i].length; j++){
+                self.setDateMyPrice = self.setDateMyPrice + self.setDateMyData[i][j].price
+              }
+              console.log("설정한 그룹의 기간 내 내가 먹은 총 금액", self.setDateMyPrice)
               i++
             });
           })
