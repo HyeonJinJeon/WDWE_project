@@ -94,6 +94,7 @@ export default {
       db.collection("receipt")
           .where("date", '>=', start)
           .where("date", '<=', finish)
+          .where("groupCode", "==", localStorage.groupCode)
           .get()
           .then(async (querySnapshot) => {
             if (querySnapshot.size === 0) {
