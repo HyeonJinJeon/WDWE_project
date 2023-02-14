@@ -109,7 +109,7 @@ export default {
       const self = this;
       const db = firebase.firestore();
       db.collection('group')
-          .where('groupName', '==', localStorage.groupName)
+          .where('enterCode', '==', localStorage.groupCode)
           .get()
           .then((querySnapshot) => {
             if (querySnapshot.size === 0) {
