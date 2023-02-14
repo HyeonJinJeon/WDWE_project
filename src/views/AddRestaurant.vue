@@ -148,6 +148,7 @@ export default {
         type: self.resType,
         // marker: self.marker,
         geo: marker,
+        groupCode: localStorage.groupCode
       }
       db.collection('restaurant')
           .add(_data)
