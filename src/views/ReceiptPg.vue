@@ -142,7 +142,7 @@ export default {
     },
     getReceipt() {
       const self = this;
-      const intAry = self.price.split(',').map(Number);
+      const intAry = self.price.map(Number);
       for (let i = 0; i < self.menu.length; i++) {
         self.list.push({
           name: self.selectedName[i],
