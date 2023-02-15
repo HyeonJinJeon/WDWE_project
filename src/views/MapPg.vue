@@ -50,7 +50,6 @@
 
     <div style="position: absolute;
                 right: 15px;
-                z-index: 420;
                 margin-top: 15px;">
       <button class="minusBtn" @click="zoomOut">
         <i class="fas fa-minus"></i>
@@ -61,7 +60,7 @@
 
     </div>
     <!--    <div style="position: absolute">-->
-    <div class="black-bg">
+    <div class="list-black-bg">
       <RestaurantList @changeShop="shopInfo=$event" @changeLat="center.lat=$event" @changeLng="center.lng=$event"></RestaurantList>
       <p style="color:white;font-weight: 600;">{{ shopInfo }}</p>
     </div>
@@ -77,10 +76,12 @@ import MainSideBar from "@/components/MainSideBar.vue";
 import {firebase} from '@/firebase/firebaseConfig';
 import VueDaumMap from "vue-daum-map";
 import RestaurantList from "@/components/RestaurantList.vue";
+import Detail from "@/components/Detail.vue";
+
 
 export default {
   name: 'mainMap',
-  components: {RestaurantList, MainSideBar, VueDaumMap},
+  components: {Detail,RestaurantList, MainSideBar, VueDaumMap},
   data() {
     return {
       appkey: '8f46ab92162c0dbe8c99a0f9dd265208',
@@ -232,27 +233,27 @@ export default {
             querySnapshot.forEach((doc) => {
               const _data = doc.data();
               _data.id = doc.id //각 유저 필드에 따로 id값이 없지만 유저 고유 id를 불로올 수 있음
-              const date = new Date(_data.date.seconds * 1000);
-              _data.date = getDate(date);
+              // const date = new Date(_data.date.seconds * 1000);
+              // _data.date = getDate(date);
               // this.row = _data;
               // console.log(_data.marker._lat)
               // console.log(_data.marker._long)
               this.sendFromAppLatLngMarker(_data.geo._lat, _data.geo._long, _data)
             });
           })
-      const getDate = (date, separated = '-', notFullYear = false) => {
-        if (date instanceof Date) {
-          let year = date.getFullYear()
-          let month = date.getMonth() + 1
-          let day = date.getDate()
-
-          if (notFullYear) year = year.toString().slice(2, 4)
-          if (month < 10) month = `0${month}`
-          if (day < 10) day = `0${day}`
-
-          return `${year}${separated}${month}${separated}${day}`
-        } else return '';
-      }
+      // const getDate = (date, separated = '-', notFullYear = false) => {
+      //   if (date instanceof Date) {
+      //     let year = date.getFullYear()
+      //     let month = date.getMonth() + 1
+      //     let day = date.getDate()
+      //
+      //     if (notFullYear) year = year.toString().slice(2, 4)
+      //     if (month < 10) month = `0${month}`
+      //     if (day < 10) day = `0${day}`
+      //
+      //     return `${year}${separated}${month}${separated}${day}`
+      //   } else return '';
+      // }
     },
     sendFromAppLatLngMarker(lat, long, data) {
       const self = this;
@@ -272,37 +273,21 @@ export default {
       self.markersInMap.push(marker)
       // 마커에 click 이벤트를 등록합니다
       kakao.maps.event.addListener(marker, 'click', function () {
-        console.log("선택~", obj1.data.content)
+        console.log("선택~", obj1.data)
         console.log("itmes", self.items)
 
         self.obj = {
-          content: obj1.data.content,
-          code: obj1.data.code,
+          geo: obj1.data.geo,
           id: obj1.data.id,
-          image: obj1.data.image,
+          groupCode: obj1.data.groupCode,
           title: obj1.data.title,
-          user: obj1.data.user,
-          userId: obj1.data.userId,
-          date: obj1.data.date
+          name: obj1.data.name,
+          number: obj1.data.number,
+          type: obj1.data.type
         }
         self.modal = true
         self.openModal()
       });
-    },
-    logout() {
-      if (this.userInfo.howLogin == "kakao 로그인") {
-        window.Kakao.API.request({
-          url: '/v1/user/unlink',
-          success: function (response) {
-            console.log(response);
-          },
-          fail: function (error) {
-            console.log(error);
-          },
-        });
-      }
-      firebase.auth().signOut()
-      this.$router.push('/')
     },
   },
 }
@@ -324,7 +309,7 @@ div {
   box-sizing: border-box;
 }
 
-.black-bg {
+.list-black-bg {
   position: relative;
   float: right;
   width: 400px;
@@ -335,6 +320,15 @@ div {
   /*right: 100px;*/
   top: 100px;
   overflow: auto;
+}
+.black-bg {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 7px;
+  padding: 20px;
+  /*right: 100px;*/
 }
 
 .listView {
@@ -349,25 +343,6 @@ div {
   border: none;
   border-bottom-left-radius: 7px;
   border-top-left-radius: 7px;
-  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
-}
-
-.logOutBtn {
-  position: relative;
-  overflow: hidden;
-  z-index: 2;
-  font-size: 15px;
-  width: 100px;
-  height: 38px;
-  float: right;
-  margin-right: 10px;
-  top: 10px;
-  color: #1b375d;
-  background-color: #ffffff;
-  border-radius: 7px;
-  /*border-width: 1px;*/
-  border: none;
-  /*box-shadow: 0 5px 5px -5px #333;*/
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 
@@ -519,7 +494,7 @@ div {
 
 .plusMinus {
   position: absolute;
-  z-index: 2;
+  /*z-index: 2;*/
   /*width: 100px;*/
   border-radius: 7px;
   top: 10px;
