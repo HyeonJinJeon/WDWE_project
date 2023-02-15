@@ -8,7 +8,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr @click="$emit('changeShop', shopList)" v-for="(shopList,i) in shopList" :key="i">
+        <tr @click="$emit('changeLat',shopList.geo._lat), $emit('changeLng',shopList.geo._long),$emit('changeShop', shopList)" v-for="(shopList,i) in shopList" :key="i">
           <td>{{ shopList.name }}<br> {{ shopList.type }}</td>
           <!--        <td><img class="img1" :src="memoryList.image"/></td>-->
         </tr>
@@ -53,6 +53,7 @@ export default {
       const db = firebase.firestore();
       console.log(self.whatData)
       db.collection("restaurant")
+          .where("groupCode",'==', localStorage.groupCode)
           .get()
           .then((querySnapshot) => {
             if (querySnapshot.size === 0) {

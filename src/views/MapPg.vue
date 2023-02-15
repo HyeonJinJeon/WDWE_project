@@ -62,7 +62,7 @@
     </div>
     <!--    <div style="position: absolute">-->
     <div class="black-bg">
-      <RestaurantList @changeShop="shopInfo=$event"></RestaurantList>
+      <RestaurantList @changeShop="shopInfo=$event" @changeLat="center.lat=$event" @changeLng="center.lng=$event"></RestaurantList>
       <p style="color:white;font-weight: 600;">{{ shopInfo }}</p>
     </div>
     <!--    </div>-->
@@ -209,20 +209,20 @@ export default {
         }
       }
     },
-    getData() {
-      const self = this;
-      const db = firebase.firestore();
-      db.collection("receipt")
-          .where("groupCode", "==", localStorage.groupCode)
-          .get()
-          .then((snapshot) => {
-            self.userInfo = snapshot.data();
-          })
-    },
+    // getData() {
+    //   const self = this;
+    //   const db = firebase.firestore();
+    //   db.collection("receipt")
+    //       .where("groupCode", "==", localStorage.groupCode)
+    //       .get()
+    //       .then((snapshot) => {
+    //         self.userInfo = snapshot.data();
+    //       })
+    // },
     getDataList() {
       // const self = this;
       const db = firebase.firestore();
-      db.collection("receipt")
+      db.collection("restaurant")
           .where("groupCode", "==", localStorage.groupCode)
           .get()
           .then((querySnapshot) => {
@@ -237,7 +237,7 @@ export default {
               // this.row = _data;
               // console.log(_data.marker._lat)
               // console.log(_data.marker._long)
-              this.sendFromAppLatLngMarker(_data.marker._lat, _data.marker._long, _data)
+              this.sendFromAppLatLngMarker(_data.geo._lat, _data.geo._long, _data)
             });
           })
       const getDate = (date, separated = '-', notFullYear = false) => {
