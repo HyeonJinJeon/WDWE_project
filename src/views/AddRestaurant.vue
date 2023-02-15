@@ -146,7 +146,7 @@ export default {
         name: self.resName,
         number: self.resNum,
         type: self.resType,
-        // marker: self.marker,
+        groupCode: localStorage.groupCode,
         geo: marker,
       }
       db.collection('restaurant')
@@ -259,7 +259,7 @@ export default {
   width: 90px;
   height: 38px;
   margin-top: 300px;
-  margin-left: 72vh;
+  margin-left: 60vh;
   color: white;
   background-color: #2c3e50;
   border-radius: 5px;
