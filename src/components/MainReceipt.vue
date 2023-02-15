@@ -1,15 +1,11 @@
 <template>
   <div>
-    <v-app>
-      <v-main>
+<!--    <v-app>-->
+<!--      <v-main class="calMain">-->
         <div class="receiptDiv">
           <div class="main">
             <div class="title">영수증</div>
             <!-- Add Items -->
-            <div class="add">
-              <input type="add_text">
-              <input type="number" class="add_price">
-            </div>
             <!-- Item List -->
             <div class="item-list">
               <div v-if="resInfo.length !== 0">
@@ -38,14 +34,14 @@
               <div class="sum_unchecked-price"></div>
             </div>
           </div>
-          <button style="margin-left: 130px; white-space:nowrap;" v-if="onPrev == true" class="btn" @click="prevPage">이전</button>
-          <button style="margin-left: 270px; white-space:nowrap;" v-if="onNext == true" class="btn" @click="nextPage">다음</button>
         </div>
+        <button style="margin-left: 110px; white-space:nowrap;" v-if="onPrev == true" class="btn" @click="prevPage">이전</button>
+        <button style="margin-left: 230px; white-space:nowrap;" v-if="onNext == true" class="btn" @click="nextPage">다음</button>
         <div class="pagingBtn">
 
         </div>
-      </v-main>
-    </v-app>
+<!--      </v-main>-->
+<!--    </v-app>-->
   </div>
 </template>
 
@@ -105,26 +101,28 @@ export default {
 </script>
 
 <style scoped>
+.calMain{
+  background-color:rgba(255,255,255,0.7);
 
-.receiptDiv{
-  width: 30%;
-  float: left;
-  background-image: url("../assets/images/receipt.jpg");
-  margin-top: 130px;
 }
-.receipt_top {
-  display: block;
-  margin: auto;
-  width: 500px;
+.receiptDiv{
+
+  display: flex;
+  /*float: left;*/
+  /*margin-top: 130px;*/
+  height: 66vh;
 }
 
 .main {
-  margin: auto;
+  position: relative;
+  /*margin-top: 1px;*/
   background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 500px;
+  background-color:rgba(255,255,255,0.1);
+
 }
 
 /* Title */
