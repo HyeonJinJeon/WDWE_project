@@ -127,20 +127,22 @@ export default {
             }
             querySnapshot.forEach((doc) => {
               self.groupInfo = doc.data();
-              self.curGroupUid = doc.id
+              // self.curGroupUid = doc.id
               self.groupData.push(self.groupInfo.member);
-              console.log('groupData', self.groupData)
-              for (let i = 0; i < self.groupData.length; i++) {
+              console.log('groupData 길이', self.groupData.length)
+              console.log('groupInfo.member', self.groupInfo.member.length)
+              for (let i = 0; i < self.groupInfo.member.length; i++) {
                 self.members.push(self.groupData[0][i].name);
                 self.uids.push(self.groupData[0][i].uid);
-                console.log('members', self.members)
+                // console.log('members', self.members)
+                // console.log('uids', self.uids)
               }
             });
           })
     },
     getReceipt() {
       const self = this;
-      const intAry = self.price.split(',').map(Number);
+      const intAry = self.price.map(Number);
       for (let i = 0; i < self.menu.length; i++) {
         self.list.push({
           name: self.selectedName[i],
@@ -161,7 +163,7 @@ export default {
             date: timestamp,
             who: self.list,
             groupCode: self.groupInfo.enterCode,
-            resUid: '',
+            resUid: self.shopInfo.id,
           })
           .then(() => {
             alert("등록되었습니다.")
