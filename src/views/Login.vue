@@ -48,6 +48,7 @@ export default {
       fbCollection: 'users',
       id: '',
       pw: '',
+      userInfo: [],
     }
   },
   methods: {
@@ -55,6 +56,7 @@ export default {
       const self = this;
       firebase.auth().signInWithEmailAndPassword(self.id + '@wdweproject.co.kr', self.pw)
           .then(() => {
+            self.setStartGroup()
             alert('로그인 완료')
             self.$router.push('/mainPg')
           })
@@ -64,7 +66,30 @@ export default {
     },
     goSignUp() {
       this.$router.push('/signUp')
-
+    },
+    setStartGroup() {
+      const self = this;
+      console.log("?")
+      const db = firebase.firestore();
+      db.collection("users")
+            .where("id",'==',self.id)
+            .get()
+            .then((querySnapshot) => {
+              if (querySnapshot.size === 0) {
+                return
+              }
+              querySnapshot.forEach((doc) => {
+                self.userInfo = doc.data();
+                // self.curGroupUid = doc.id
+                const userGroups = self.userInfo.groups;
+                console.log('userGroups 첫번째', userGroups[0].enterCode)
+                delete localStorage.groupCode
+                localStorage.groupCode = userGroups[0].enterCode
+              });
+            })
+          .catch((error) => {
+            alert(error)
+          })
     },
 
   },
