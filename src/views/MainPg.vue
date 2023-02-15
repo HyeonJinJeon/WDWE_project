@@ -9,19 +9,18 @@
       <date-picker v-model="finishDate" valueType="format" style="margin-left: 20px;"></date-picker>
     </div>
     <button class="confirmBtn" @click="getPriceDataSum">등록</button>
-
+    <div>
+      <p>내가 먹은 총 금액</p>
+      <h3>{{setDateMyPrice}}</h3>
+    </div>
     <MainSideBar></MainSideBar>
     <div class="calendarDiv">
-      <FullCalendar style="float: right; width:70%; margin-right: 120px; padding-left: 30px"
+      <FullCalendar  style="float: right; width:70%; margin-right: 120px; padding-left: 30px"
                     :options="calendarOptions"/>
     </div>
     <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="margin-top: 30px; margin-left: 30px;"></i>
     <div>
       <MainReceipt ref="onNextBtn" :resInfo="resInfo" :whose="whose" :dataList="dataList" :sumMyPrice="sumMyPrice" :sumMyOneResPrice="sumMyOneResPrice" :sumAllOneResPrice="sumAllOneResPrice" />
-    </div>
-    <div>
-      <p>내가 먹은 총 금액</p>
-      <h3>{{setDateMyPrice}}</h3>
     </div>
   </div>
 </template>
@@ -44,7 +43,7 @@ export default {
     DatePicker,
   },
   mounted() {
-    // this.getDatalist()
+    this.getAllDataList()
   },
   data() {
     return {
@@ -53,9 +52,9 @@ export default {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: 'dayGridMonth',
         dateClick: this.handleDateClick,
+        displayEventTime: false,
         events: [
-          {title: this.sumMyPrice, date: '2023-02-09'},
-          {title: 'event 2', date: '2019-04-02'}
+          {}
         ]
       },
       eventsArray: Array.from({length: 31}, () => 0),
@@ -78,6 +77,8 @@ export default {
       setDateData: [],
       setDateMyData: [],
       setDateMyPrice: 0,
+
+      allDataList: [],
     }
   },
   methods: {
@@ -154,6 +155,69 @@ export default {
               i++
             });
           })
+    },
+    getAllDataList() {
+      const self = this;
+      const db = firebase.firestore();
+      db.collection("receipt")
+          .where("groupCode", "==", localStorage.groupCode)
+          .get()
+          .then(async (querySnapshot) => {
+                if (querySnapshot.size === 0) {
+                  console.log("지금까지 먹은게 없어요")
+                  return
+                }
+                querySnapshot.forEach((doc) => {
+                  const _data = doc.data();
+                  _data.id = doc.id
+                  // const date = new Date(_data.date.seconds * 1000);
+                  // _data.date = getDate(date);
+                  self.allDataList.push(_data);
+                  console.log(self.allDataList)
+                });
+                self.whatDayEvent();
+          })
+    },
+    whatDayEvent() {
+
+      // ---------------------------------------------------------
+      // calendarOptions: {
+      //    events: [
+      //      {title: this.sumMyOneResPrice, date: '2023-02-09'},
+      //      {title: 'event 2', date: '2019-04-02'}
+      //    ]
+      // }
+      // ---------------------------------------------------------
+      // 위 데이터 형식을 보고 코드를 작성하도록
+      let i = 0;
+      let j = 0;
+      for(i = 0; i<this.allDataList.length; i++){
+        for(j = 0; j<this.allDataList[i].who.length; j++){
+          if(this.allDataList[i].who[j].name == this.userName) {
+            let myCalendarInfo =
+            {
+              title : this.allDataList[i].who[j].price + "원",
+              date : new Date(this.allDataList[i].date.seconds * 1000)
+            }
+            this.calendarOptions.events.push(myCalendarInfo)
+          }
+        }
+      }
+      // const getDate = (date, separated = '-', notFullYear = false) => {
+      //   if (date instanceof Date) {
+      //     let year = date.getFullYear()
+      //     let month = date.getMonth() + 1
+      //     let day = date.getDate()
+      //
+      //     if (notFullYear) year = year.toString().slice(2, 4)
+      //     if (month < 10) month = `0${month}`
+      //     if (day < 10) day = `0${day}`
+      //
+      //     return `${year}${separated}${month}${separated}${day}`
+      //   } else return '';
+      // }
+      // console.log(this.calendarOptions)
+
     },
     getDatalist(start, finish) {
       const self = this;
