@@ -127,13 +127,15 @@ export default {
             }
             querySnapshot.forEach((doc) => {
               self.groupInfo = doc.data();
-              self.curGroupUid = doc.id
+              // self.curGroupUid = doc.id
               self.groupData.push(self.groupInfo.member);
-              console.log('groupData', self.groupData)
-              for (let i = 0; i < self.groupData.length; i++) {
+              console.log('groupData 길이', self.groupData.length)
+              console.log('groupInfo.member', self.groupInfo.member.length)
+              for (let i = 0; i < self.groupInfo.member.length; i++) {
                 self.members.push(self.groupData[0][i].name);
                 self.uids.push(self.groupData[0][i].uid);
-                console.log('members', self.members)
+                // console.log('members', self.members)
+                // console.log('uids', self.uids)
               }
             });
           })
