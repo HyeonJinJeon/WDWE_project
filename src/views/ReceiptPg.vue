@@ -1,19 +1,20 @@
 <template>
   <div>
     <MainSideBar></MainSideBar>
-    <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="position: absolute; z-index:3; margin-top: 30px; margin-left: 30px;"></i>
+    <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars"
+       style="position: absolute; z-index:3; margin-top: 30px; margin-left: 30px;"></i>
     <!--    <div class="bgImg">-->
-        <img class="receiptImg" src="../assets/images/receipt.jpg">
+    <img class="receiptImg" src="../assets/images/receipt.jpg">
 
     <div class="inputs">
       <h3 style="margin-left:240px; font-weight: 600;">영수증</h3>
       <hr style=" margin: 10px; border-style: double; border-width:5px 0 0 0;">
       <div style="margin-left: 10px;">
         <h5 class="grey-text" style=" font-weight: 400; color: black;">상호 정보</h5>
-        <p><span style="font-weight: bold">상호명: </span> {{shopInfo.name}}</p>
-        <p><span style="font-weight: bold">상호타입: </span> {{shopInfo.type}}</p>
-        <p><span style="font-weight: bold">전화번호: </span> {{shopInfo.number}}</p>
-        <p><span style="font-weight: bold">주소: </span> {{shopInfo.geo}}</p>
+        <p><span style="font-weight: bold">상호명: </span> {{ shopInfo.name }}</p>
+        <p><span style="font-weight: bold">상호타입: </span> {{ shopInfo.type }}</p>
+        <p><span style="font-weight: bold">전화번호: </span> {{ shopInfo.number }}</p>
+        <p><span style="font-weight: bold">주소: </span> {{ shopInfo.geo }}</p>
       </div>
       <div>
         <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">날짜 선택</label> <br>
@@ -48,14 +49,23 @@
         </select>
         <div class="input-line">
           <input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder="메뉴"/>
-          <input v-model="price[index-1]" type="number"  min="0" class="form-control priceInput" placeholder="가격"/>
+          <input v-model="price[index-1]" type="number" min="0" class="form-control priceInput" placeholder="가격"
+                 oninput="javascript: this.value = this.value.replace(/[^0-9]/, '');"/>
           <b-icon class="aniBtn" @click="deleteRow(index-1)" icon="dash-circle"
                   aria-hidden="true"></b-icon>
         </div>
       </div>
     </div>
     <!--    </div>-->
+
     <div class="shopList">
+      <div>
+        <h3>식당 리스트<span>
+      <b-icon style="margin-left: 10px;" icon="plus-square"
+              aria-hidden="true" @click="addShop"></b-icon>
+      </span></h3>
+      </div>
+
       <RestaurantList @changeShop="shopInfo=$event"></RestaurantList>
     </div>
   </div>
@@ -109,7 +119,7 @@ export default {
       const self = this;
       const db = firebase.firestore();
       db.collection('group')
-          .where('groupName', '==', localStorage.groupName)
+          .where('enterCode', '==', localStorage.groupCode)
           .get()
           .then((querySnapshot) => {
             if (querySnapshot.size === 0) {
@@ -117,24 +127,27 @@ export default {
             }
             querySnapshot.forEach((doc) => {
               self.groupInfo = doc.data();
-              self.curGroupUid = doc.id
+              // self.curGroupUid = doc.id
               self.groupData.push(self.groupInfo.member);
-              console.log('groupData', self.groupData)
-              for (let i = 0; i < self.groupData.length; i++) {
+              console.log('groupData 길이', self.groupData.length)
+              console.log('groupInfo.member', self.groupInfo.member.length)
+              for (let i = 0; i < self.groupInfo.member.length; i++) {
                 self.members.push(self.groupData[0][i].name);
                 self.uids.push(self.groupData[0][i].uid);
-                console.log('members', self.members)
+                // console.log('members', self.members)
+                // console.log('uids', self.uids)
               }
             });
           })
     },
     getReceipt() {
       const self = this;
+      const intAry = self.price.map(Number);
       for (let i = 0; i < self.menu.length; i++) {
         self.list.push({
           name: self.selectedName[i],
           menu: self.menu[i],
-          price: self.price[i],
+          price: intAry[i],
         });
       }
       console.log(self.list);
@@ -150,10 +163,11 @@ export default {
             date: timestamp,
             who: self.list,
             groupCode: self.groupInfo.enterCode,
-            resUid: '',
+            resUid: self.shopInfo.id,
           })
           .then(() => {
             alert("등록되었습니다.")
+            this.$router.go();
           })
           .catch((e) => {          // 실패하면 catch가 실행된다.
             console.log(e)
@@ -175,6 +189,9 @@ export default {
       // self.price.splice(index, 1);
       this.receiptNums -= 1;
     },
+    addShop() {
+      this.$router.push('add/restaurant')
+    },
 
   },
 }
@@ -185,7 +202,7 @@ export default {
 .receiptImg {
   /*background-image: url("../assets/images/receipt.jpg");*/
   position: absolute;
-  left:20px;
+  left: 20px;
   height: 1000px;
   width: 950px;
   background-size: cover;
@@ -217,6 +234,7 @@ export default {
 
 .aniBtn {
   position: absolute;
+  z-index: 3;
   left: 450px;
   margin-top: 10px;
   margin-left: 100px;

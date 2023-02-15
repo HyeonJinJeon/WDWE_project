@@ -4,9 +4,13 @@
     <b-sidebar id="sidebar-1" shadow>
       <div class="px-3 py-2 sideTitle">
         <br>
-        <div class="">
+        <div>
           <h3 style="color: #FFFFFF;">
             {{ userInfo.engName }}
+            <span>
+              <button class="logOutBtn" @click="logout">Logout</button>
+
+            </span>
           </h3>
         </div>
         <div style="margin-top: 100px;">
@@ -85,6 +89,11 @@ export default {
       // this.$router.go();
       // console.log(selected)
     },
+    logout() {
+      delete localStorage.groupCode
+      firebase.auth().signOut()
+      this.$router.push('/')
+    },
 
   },
 }
@@ -107,5 +116,11 @@ export default {
   border-radius: 7px;
   color: white;
   font-weight: 600;
+}
+.logOutBtn {
+  position: absolute;
+  font-size: 13px;
+  color: white;
+  left:300px;
 }
 </style>

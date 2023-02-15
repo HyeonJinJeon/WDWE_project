@@ -1,20 +1,14 @@
 <template>
   <div>
-    <h3>식당 리스트<span>
-      <b-icon class="aniBtn" icon="plus-square"
-              aria-hidden="true"></b-icon>
-      </span></h3>
+
     <div style="overflow:auto;">
-
-
-
-      <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
+      <table class="table" border="1" style="margin-left: auto; margin-right: auto;">
         <thead>
         <tr>
         </tr>
         </thead>
         <tbody>
-        <tr @click="$emit('changeShop', shopList)" v-for="(shopList,i) in shopList" :key="i">
+        <tr @click="$emit('changeLat',shopList.geo._lat), $emit('changeLng',shopList.geo._long),$emit('changeShop', shopList)" v-for="(shopList,i) in shopList" :key="i">
           <td>{{ shopList.name }}<br> {{ shopList.type }}</td>
           <!--        <td><img class="img1" :src="memoryList.image"/></td>-->
         </tr>
@@ -27,9 +21,15 @@
 
 <script>
 import {firebase} from "@/firebase/firebaseConfig";
+import addRestaurant from "@/views/AddRestaurant.vue";
 
 export default {
   name: "RestaurantList",
+  computed: {
+    addRestaurant() {
+      return addRestaurant
+    }
+  },
   data() {
     return {
       shopList: [],
@@ -53,6 +53,7 @@ export default {
       const db = firebase.firestore();
       console.log(self.whatData)
       db.collection("restaurant")
+          .where("groupCode",'==', localStorage.groupCode)
           .get()
           .then((querySnapshot) => {
             if (querySnapshot.size === 0) {
@@ -68,6 +69,7 @@ export default {
           })
     },
 
+
   }
 }
 </script>
@@ -75,5 +77,9 @@ export default {
 <style scoped>
 .aniBtn:active {
   transform: scale(0.9);
+}
+table {
+  background-color: white;
+  border-radius: 7px;
 }
 </style>

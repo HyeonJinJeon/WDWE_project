@@ -1,7 +1,10 @@
 <template>
-<div>
-  <div class="bgImg">
+  <div>
+    <b-icon class="backBtn" @click="goBack" icon="arrow-left"
+            aria-hidden="true"></b-icon>
+    <!--  <div class="bgImg">-->
     <!--    <img src="../assets/images/receipt.jpg">-->
+
     <div>
       <h3 style="position: absolute; top: 80px; left:350px; font-weight: 600; ">상호 등록</h3>
     </div>
@@ -16,7 +19,8 @@
       <label class="grey-text" style="margin:10px; font-weight: 400; color: #000000;">전화번호</label>
       <div class="input-line">
         <input v-model="resNum" type="text" class="form-control" maxlength="13"
-               oninput="javascript: this.value = this.value.replace(/[^0-9]/, '').replace(/^(\d{3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);" placeholder=""/>
+               oninput="javascript: this.value = this.value.replace(/[^0-9]/, '').replace(/^(\d{3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);"
+               placeholder=""/>
       </div>
 
       <label class="grey-text" style="margin:10px; font-weight: 400; color: black;">가게 타입</label>
@@ -33,66 +37,68 @@
       <label class="grey-text" style="margin:10px; font-weight: 400; color: black;">위치 지정</label>
       <div class="input-line">
         <input v-model="resGeo" type="text" class="form-control" placeholder="Search" aria-label="Search"/>
-        <button style="white-space:nowrap; margin: 0 auto; background-color: #455a64; color: #FFFFFF" class="btn"  @click="searchGeo(resGeo)" >이동</button>
+        <button style="white-space:nowrap; margin: 0 auto; background-color: #455a64; color: #FFFFFF" class="btn"
+                @click="searchGeo(resGeo)">이동
+        </button>
 
       </div>
 
 
-<!--------------------------------------------------------메뉴 추가는 나중에 구현---------------------------------------------------------------->
+      <!--------------------------------------------------------메뉴 추가는 나중에 구현---------------------------------------------------------------->
 
-<!--      <hr style="margin: 10px; border-width:5px 0 0 0;">-->
-<!--      <p style="font-weight: 400; font-size: 20px; margin-left: 20px;">-->
-<!--        <span>*메뉴 등록*</span>-->
-<!--        <span style="margin-left: 110px;">메뉴</span>-->
-<!--        <span style="margin-left: 150px;">가격</span>-->
-<!--        <b-icon class="aniBtn" @click="addNum" style="margin-left: 100px;" icon="plus-circle"-->
-<!--                aria-hidden="true"></b-icon>-->
-<!--        &lt;!&ndash;          <button style="margin-left: 130px;">&ndash;&gt;-->
+      <!--      <hr style="margin: 10px; border-width:5px 0 0 0;">-->
+      <!--      <p style="font-weight: 400; font-size: 20px; margin-left: 20px;">-->
+      <!--        <span>*메뉴 등록*</span>-->
+      <!--        <span style="margin-left: 110px;">메뉴</span>-->
+      <!--        <span style="margin-left: 150px;">가격</span>-->
+      <!--        <b-icon class="aniBtn" @click="addNum" style="margin-left: 100px;" icon="plus-circle"-->
+      <!--                aria-hidden="true"></b-icon>-->
+      <!--        &lt;!&ndash;          <button style="margin-left: 130px;">&ndash;&gt;-->
 
-<!--        &lt;!&ndash;          </button>&ndash;&gt;-->
-<!--      </p>-->
-<!--      <hr style="margin: 10px; border-width:5px 0 0 0;">-->
-<!--      &lt;!&ndash;        <div class="input-line engNameInput">&ndash;&gt;-->
-<!--      &lt;!&ndash;          <input v-model="engName" type="text" class="form-control" placeholder="영어이름"/>&ndash;&gt;-->
-<!--      &lt;!&ndash;        </div>&ndash;&gt;-->
+      <!--        &lt;!&ndash;          </button>&ndash;&gt;-->
+      <!--      </p>-->
+      <!--      <hr style="margin: 10px; border-width:5px 0 0 0;">-->
+      <!--      &lt;!&ndash;        <div class="input-line engNameInput">&ndash;&gt;-->
+      <!--      &lt;!&ndash;          <input v-model="engName" type="text" class="form-control" placeholder="영어이름"/>&ndash;&gt;-->
+      <!--      &lt;!&ndash;        </div>&ndash;&gt;-->
 
-<!--      <div v-for="index in receiptNums" :key="index" style="margin-bottom:10px;">-->
-<!--        <p style="position: absolute;margin-left: 30px; margin-top: 5px;">{{ index }}</p>-->
-<!--        <select class="engNameInput" v-model="selectedName[index-1]">-->
-<!--          <option disabled value="">멤버 선택</option>-->
-<!--          <option-->
-<!--              v-for="member in members"-->
-<!--              :key="member"-->
-<!--              v-text="member"-->
-<!--              :value="member">-->
-<!--          </option>-->
-<!--        </select>-->
-<!--        <div class="input-line">-->
-<!--          <input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder="메뉴"/>-->
-<!--          <input v-model="price[index-1]" type="text" class="form-control priceInput" placeholder="가격"/>-->
-<!--          <b-icon class="aniBtn" style="margin-left: 100px;" icon="dash-circle"-->
-<!--                  aria-hidden="true"></b-icon>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--------------------------------------------------------메뉴 추가는 나중에 구현---------------------------------------------------------------->
+      <!--      <div v-for="index in receiptNums" :key="index" style="margin-bottom:10px;">-->
+      <!--        <p style="position: absolute;margin-left: 30px; margin-top: 5px;">{{ index }}</p>-->
+      <!--        <select class="engNameInput" v-model="selectedName[index-1]">-->
+      <!--          <option disabled value="">멤버 선택</option>-->
+      <!--          <option-->
+      <!--              v-for="member in members"-->
+      <!--              :key="member"-->
+      <!--              v-text="member"-->
+      <!--              :value="member">-->
+      <!--          </option>-->
+      <!--        </select>-->
+      <!--        <div class="input-line">-->
+      <!--          <input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder="메뉴"/>-->
+      <!--          <input v-model="price[index-1]" type="text" class="form-control priceInput" placeholder="가격"/>-->
+      <!--          <b-icon class="aniBtn" style="margin-left: 100px;" icon="dash-circle"-->
+      <!--                  aria-hidden="true"></b-icon>-->
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--------------------------------------------------------메뉴 추가는 나중에 구현---------------------------------------------------------------->
 
 
       <button class="confirmBtn" @click="addRestaurant()">등록</button>
     </div>
+    <!--  </div>-->
+    <div style="width: 85vh; height: 80vh; margin-top: 100px; margin-left: 80vh">
+      <vue-daum-map id="addMap"
+                    :appKey="appkey"
+                    :center.sync="center"
+                    :level.sync="level"
+                    :mapTypeId="mapTypeId"
+                    :libraries="libraries"
+                    style="width:100%; height:70vh;"
+                    @load="onLoad"
+      >
+      </vue-daum-map>
+    </div>
   </div>
-  <div style="width: 85vh; height: 80vh; margin-top: 100px; margin-left: 80vh">
-    <vue-daum-map id="addMap"
-                  :appKey="appkey"
-                  :center.sync="center"
-                  :level.sync="level"
-                  :mapTypeId="mapTypeId"
-                  :libraries="libraries"
-                  style="width:100%; height:70vh;"
-                  @load="onLoad"
-    >
-    </vue-daum-map>
-  </div>
-</div>
 </template>
 
 <script>
@@ -132,7 +138,7 @@ export default {
 
   },
   methods: {
-    addRestaurant(){
+    addRestaurant() {
       const self = this;
       const db = firebase.firestore();
       const marker = new firebase.firestore.GeoPoint(this.lat, this.long);
@@ -140,13 +146,14 @@ export default {
         name: self.resName,
         number: self.resNum,
         type: self.resType,
-        // marker: self.marker,
+        groupCode: localStorage.groupCode,
         geo: marker,
       }
       db.collection('restaurant')
           .add(_data)
           .then(() => {
             alert("등록되었습니다.")
+            this.$router.push('../receiptPg')
           })
           .catch((e) => {          // 실패하면 catch가 실행된다.
             console.log(e)
@@ -157,8 +164,8 @@ export default {
     onLoad(map, daum) {
       this.map = map;
       this.maps = daum.map
-      setTimeout(function() {
-        console.log("111",map.relayout())
+      setTimeout(function () {
+        console.log("111", map.relayout())
       }, 1);
 
 
@@ -212,6 +219,9 @@ export default {
         }
       }
     },
+    goBack() {
+      this.$router.push('../receiptPg')
+    },
   },
 }
 </script>
@@ -222,10 +232,12 @@ export default {
   width: 1000px;
   background-size: cover;
 }
-#addMap{
+
+#addMap {
   width: 100px;
   height: 1000px;
 }
+
 .input-line {
   display: flex;
   height: 38px;
@@ -241,62 +253,21 @@ export default {
   left: 100px;
 }
 
-.shoplists {
-  position: relative;
-  width: 500px;
-  height: 500px;
-  display: block;
-  float: right;
-  /*top: 200px;*/
-  /*left: 200px;*/
-}
-
-/* Summary */
-.horizontal-line {
-  /*width: 90%;*/
-  height: 2px;
-  margin: 10px;
-  background-color: black;
-}
-
-.aniBtn {
-  position: absolute;
-  left: 450px;
-  margin-top: 10px;
-}
-
-.aniBtn:active {
-  transform: scale(0.9);
-}
-
-.engNameInput {
-  position: absolute;
-  width: 90px;
-  margin-left: 110px;
-  margin-top: 5px;
-}
-
-.menuInput {
-  position: absolute;
-  width: 120px;
-  margin-left: 210px;
-}
-
-.priceInput {
-  position: absolute;
-  width: 120px;
-  margin-left: 360px;
-}
 
 .confirmBtn {
   position: relative;
   width: 90px;
   height: 38px;
   margin-top: 300px;
-  margin-left: 72vh;
+  margin-left: 60vh;
   color: white;
   background-color: #2c3e50;
   border-radius: 5px;
   font-weight: 700;
 }
+
+.backBtn {
+  position: absolute;
+}
+
 </style>
