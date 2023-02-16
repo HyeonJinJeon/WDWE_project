@@ -33,6 +33,9 @@
           <br>
           <hr>
           <router-link to="mapPg" style="color:black;">지도로 보기</router-link>
+          <br>
+          <hr>
+          <router-link to="setRestaurantList" style="color:black;">상호 정보</router-link>
         </div>
 
       </div>
