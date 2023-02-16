@@ -20,7 +20,7 @@
       </thead>
       <tbody>
       <template v-for="data in setDateMyData">
-      <tr v-for="cnt in data" :key="cnt">
+      <tr v-for="(cnt,index) in data" :key="index">
         <td>{{dateFormat(new Date(cnt.date.seconds*1000))}}</td>
         <td>{{cnt.shopName}}</td>
         <td>{{cnt.name}}</td>
