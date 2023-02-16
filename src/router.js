@@ -50,6 +50,11 @@ const router = new Router({
       name: 'MyAteList',
       component: () => import('./views/MyAteList.vue'),
     },
+    {
+      path: '/setRestaurantList',
+      name: 'SetRestaurantList',
+      component: () => import('./views/SetRestaurantList.vue'),
+    },
   ]
 })
 const makeTitle = (title) =>
