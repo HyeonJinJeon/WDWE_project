@@ -40,8 +40,9 @@
         <button style="white-space:nowrap; margin: 0 auto; background-color: #455a64; color: #FFFFFF" class="btn"
                 @click="searchGeo(resGeo)">이동
         </button>
+
       </div>
-      <h4>{{ address }}</h4>
+
 
       <!--------------------------------------------------------메뉴 추가는 나중에 구현---------------------------------------------------------------->
 
@@ -127,11 +128,12 @@ export default {
       geo: '',
       date: '',
 
+      resAddress: "",
+
       resName: "",
       resNum: "",
       resType: "",
       resGeo: "",
-      address: [],
     }
   },
   mounted() {
@@ -148,7 +150,7 @@ export default {
         type: self.resType,
         groupCode: localStorage.groupCode,
         geo: marker,
-        address: self.address,
+        address: self.resAddress,
       }
       db.collection('restaurant')
           .add(_data)
@@ -163,6 +165,7 @@ export default {
 
     },
     onLoad(map, daum) {
+      const self = this;
       this.map = map;
       this.maps = daum.map
       setTimeout(function () {
@@ -187,24 +190,24 @@ export default {
         // this.changeLatLng();
         this.lat = latlng.getLat();
         this.long = latlng.getLng();
-        // console.log(this.map.relayout())
+        console.log(this.map.relayout())
         console.log(this.lat)
-        self.address = getAddr(this.lat, this.long);
+        self.getAddr(this.lat,this.long);
       });
 
-      function getAddr(lat, lng) {
-        let geocoder = new kakao.maps.services.Geocoder();
-        let coord = new kakao.maps.LatLng(lat, lng);
-        let callback = function (result, status) {
-          if (status === kakao.maps.services.Status.OK) {
-            const address = result[0].address.address_name
-            console.log(address)
-          }
+    },
+    getAddr(lat,lng){
+      const self = this;
+      let geocoder = new kakao.maps.services.Geocoder();
+      let coord = new kakao.maps.LatLng(lat, lng);
+      let callback = function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          console.log(result[0].address.address_name)
+          self.resAddress = result[0].address.address_name
+          console.log(self.resAddress)
         }
-        geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
-        const address = geocoder.coord2Address(coord.getLng(), coord.getLat(), callback)
-        console.log(address)
       }
+      geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
     },
     searchGeo(geo) {
       console.log(kakao)

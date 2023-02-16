@@ -46,6 +46,11 @@ const router = new Router({
       component: () => import('./views/MapPg.vue'),
     },
     {
+      path: '/myAteList',
+      name: 'MyAteList',
+      component: () => import('./views/MyAteList.vue'),
+    },
+    {
       path: '/setRestaurantList',
       name: 'SetRestaurantList',
       component: () => import('./views/SetRestaurantList.vue'),
