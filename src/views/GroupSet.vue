@@ -14,6 +14,7 @@
                 <span style="font-size:50px;">e </span>
                 <span style="font-size:100px;">E</span>
                 <span style="font-size:50px;">at</span>
+                <i class="fas fa-utensils"></i>
               </p>
             </div>
             <div class="white-bg">
