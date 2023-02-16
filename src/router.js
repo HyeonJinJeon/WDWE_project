@@ -45,6 +45,11 @@ const router = new Router({
       name: 'MapPg',
       component: () => import('./views/MapPg.vue'),
     },
+    {
+      path: '/myAteList',
+      name: 'MyAteList',
+      component: () => import('./views/MyAteList.vue'),
+    },
   ]
 })
 const makeTitle = (title) =>
