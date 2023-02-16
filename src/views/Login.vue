@@ -13,7 +13,8 @@
               <span style="font-size:100px;">W</span>
               <span style="font-size:50px;">e </span>
               <span style="font-size:100px;">E</span>
-              <span style="font-size:50px;">at</span>
+              <span style="font-size:50px;">at </span>
+              <i class="fas fa-utensils fa-3x"></i>
             </p>
           </div>
 
@@ -85,6 +86,7 @@ export default {
                 console.log('userGroups 첫번째', userGroups[0].enterCode)
                 delete localStorage.groupCode
                 localStorage.groupCode = userGroups[0].enterCode
+
               });
             })
           .catch((error) => {
