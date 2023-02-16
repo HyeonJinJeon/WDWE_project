@@ -1,6 +1,8 @@
 <template>
   <div class="bgImg">
     <div class="black-bg">
+      <MainSideBar></MainSideBar>
+
       <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars"
          style="position: absolute; z-index:3; margin-top: 30px; margin-left: 30px; color:white;"></i>
       <i class="fas fa-utensils"></i>
@@ -49,11 +51,12 @@
 <script>
 import RestaurantList from "@/components/RestaurantList.vue";
 import {firebase} from "@/firebase/firebaseConfig";
+import MainSideBar from '@/components/MainSideBar.vue';
 
 
 export default {
   name: "SetRestaurantList",
-  components: {RestaurantList},
+  components: {RestaurantList, MainSideBar},
   data() {
     return {
       shopInfo: [],
