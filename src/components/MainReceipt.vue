@@ -1,51 +1,47 @@
 <template>
   <div>
-    <v-app>
-      <v-main>
-        <div class="receiptDiv">
-          <div class="main">
-            <div class="title">영수증</div>
-            <!-- Add Items -->
-            <div class="add">
-              <input type="add_text">
-              <input type="number" class="add_price">
-            </div>
-            <!-- Item List -->
-            <div class="item-list">
-              <div v-if="resInfo.length !== 0">
-                <p><span style="font-weight: bold">상호명: </span> {{resInfo[frontIndex].name}}</p>
-                <p><span style="font-weight: bold">상호타입: </span> {{resInfo[frontIndex].type}}</p>
-                <p><span style="font-weight: bold">전화번호: </span> {{resInfo[frontIndex].number}}</p>
-                <p><span style="font-weight: bold">주소: </span> {{resInfo[frontIndex].geo}}</p>
-              </div>
-              <div class="horizontal-line"></div>
-              <div class="item" style="font-weight: bold">
-                <div class="item_name"><p>이름</p></div>
-                <div class="item_menu"><p>메뉴</p></div>
-                <div class="item_price"><p>가격</p></div>
-              </div>
-              <div v-for="(whose,i) in whose[frontIndex]" :key="i" class="item">
-                <div class="item_name"><p>{{whose.name}}</p></div>
-                <div class="item_menu"><p>{{whose.menu}}</p></div>
-                <div class="item_price"><p>{{whose.price}}원</p></div>
-              </div>
-            </div>
-            <!-- Summary -->
-            <div class="horizontal-line"></div>
-            <div class="sum">
-              <div class="sum_total">총 금액: {{sumAllOneResPrice}} </div>
-              <div class="sum_checked-price">나의 금액: {{sumMyOneResPrice}}</div>
-              <div class="sum_unchecked-price"></div>
-            </div>
+    <!--    <v-app>-->
+    <!--      <v-main class="calMain">-->
+    <div class="receiptDiv">
+      <div class="main">
+        <div class="title">영수증</div>
+        <!-- Add Items -->
+        <!-- Item List -->
+        <div class="item-list">
+          <div v-if="resInfo.length !== 0">
+            <p><span style="font-weight: bold">상호명: </span> {{resInfo[frontIndex].name}}</p>
+            <p><span style="font-weight: bold">상호타입: </span> {{resInfo[frontIndex].type}}</p>
+            <p><span style="font-weight: bold">전화번호: </span> {{resInfo[frontIndex].number}}</p>
+            <p><span style="font-weight: bold">주소: </span> {{resInfo[frontIndex].geo}}</p>
           </div>
-          <button style="margin-left: 130px; white-space:nowrap;" v-if="onPrev == true" class="btn" @click="prevPage">이전</button>
-          <button style="margin-left: 270px; white-space:nowrap;" v-if="onNext == true" class="btn" @click="nextPage">다음</button>
+          <div class="horizontal-line"></div>
+          <div class="item" style="font-weight: bold">
+            <div class="item_name"><p>이름</p></div>
+            <div class="item_menu"><p>메뉴</p></div>
+            <div class="item_price"><p>가격</p></div>
+          </div>
+          <div v-for="(whose,i) in whose[frontIndex]" :key="i" class="item">
+            <div class="item_name"><p>{{whose.name}}</p></div>
+            <div class="item_menu"><p>{{whose.menu}}</p></div>
+            <div class="item_price"><p>{{whose.price}}원</p></div>
+          </div>
         </div>
-        <div class="pagingBtn">
+        <!-- Summary -->
+        <div class="horizontal-line"></div>
+        <div class="sum">
+          <div class="sum_total">총 금액: {{sumAllOneResPrice}} </div>
+          <div class="sum_checked-price">나의 금액: {{sumMyOneResPrice}}</div>
+          <div class="sum_unchecked-price"></div>
+        </div>
+      </div>
+    </div>
+    <button style="margin-left: 110px; white-space:nowrap;" v-if="onPrev == true" class="btn" @click="prevPage">이전</button>
+    <button style="margin-left: 230px; white-space:nowrap;" v-if="onNext == true" class="btn" @click="nextPage">다음</button>
+    <div class="pagingBtn">
 
-        </div>
-      </v-main>
-    </v-app>
+    </div>
+    <!--      </v-main>-->
+    <!--    </v-app>-->
   </div>
 </template>
 
@@ -97,7 +93,7 @@ export default {
       if(this.whose.length == 0){
         this.onNext = false;
       }else{
-          this.onNext = true;
+        this.onNext = true;
       }
     },
   },
@@ -105,26 +101,28 @@ export default {
 </script>
 
 <style scoped>
+.calMain{
+  background-color:rgba(255,255,255,0.7);
 
-.receiptDiv{
-  width: 30%;
-  float: left;
-  background-image: url("../assets/images/receipt.jpg");
-  margin-top: 130px;
 }
-.receipt_top {
-  display: block;
-  margin: auto;
-  width: 500px;
+.receiptDiv{
+
+  display: flex;
+  /*float: left;*/
+  /*margin-top: 130px;*/
+  height: 78vh;
 }
 
 .main {
-  margin: auto;
+  position: relative;
+  /*margin: auto;*/
   background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 500px;
+  width: 50vh;
+  background-color:rgba(255,255,255,0.1);
+
 }
 
 /* Title */
