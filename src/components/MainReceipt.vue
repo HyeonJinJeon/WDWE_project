@@ -9,13 +9,20 @@
             <!-- Item List -->
             <div class="item-list">
               <div v-if="resInfo.length !== 0">
-                <p><span style="font-weight: bold">상호명: </span> {{resInfo[frontIndex].name}}</p>
-                <p><span style="font-weight: bold">상호타입: </span> {{resInfo[frontIndex].type}}</p>
-                <p><span style="font-weight: bold">전화번호: </span> {{resInfo[frontIndex].number}}</p>
-                <p><span style="font-weight: bold">주소: </span> {{resInfo[frontIndex].geo}}</p>
+                <p><span style="font-weight: bold; ">상호명: </span> {{resInfo[frontIndex].name}}</p>
+                <p><span style="font-weight: bold; ">상호타입: </span> {{resInfo[frontIndex].type}}</p>
+                <p><span style="font-weight: bold; ">전화번호: </span> {{resInfo[frontIndex].number}}</p>
+                <p><span style="font-weight: bold; ">주소: </span> {{resInfo[frontIndex].geo}}</p>
+                <div class="horizontal-line"></div>
               </div>
-              <div class="horizontal-line"></div>
-              <div class="item" style="font-weight: bold">
+              <div v-if="resInfo.length == 0">
+                <p><span style="font-weight: bold; ">상호명: </span></p>
+                <p><span style="font-weight: bold; ">상호타입: </span></p>
+                <p><span style="font-weight: bold; ">전화번호: </span></p>
+                <p><span style="font-weight: bold; ">주소: </span></p>
+                <div class="horizontal-line"></div>
+              </div>
+              <div class="item" style="font-weight: bold; margin-top: 50px;">
                 <div class="item_name"><p>이름</p></div>
                 <div class="item_menu"><p>메뉴</p></div>
                 <div class="item_price"><p>가격</p></div>

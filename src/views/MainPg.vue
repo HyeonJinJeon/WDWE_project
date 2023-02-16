@@ -1,14 +1,20 @@
 <template>
-  <div id="MainPg">
-    <MainSideBar></MainSideBar>
-    <div class="calendarDiv">
-      <FullCalendar  class="simpleCalc" style=""
-                     :options="calendarOptions"/>
-    </div>
+  <div class="bgImg">
+    <div class="black-bg">
+      <div id="MainPg">
+        <MainSideBar></MainSideBar>
+        <div class="calendarDiv">
+          <FullCalendar class="simpleCalc" style=""
+                        :options="calendarOptions"/>
+        </div>
 
-    <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars" style="margin-top: 30px; margin-left: 30px;"></i>
-    <div class="receiptDiv">
-      <MainReceipt ref="onNextBtn" :resInfo="resInfo" :whose="whose" :dataList="dataList" :sumMyPrice="sumMyPrice" :sumMyOneResPrice="sumMyOneResPrice" :sumAllOneResPrice="sumAllOneResPrice" />
+        <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars"
+           style="margin-top: 30px; margin-left: 30px; color: white"></i>
+        <div class="receiptDiv">
+          <MainReceipt ref="onNextBtn" :resInfo="resInfo" :whose="whose" :dataList="dataList" :sumMyPrice="sumMyPrice"
+                       :sumMyOneResPrice="sumMyOneResPrice" :sumAllOneResPrice="sumAllOneResPrice"/>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -128,7 +134,7 @@ export default {
               // const date = new Date(_data.date.seconds * 1000);
               // _data.date = getDate(date);
               self.setDateData.push(_data);
-              console.log("설정한 그룹의 기간 내 모든 데이터",self.setDateData)
+              console.log("설정한 그룹의 기간 내 모든 데이터", self.setDateData)
               self.setDateMyData.push(self.setDateData[i].who.filter((value) => value.name == self.userName))
               // [[{name: james, price: 10000},], [{name: james, price: 20000},{name: james, price: 12300}]]
               console.log("설정한 그룹의 기간 내 모든 나의 데이터", self.setDateMyData)
@@ -171,13 +177,13 @@ export default {
       // 위 데이터 형식을 보고 코드를 작성하도록
       let i = 0;
       let j = 0;
-      for(i = 0; i<this.allDataList.length; i++){
-        for(j = 0; j<this.allDataList[i].who.length; j++){
-          if(this.allDataList[i].who[j].name == this.userName) {
+      for (i = 0; i < this.allDataList.length; i++) {
+        for (j = 0; j < this.allDataList[i].who.length; j++) {
+          if (this.allDataList[i].who[j].name == this.userName) {
             let myCalendarInfo =
                 {
-                  title : this.allDataList[i].who[j].price + "원",
-                  date : new Date(this.allDataList[i].date.seconds * 1000)
+                  title: this.allDataList[i].who[j].price + "원",
+                  date: new Date(this.allDataList[i].date.seconds * 1000)
                 }
             this.calendarOptions.events.push(myCalendarInfo)
           }
@@ -260,15 +266,15 @@ export default {
         }
       }
     },
-    sumMyOneResDayPrice(){
+    sumMyOneResDayPrice() {
       this.sumMyOneResPrice = 0;
       const frontIndex = this.$refs.onNextBtn.frontIndex;
       console.log("frontIndex.len", this.whose[frontIndex].length)
       for (let i = 0; i < this.whose[frontIndex].length; i++) {
         if (this.whose[frontIndex][i].name === this.userName) {
-          console.log('whose.name',this.whose[frontIndex][i].name)
+          console.log('whose.name', this.whose[frontIndex][i].name)
           this.sumMyOneResPrice = this.sumMyOneResPrice + this.whose[frontIndex][i].price;
-          console.log('sumMyOneResPrice',this.sumMyOneResPrice)
+          console.log('sumMyOneResPrice', this.sumMyOneResPrice)
         }
       }
     },
@@ -285,35 +291,51 @@ export default {
 </script>
 
 <style scoped>
+.bgImg {
+  background-image: url("../assets/images/startBg.jpg");
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+}
+.black-bg {
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+}
 #MainPg {
-  background-color: rgba(55, 77, 102, 1);
+  /*background-color: rgba(55, 77, 102, 1);*/
   height: 100vh;
 }
+
 .calendarDiv {
   width: 70%;
   height: 80vh;
   float: right;
   margin-top: 130px;
 }
-.receiptDiv{
+
+.receiptDiv {
   position: relative;
   left: 100px;
-  background-color:rgba(255,255,255,0.1);
+  background-color: white;
   /*float: right;*/
-  color:white;
+  color: black;
   font-weight: bold;
-  width:30%;
+  width: 30%;
   margin-right: 120px;
   padding: 30px;
   border-radius: 15px;
   margin-top: 80px;
 }
+
 .simpleCalc {
-  background-color:rgba(255,255,255,0.1);
+  background-color: rgba(255, 255, 255, 0.1);
   float: right;
-  color:white;
+  color: white;
   font-weight: bold;
-  width:70%;
+  width: 70%;
   margin-right: 120px;
   padding: 30px;
   border-radius: 15px;
