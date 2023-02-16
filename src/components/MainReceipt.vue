@@ -44,9 +44,7 @@
         </div>
         <button style="margin-left: 110px; white-space:nowrap;" v-if="onPrev == true" class="btn" @click="prevPage">이전</button>
         <button style="margin-left: 230px; white-space:nowrap;" v-if="onNext == true" class="btn" @click="nextPage">다음</button>
-        <div class="pagingBtn">
 
-        </div>
 <!--      </v-main>-->
 <!--    </v-app>-->
   </div>
