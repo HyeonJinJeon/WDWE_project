@@ -86,7 +86,6 @@ export default {
                 console.log('userGroups 첫번째', userGroups[0].enterCode)
                 delete localStorage.groupCode
                 localStorage.groupCode = userGroups[0].enterCode
-
               });
             })
           .catch((error) => {
