@@ -4,7 +4,6 @@
             aria-hidden="true"></b-icon>
     <!--  <div class="bgImg">-->
     <!--    <img src="../assets/images/receipt.jpg">-->
-
     <div>
       <h3 style="position: absolute; top: 80px; left:350px; font-weight: 600; ">상호 등록</h3>
     </div>
@@ -31,6 +30,7 @@
           <option value="일식">일식</option>
           <option value="중식">중식</option>
           <option value="분식">분식</option>
+          <option value="카페">카페</option>
         </b-select>
       </div>
 
@@ -128,6 +128,8 @@ export default {
       geo: '',
       date: '',
 
+      resAddress: "",
+
       resName: "",
       resNum: "",
       resType: "",
@@ -148,6 +150,7 @@ export default {
         type: self.resType,
         groupCode: localStorage.groupCode,
         geo: marker,
+        address: self.resAddress,
       }
       db.collection('restaurant')
           .add(_data)
@@ -162,6 +165,7 @@ export default {
 
     },
     onLoad(map, daum) {
+      const self = this;
       this.map = map;
       this.maps = daum.map
       setTimeout(function () {
@@ -188,7 +192,22 @@ export default {
         this.long = latlng.getLng();
         console.log(this.map.relayout())
         console.log(this.lat)
+        self.getAddr(this.lat,this.long);
       });
+
+    },
+    getAddr(lat,lng){
+      const self = this;
+      let geocoder = new kakao.maps.services.Geocoder();
+      let coord = new kakao.maps.LatLng(lat, lng);
+      let callback = function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          console.log(result[0].address.address_name)
+          self.resAddress = result[0].address.address_name
+          console.log(self.resAddress)
+        }
+      }
+      geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
     },
     searchGeo(geo) {
       console.log(kakao)
