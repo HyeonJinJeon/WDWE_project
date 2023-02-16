@@ -310,16 +310,17 @@ div {
 }
 
 .list-black-bg {
-  position: relative;
-  float: right;
+  position: absolute;
+  /*float: right;*/
   width: 400px;
-  height: 800px;
+  height: 80vh;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 7px;
   padding: 20px;
-  /*right: 100px;*/
+  right: 50px;
   top: 100px;
   overflow: auto;
+  /*margin-right: 0;*/
 }
 .black-bg {
   position: fixed;
