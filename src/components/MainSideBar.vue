@@ -36,6 +36,9 @@
           <br>
           <hr>
           <router-link to="setRestaurantList" style="color:black;">상호 정보</router-link>
+          <br>
+          <hr>
+          <router-link to="myAteList" style="color:black;">나의 정산</router-link>
         </div>
 
       </div>

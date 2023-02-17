@@ -1,5 +1,8 @@
 <template>
-<div>
+<div class="bgImg">
+  <MainSideBar></MainSideBar>
+  <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars"
+     style="margin-top: 30px; margin-left: 30px; color: black"></i>
   <div>
     <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">시작일 선택</label> <br>
     <date-picker v-model="startDate" valueType="format" style="margin-left: 20px;"></date-picker>
@@ -20,7 +23,7 @@
       </thead>
       <tbody>
       <template v-for="data in setDateMyData">
-      <tr v-for="(cnt,index) in data" :key="index">
+      <tr v-for="(cnt,index) in data" :key=index>
         <td>{{dateFormat(new Date(cnt.date.seconds*1000))}}</td>
         <td>{{cnt.shopName}}</td>
         <td>{{cnt.name}}</td>
@@ -28,15 +31,15 @@
         <td>{{cnt.price}}원</td>
       </tr>
       </template>
+        <tr>
+          <td style="font-weight: bold; font-size: 20px;">총액</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="font-weight: bold; font-size: 20px;">{{setDateMyPrice}}원</td>
+        </tr>
       </tbody>
     </table>
-  </div>
-
-
-
-  <div>
-    <p>내가 먹은 총 금액</p>
-    <h3>{{setDateMyPrice}}</h3>
   </div>
 </div>
 </template>
@@ -44,10 +47,11 @@
 <script>
 import {firebase} from "@/firebase/firebaseConfig";
 import DatePicker from 'vue2-datepicker';
+import MainSideBar from '@/components/MainSideBar.vue';
 export default {
   name: "MyAteList",
   components: {
-    DatePicker,
+    DatePicker, MainSideBar
   },
   data(){
     return{
@@ -125,6 +129,13 @@ export default {
 </script>
 
 <style scoped>
+.bgImg {
+  background-image: url("../assets/images/startBg.jpg");
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+}
 .confirmBtn {
   width: 90px;
   height: 38px;
@@ -134,6 +145,16 @@ export default {
   font-weight: 700;
 }
 .tableDiv{
-
+  position: absolute;
+  /*float: right;*/
+  width: 1300px;
+  height: 80vh;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 7px;
+  padding: 20px;
+  right: 50px;
+  top: 100px;
+  overflow: auto;
+  /*margin-right: 0;*/
 }
 </style>
