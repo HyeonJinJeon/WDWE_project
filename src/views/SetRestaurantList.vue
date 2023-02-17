@@ -18,6 +18,13 @@
             <p class="lines"><span style="font-weight: bold">상호타입: </span> {{ shopInfo.type }}</p>
             <p class="lines"><span style="font-weight: bold">전화번호: </span> {{ shopInfo.number }}</p>
             <p class="lines"><span style="font-weight: bold">주소: </span> {{ shopInfo.address }}</p>
+            <p class="lines"><span style="font-weight: bold">별점: </span> {{ shopInfo.star }}</p>
+            <star-rating
+                v-bind:increment="0.1"
+                v-bind:read-only="true"
+                v-model="shopInfo.star">
+            </star-rating>
+
           </div>
           <!--          {{ shopInfo }}-->
         </div>
@@ -52,11 +59,12 @@
 import RestaurantList from "@/components/RestaurantList.vue";
 import {firebase} from "@/firebase/firebaseConfig";
 import MainSideBar from '@/components/MainSideBar.vue';
+import StarRating from 'vue-star-rating'
 
 
 export default {
   name: "SetRestaurantList",
-  components: {RestaurantList, MainSideBar},
+  components: {RestaurantList, MainSideBar, StarRating},
   data() {
     return {
       shopInfo: [],
