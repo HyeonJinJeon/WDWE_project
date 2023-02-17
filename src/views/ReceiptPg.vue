@@ -12,7 +12,7 @@
           <p><span style="font-weight: bold">상호명: </span> {{ shopInfo.name }}</p>
           <p><span style="font-weight: bold">상호타입: </span> {{ shopInfo.type }}</p>
           <p><span style="font-weight: bold">전화번호: </span> {{ shopInfo.number }}</p>
-          <p><span style="font-weight: bold">주소: </span> {{ shopInfo.geo }}</p>
+          <p><span style="font-weight: bold">주소: </span> {{ shopInfo.address }}</p>
         </div>
         <div>
           <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">날짜 선택</label> <br>

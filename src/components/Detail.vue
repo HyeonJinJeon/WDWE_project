@@ -4,7 +4,7 @@
       <h4>상호 명: {{obj.name}}</h4>
       <h4>전화 번호: {{obj.number}}</h4>
       <h4>가게 타입: {{obj.type}}</h4>
-      <h4>주소: {{obj.geo}}</h4>
+      <h4>주소: {{obj.address}}</h4>
       <button class="closeBtn" @click="$emit('closeModal')">닫기</button>
     </div>
   </div>
