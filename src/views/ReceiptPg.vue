@@ -19,6 +19,14 @@
           <date-picker v-model="date" valueType="format" style="margin-left: 20px;"></date-picker>
           <!--          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>-->
         </div>
+        <div>
+          <label for="" class="grey-text" style="margin: 10px; font-weight: 400;">별점 등록</label> <br>
+          <star-rating
+              v-bind:increment="0.5"
+              v-model="rating">
+          </star-rating>
+          {{rating}}
+        </div>
         <hr class="dashed-lind">
         <p style="font-weight: 400; font-size: 20px; margin-left: 20px;">
           <span>No.</span>
@@ -78,10 +86,11 @@ import {firebase} from "@/firebase/firebaseConfig";
 import MainSideBar from "@/components/MainSideBar.vue";
 import vue from "vue";
 import RestaurantList from "@/components/RestaurantList.vue";
+import StarRating from 'vue-star-rating'
 
 export default {
   name: "ReceiptPg",
-  components: {RestaurantList, DatePicker, MainSideBar},
+  components: {RestaurantList, DatePicker, MainSideBar, StarRating},
   data() {
     return {
       selectedName: [],
@@ -101,6 +110,10 @@ export default {
       curReceiptUid: '',
       curShop: '',
       receiptNums: 1,
+      rating: 0,
+      allStar: [],
+      sumStar: 0,
+      avrStar: 0,
     }
   },
   mounted() {
@@ -127,8 +140,6 @@ export default {
               self.groupInfo = doc.data();
               // self.curGroupUid = doc.id
               self.groupData.push(self.groupInfo.member);
-              console.log('groupData 길이', self.groupData.length)
-              console.log('groupInfo.member', self.groupInfo.member.length)
               for (let i = 0; i < self.groupInfo.member.length; i++) {
                 self.members.push(self.groupData[0][i].name);
                 self.uids.push(self.groupData[0][i].uid);
@@ -140,6 +151,7 @@ export default {
     },
     getReceipt() {
       const self = this;
+      self.allStar = [];
       const intAry = self.price.map(Number);
       const timestamp = new Date(self.date + " 00:00:00");
       for (let i = 0; i < self.menu.length; i++) {
@@ -165,16 +177,67 @@ export default {
             who: self.list,
             groupCode: self.groupInfo.enterCode,
             resUid: self.shopInfo.id,
+            star: self.rating,
           })
-          .then(() => {
+          .then(async () => {
+            await self.getReceiptStar()
+            console.log(self.allStar)
+            // await self.getAvrStar()
+            // console.log(self.sumStar)
+            // console.log(self.avrStar)
+            // await self.changeResStar()
             alert("등록되었습니다.")
-            this.$router.go();
+            // this.$router.go();
           })
           .catch((e) => {          // 실패하면 catch가 실행된다.
             console.log(e)
             alert("저장에 실패했습니다.")
           })
 
+    },
+    getReceiptStar(){
+      const self = this;
+      const db = firebase.firestore();
+      db.collection('receipt')
+          .where("resUid", "==", self.shopInfo.id)
+          .get()
+          .then(async (querySnapshot) => {
+            if (querySnapshot.size === 0) {
+              return
+            }
+            querySnapshot.forEach((doc) => {
+              const _data = doc.data();
+              self.allStar.push(_data.star)
+              console.log("allStar length ",self.allStar.length)
+              self.getAvrStar()
+            });
+          })
+    },
+    getAvrStar() {
+      const self = this;
+      self.sumStar = 0;
+      for (let i = 0; i < self.allStar.length; i++) {
+        self.sumStar = self.sumStar + self.allStar[i]
+        console.log("for문 돌아가니?",self.allStar[i])
+      }
+      console.log("총합", self.sumStar)
+      self.avrStar = self.sumStar / self.allStar.length
+      self.changeResStar()
+    },
+    changeResStar(){
+      const self = this;
+      const db = firebase.firestore();
+      db.collection('restaurant')
+          .doc(self.shopInfo.id)
+          .set({
+            star: self.avrStar
+          }, {merge: true})
+          .then(() => {
+          })
+          .catch((e) => {          // 실패하면 catch가 실행된다.
+            console.log(e)
+            alert("수정에 실패했습니다.")
+          })
     },
     addNum() {
       this.receiptNums += 1;
@@ -230,7 +293,7 @@ export default {
   position: absolute;
   background-color: white;
   width: 600px;
-  height: 700px;
+  height: 80vh;
   top: 120px;
   left: 200px;
   border-radius: 15px;
@@ -285,7 +348,7 @@ export default {
   background-color: #2c3e50;
   border-radius: 5px;
   font-weight: 700;
-  top: 720px;
+  top: 800px;
 }
 
 .shopList {
@@ -293,7 +356,7 @@ export default {
   background-color: rgba(255, 255, 255, 0.2);
   float: right;
   width: 500px;
-  height: 800px;
+  height: 80vh;
   right: 200px;
   top: 100px;
   overflow: auto;
@@ -305,9 +368,9 @@ export default {
   position: absolute;
   overflow: auto;
   left: 200px;
-  top: 580px;
+  top: 680px;
   width: 600px;
-  height: 220px;
+  height: 18vh;
 }
 
 </style>
