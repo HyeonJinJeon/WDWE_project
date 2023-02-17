@@ -54,10 +54,10 @@ export default {
             self.groups.push(self.userInfo.groups);
             for(let i=0; i <= self.groups[0].length; i++) {
               self.groupNames.push(self.groups[0][i].groupName);
-              console.log("groupNames",self.groupNames)
+              // console.log("groupNames",self.groupNames)
               self.enterCodes.push(self.groups[0][i].enterCode)
-              console.log("enterCodes",self.enterCodes)
-              console.log("groups",self.groups)
+              // console.log("enterCodes",self.enterCodes)
+              // console.log("groups",self.groups)
             }
           })
     },
