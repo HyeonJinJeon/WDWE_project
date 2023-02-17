@@ -62,7 +62,6 @@
     <!--    <div style="position: absolute">-->
     <div class="list-black-bg">
       <RestaurantList @changeShop="shopInfo=$event" @changeLat="center.lat=$event" @changeLng="center.lng=$event"></RestaurantList>
-      <p style="color:white;font-weight: 600;">{{ shopInfo }}</p>
     </div>
     <!--    </div>-->
 
@@ -283,7 +282,8 @@ export default {
           title: obj1.data.title,
           name: obj1.data.name,
           number: obj1.data.number,
-          type: obj1.data.type
+          type: obj1.data.type,
+          address: obj1.data.address,
         }
         self.modal = true
         self.openModal()
