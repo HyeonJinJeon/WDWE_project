@@ -80,13 +80,15 @@ export default {
           .then((snapshot) => {
             self.userInfo = snapshot.data();
             self.groups.push(self.userInfo.groups);
-            for(let i=0; i <= self.groups.length; i++) {
-              self.groupNames.push(self.groups[0][i].groupName);
-              console.log(self.groupNames)
-              self.enterCodes.push(self.groups[0][i].enterCode)
-              console.log(self.enterCodes)
-
-            }
+            // console.log(self.groups.length)
+            for(let i=0; i < self.groups[0].length; i++) {
+              // for(let j=0; j < self.groups[i].length; i++) {
+                self.groupNames.push(self.groups[0][i].groupName);
+                self.enterCodes.push(self.groups[0][i].enterCode)
+              }
+              // console.log(self.groupNames)
+              // console.log(self.enterCodes)
+            // }
           })
     },
     groupChange(selected){    //현재 그룹 변경
