@@ -1,7 +1,5 @@
 <template>
   <div>
-    <b-icon class="backBtn" @click="goBack" icon="arrow-left"
-            aria-hidden="true"></b-icon>
     <!--  <div class="bgImg">-->
     <!--    <img src="../assets/images/receipt.jpg">-->
     <div>
@@ -84,6 +82,8 @@
 
 
       <button class="confirmBtn" @click="addRestaurant()">등록</button>
+      <button class="backBtn" @click="goBack">취소</button>
+
     </div>
     <!--  </div>-->
     <div style="width: 85vh; height: 80vh; margin-top: 100px; margin-left: 80vh">
@@ -134,14 +134,51 @@ export default {
       resNum: "",
       resType: "",
       resGeo: "",
+
+      resList: [],
+      alreadyEnroll: false,
     }
   },
   mounted() {
-
+    const self = this;
+    self.init();
   },
   methods: {
+    init() {
+      const self = this;
+      self.getDatalist();
+      self.newCode = self.randomStr;
+    },
+    getDatalist() {
+      const self = this;
+      // console.log(userId)
+      const db = firebase.firestore();
+      db.collection("restaurant")
+          .where('groupCode', '==', localStorage.groupCode)
+          .get()
+          .then(async (querySnapshot) => {
+            if (querySnapshot.size === 0) {
+              return
+            }
+            querySnapshot.forEach((doc) => {
+              const _data = doc.data();
+              _data.id = doc.id
+              // const date = new Date(_data.date.seconds * 1000);
+              // _data.date = getDate(date);
+              self.resList.push(_data.number);
+              // console.log(self.resList)
+            });
+          })
+    },
     addRestaurant() {
       const self = this;
+      for (let i = 0; i < self.resList.length; i++) {
+        if (self.resNum == self.resList[i]) {
+          self.alreadyEnroll = true;
+        // console.log(self.resNum)
+        // console.log(self.resList[i])
+        }
+      }
       const db = firebase.firestore();
       const marker = new firebase.firestore.GeoPoint(this.lat, this.long);
       const _data = {            // data()에 있는 데이터가 바로 들어갈 수 없다.
@@ -152,17 +189,24 @@ export default {
         geo: marker,
         address: self.resAddress,
       }
-      db.collection('restaurant')
-          .add(_data)
-          .then(() => {
-            alert("등록되었습니다.")
-            this.$router.push('../receiptPg')
-          })
-          .catch((e) => {          // 실패하면 catch가 실행된다.
-            console.log(e)
-            alert("저장에 실패했습니다.")
-          })
-
+      if (self.alreadyEnroll == false) {
+        db.collection('restaurant')
+            .add(_data)
+            .then(() => {
+              alert("등록되었습니다.")
+              this.$router.push('../receiptPg')
+            })
+            .catch((e) => {          // 실패하면 catch가 실행된다.
+              console.log(e)
+              alert("저장에 실패했습니다.")
+            })
+      } else {
+        alert('이미 등록된 상호입니다.')
+        self.resName = '';
+        self.resNum = '';
+        self.type = '';
+        self.geo = '';
+      }
     },
     onLoad(map, daum) {
       const self = this;
@@ -192,15 +236,15 @@ export default {
         this.long = latlng.getLng();
         console.log(this.map.relayout())
         console.log(this.lat)
-        self.getAddr(this.lat,this.long);
+        self.getAddr(this.lat, this.long);
       });
 
     },
-    getAddr(lat,lng){
+    getAddr(lat, lng) {
       const self = this;
       let geocoder = new kakao.maps.services.Geocoder();
       let coord = new kakao.maps.LatLng(lat, lng);
-      let callback = function(result, status) {
+      let callback = function (result, status) {
         if (status === kakao.maps.services.Status.OK) {
           console.log(result[0].address.address_name)
           self.resAddress = result[0].address.address_name
@@ -274,11 +318,11 @@ export default {
 
 
 .confirmBtn {
-  position: relative;
+  position: absolute;
   width: 90px;
   height: 38px;
   margin-top: 300px;
-  margin-left: 60vh;
+  margin-left: 50vh;
   color: white;
   background-color: #2c3e50;
   border-radius: 5px;
@@ -287,6 +331,14 @@ export default {
 
 .backBtn {
   position: absolute;
+  width: 90px;
+  height: 38px;
+  margin-top: 300px;
+  margin-left: 60vh;
+  color: white;
+  background-color: #2c3e50;
+  border-radius: 5px;
+  font-weight: 700;
 }
 
 </style>
