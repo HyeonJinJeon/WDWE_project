@@ -151,6 +151,7 @@ export default {
         groupCode: localStorage.groupCode,
         geo: marker,
         address: self.resAddress,
+        star: 0,
       }
       db.collection('restaurant')
           .add(_data)

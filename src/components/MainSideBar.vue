@@ -38,7 +38,7 @@
           <router-link to="setRestaurantList" style="color:black;">상호 정보</router-link>
           <br>
           <hr>
-          <router-link to="groupMaster" style="color:black;">그룹 설정</router-link>
+          <router-link to="myAteList" style="color:black;">나의 정산</router-link>
         </div>
 
       </div>
@@ -94,7 +94,7 @@ export default {
     groupChange(selected){    //현재 그룹 변경
       delete localStorage.groupCode
       localStorage.groupCode = selected
-      // this.$router.go();
+      this.$router.go();
       // console.log(selected)
     },
     logout() {
