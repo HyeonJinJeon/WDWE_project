@@ -60,7 +60,7 @@ export default {
   mounted() {
     const self = this;
     self.init();
-    console.log("arr",self.arr);
+    // console.log("arr",self.arr);
   },
 
   methods: {
@@ -72,7 +72,7 @@ export default {
     getDatalist() {
       const self = this;
       const db = firebase.firestore();
-      console.log(self.whatData)
+      // console.log(self.whatData)
       db.collection("restaurant")
           .where("groupCode", '==', localStorage.groupCode)
           .get()
