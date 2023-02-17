@@ -17,7 +17,7 @@
             <p class="lines"><span style="font-weight: bold">상호명: </span> {{ shopInfo.name }}</p>
             <p class="lines"><span style="font-weight: bold">상호타입: </span> {{ shopInfo.type }}</p>
             <p class="lines"><span style="font-weight: bold">전화번호: </span> {{ shopInfo.number }}</p>
-            <p class="lines"><span style="font-weight: bold">주소: </span> {{ shopInfo.geo }}</p>
+            <p class="lines"><span style="font-weight: bold">주소: </span> {{ shopInfo.address }}</p>
           </div>
           <!--          {{ shopInfo }}-->
         </div>
@@ -39,7 +39,7 @@
       </div>
 
       <div class="list">
-        <RestaurantList @changeShop="shopInfo=$event"></RestaurantList>
+        <RestaurantList @changeShop="shopInfo=$event" :setRest="setRest = true"></RestaurantList>
 <!--        <button v-if="deleteCheck == false" @click="onCheck" class="selcBtn">선택</button>-->
 <!--        <button v-if="deleteCheck == true" class="delBtn">삭제</button>-->
 <!--        <button v-if="deleteCheck == true" @click="offCheck" class="endBtn">취소</button>-->
@@ -64,6 +64,7 @@ export default {
       deleteNum: [],
       deleteCheck: false,
       arr: [],
+      setRest: true,
     }
   },
   props: {

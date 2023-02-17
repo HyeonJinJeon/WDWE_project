@@ -22,9 +22,12 @@
         </tbody>
       </table>
     </div>
-    <button v-if="deleteCheck == false" @click="onCheck" class="selcBtn">선택</button>
-    <button v-if="deleteCheck == true" @click="deleteList" class="delBtn">삭제</button>
-    <button v-if="deleteCheck == true" @click="offCheck" class="endBtn">취소</button>
+    <div v-if="setRest">
+      <button v-if="deleteCheck == false" @click="onCheck" class="selcBtn">선택</button>
+      <button v-if="deleteCheck == true" @click="deleteList" class="delBtn">삭제</button>
+      <button v-if="deleteCheck == true" @click="offCheck" class="endBtn">취소</button>
+    </div>
+
   </div>
 
 </template>
@@ -51,6 +54,7 @@ export default {
   props : {
     // arr: Array,
     // deleteCheck : Boolean,
+    setRest: Boolean,
   },
 
   mounted() {
