@@ -84,7 +84,7 @@ export default {
               const _data = memory.data();
               _data.id = memory.id
               self.shopList.push(_data)
-              console.log(self.shopList);
+              // console.log(self.shopList);
             });
 
           })
