@@ -43,7 +43,7 @@
 
       <div class="receiptAdd">
         <div v-for="index in receiptNums" :key="index" style="margin-bottom:10px; ">
-          <p style="position: absolute;margin-left: 30px; margin-top: 5px;">{{ index }}</p>
+          <p style="position: absolute; margin-left: 30px; margin-top: 5px;">{{ index }}</p>
           <select class="engNameInput" v-model="selectedName[index-1]">
             <option disabled value="">멤버 선택</option>
             <option

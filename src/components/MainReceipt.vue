@@ -1,10 +1,11 @@
 <template>
   <div>
-<!--    <v-app>-->
-<!--      <v-main class="calMain">-->
         <div class="receiptDiv">
           <div class="main">
             <div class="title">영수증</div>
+            <div class="editIcon" v-if="resInfo.length !== 0">
+              <b-icon id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="editButton" @click="goEdit"></b-icon>
+            </div>
             <!-- Add Items -->
             <!-- Item List -->
             <div class="item-list">
@@ -12,7 +13,7 @@
                 <p><span style="font-weight: bold; ">상호명: </span> {{resInfo[frontIndex].name}}</p>
                 <p><span style="font-weight: bold; ">상호타입: </span> {{resInfo[frontIndex].type}}</p>
                 <p><span style="font-weight: bold; ">전화번호: </span> {{resInfo[frontIndex].number}}</p>
-                <p><span style="font-weight: bold; ">주소: </span> {{resInfo[frontIndex].geo}}</p>
+                <p><span style="font-weight: bold; ">주소: </span> {{resInfo[frontIndex].address}}</p>
                 <div class="horizontal-line"></div>
               </div>
               <div v-if="resInfo.length == 0">
@@ -26,13 +27,28 @@
                 <div class="item_name"><p>이름</p></div>
                 <div class="item_menu"><p>메뉴</p></div>
                 <div class="item_price"><p>가격</p></div>
+                <b-icon class="aniBtn" @click="addNum" style="margin-left: 10px;" icon="plus-circle"
+                        aria-hidden="true"></b-icon>
               </div>
-              <div v-for="(whose,i) in whose[frontIndex]" :key="i" class="item">
-                <div class="item_name"><p>{{whose.name}}</p></div>
-                <div class="item_menu"><p>{{whose.menu}}</p></div>
-                <div class="item_price"><p>{{whose.price}}원</p></div>
+              <p>------------------------------------------------------------------------</p>
+              <div v-if="edit==false">
+                <div v-for="(whose,i) in whose[frontIndex]" :key="i" class="item">
+                  <div class="item_name"><p>{{whose.name}}</p></div>
+                  <div class="item_menu"><p>{{whose.menu}}</p></div>
+                  <div class="item_price"><p>{{whose.price}}원</p></div>
+                </div>
+              </div>
+              <div v-if="edit==true">
+                <div v-for="(whose,i) in whose[frontIndex]" :key="i" class="item">
+                  <div class="item_name"><p>{{whose.name}}</p></div>
+                  <div class="item_menu"><p>{{whose.menu}}</p></div>
+                  <div class="item_price"><p>{{whose.price}}원</p></div>
+                  <b-icon class="aniBtn" @click="deleteRow(i-1)" icon="dash-circle"
+                          aria-hidden="true"></b-icon>
+                </div>
               </div>
             </div>
+
             <!-- Summary -->
             <div class="horizontal-line"></div>
             <div class="sum">
@@ -44,13 +60,12 @@
         </div>
         <button style="margin-left: 110px; white-space:nowrap;" v-if="onPrev == true" class="btn" @click="prevPage">이전</button>
         <button style="margin-left: 230px; white-space:nowrap;" v-if="onNext == true" class="btn" @click="nextPage">다음</button>
-
-<!--      </v-main>-->
-<!--    </v-app>-->
   </div>
 </template>
 
 <script>
+import vue from "vue";
+
 export default {
   name: "MainReceipt",
   data(){
@@ -60,12 +75,18 @@ export default {
       onPrev: false,
       onNext: false,
       totalPrice: 0,
+      edit: false,
+      // receiptNums: 1,
+      selectedName: [],
     }
   },
   props: {
     whoCnt: Number,
     resInfo: [],
     whose: [],
+    nullData: {
+
+    },
     dataList: [],
     sumMyOneResPrice: Number,
     sumAllOneResPrice: Number
@@ -74,6 +95,21 @@ export default {
     this.onNextBtn();
   },
   methods: {
+    addNum() {
+      // this.whose[this.frontIndex].push(this.nullData)
+      this.receiptNums += 1;
+      console.log(this.receiptNums);
+    },
+    deleteRow(index) {
+      console.log(index)
+      vue.delete(this.selectedName, index);
+      vue.delete(this.menu, index);
+      vue.delete(this.price, index);
+      // self.selectedName.splice(index);
+      // self.menu.splice(index);
+      // self.price.splice(index, 1);
+      this.receiptNums -= 1;
+    },
     prevPage() {
       this.frontIndex--;
       this.onNext = true;
@@ -101,6 +137,15 @@ export default {
           this.onNext = true;
       }
     },
+    goEdit() {
+      const self = this;
+      self.edit = true;
+      console.log(self.edit)
+    },
+    compEdit() {
+      const self = this;
+      self. edit = false;
+    }
   },
 }
 </script>
@@ -224,5 +269,17 @@ export default {
   margin: auto;
   transform: rotate(180deg);
   width: 500px;
+}
+.editIcon {
+  position: absolute;
+  left: 550px;
+}
+
+.editButton:active {
+  transform: scale(0.9);
+}
+
+.aniBtn:active {
+  transform: scale(0.9);
 }
 </style>
