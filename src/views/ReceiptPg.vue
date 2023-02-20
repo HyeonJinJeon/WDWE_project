@@ -187,13 +187,16 @@ export default {
             // console.log(self.avrStar)
             // await self.changeResStar()
             alert("등록되었습니다.")
-            // this.$router.go();
+            self.F5();
           })
           .catch((e) => {          // 실패하면 catch가 실행된다.
             console.log(e)
             alert("저장에 실패했습니다.")
           })
 
+    },
+    F5(){
+      this.$router.push("/mainPg")
     },
     getReceiptStar(){
       const self = this;
@@ -222,6 +225,8 @@ export default {
       }
       console.log("총합", self.sumStar)
       self.avrStar = self.sumStar / self.allStar.length
+      console.log("평균",self.avrStar)
+      self.avrStar = self.avrStar.toFixed(2);
       self.changeResStar()
     },
     changeResStar(){

@@ -188,6 +188,7 @@ export default {
         groupCode: localStorage.groupCode,
         geo: marker,
         address: self.resAddress,
+        star: 0,
       }
       if (self.alreadyEnroll == false) {
         db.collection('restaurant')

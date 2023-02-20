@@ -94,7 +94,7 @@ export default {
     groupChange(selected){    //현재 그룹 변경
       delete localStorage.groupCode
       localStorage.groupCode = selected
-      // this.$router.go();
+      this.$router.go();
       // console.log(selected)
     },
     logout() {
