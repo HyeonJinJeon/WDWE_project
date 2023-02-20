@@ -1,15 +1,17 @@
 <template>
 <div class="bgImg">
+  <div class="black-bg">
   <MainSideBar></MainSideBar>
   <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars"
-     style="margin-top: 30px; margin-left: 30px; color: black"></i>
-  <div>
+     style="margin-top: 30px; margin-left: 30px; color: white"></i>
+  <div class="setDateDiv">
+    <p style="font-weight: bold;">기간 설정하기</p>
     <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">시작일 선택</label> <br>
     <date-picker v-model="startDate" valueType="format" style="margin-left: 20px;"></date-picker>
     <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">종료일 선택</label> <br>
     <date-picker v-model="finishDate" valueType="format" style="margin-left: 20px;"></date-picker>
+    <button class="confirmBtn" @click="getPriceDataSum">검색</button>
   </div>
-  <button class="confirmBtn" @click="getPriceDataSum">검색</button>
   <div class="tableDiv">
     <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
       <thead>
@@ -40,6 +42,7 @@
         </tr>
       </tbody>
     </table>
+  </div>
   </div>
 </div>
 </template>
@@ -131,25 +134,45 @@ export default {
 <style scoped>
 .bgImg {
   background-image: url("../assets/images/startBg.jpg");
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.9);
   height: 100vh;
   width: 100%;
   background-size: cover;
 }
+.black-bg {
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+}
 .confirmBtn {
+  position: absolute;
   width: 90px;
   height: 38px;
   color: white;
+  top: 70vh;
   background-color: #2c3e50;
   border-radius: 5px;
   font-weight: 700;
 }
+.setDateDiv{
+  position: absolute;
+  width: 20%;
+  height: 80vh;
+  left: 50px;
+  top: 100px;
+  border-radius: 7px;
+
+  background-color: #FFFFFF;
+  padding: 20px;
+
+}
 .tableDiv{
   position: absolute;
   /*float: right;*/
-  width: 1300px;
+  width: 65%;
   height: 80vh;
-  background: rgba(0, 0, 0, 0.3);
+  background-color: #FFFFFF;
   border-radius: 7px;
   padding: 20px;
   right: 50px;
