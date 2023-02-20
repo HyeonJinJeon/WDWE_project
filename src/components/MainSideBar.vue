@@ -16,16 +16,15 @@
           </h6>
         </div>
         <div style="margin-top: 100px;">
-
-          <select v-model="selected">
-            <option disabled value="">{{firstGroupName}}</option>
+          <b-select style="width: 150px" v-model="selected">
+            <option selected disabled hidden value="">{{firstGroupName}}</option>
               <option
                   v-for="(groupName, i) in groupNames"
                   :key="groupName"
                   v-text="groupName"
                   :value="enterCodes[i]">
               </option>
-          </select>
+          </b-select>
           <span> <button class="groupSetBtn" @click="groupChange(selected)">그룹 변경</button></span> <br>
           <hr>
           <router-link to="mainPg" style="color:black;">메인 화면</router-link>

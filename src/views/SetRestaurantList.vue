@@ -2,13 +2,12 @@
   <div class="bgImg">
     <div class="black-bg">
       <MainSideBar></MainSideBar>
-
       <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars"
          style="position: absolute; z-index:3; margin-top: 30px; margin-left: 30px; color:white;"></i>
       <i class="fas fa-utensils"></i>
       <h1 class="title"> 상호 정보 <i class="fas fa-utensils"></i></h1>
 
-
+      <div class="left">
       <div v-if="edit == false" class="editShop">
         <b-icon id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="editButton" @click="goEdit"></b-icon>
         <div>
@@ -44,13 +43,15 @@
         </div>
 
       </div>
-
-      <div class="list">
-        <RestaurantList @changeShop="shopInfo=$event" :setRest="setRest = true"></RestaurantList>
-<!--        <button v-if="deleteCheck == false" @click="onCheck" class="selcBtn">선택</button>-->
-<!--        <button v-if="deleteCheck == true" class="delBtn">삭제</button>-->
-<!--        <button v-if="deleteCheck == true" @click="offCheck" class="endBtn">취소</button>-->
-      </div>
+</div>
+      <div class="right">
+        <div class="list">
+          <RestaurantList @changeShop="shopInfo=$event" :setRest="setRest = true"></RestaurantList>
+  <!--        <button v-if="deleteCheck == false" @click="onCheck" class="selcBtn">선택</button>-->
+  <!--        <button v-if="deleteCheck == true" class="delBtn">삭제</button>-->
+  <!--        <button v-if="deleteCheck == true" @click="offCheck" class="endBtn">취소</button>-->
+        </div>
+    </div>
     </div>
   </div>
 </template>
@@ -156,19 +157,19 @@ export default {
   position: relative;
   background-color: rgba(255, 255, 255, 0.2);
   float: right;
-  width: 500px;
-  height: 50vh;
+  width: 35%;
+  height: 65vh;
   top: 120px;
   padding: 20px;
-  right: 15%;
+  right: 10%;
   border-radius: 15px;
 }
 
 .editShop {
   position: absolute;
   background-color: white;
-  width: 700px;
-  height: 600px;
+  width: 55vh;
+  height: 65vh;
   border-radius: 15px;
   top: 200px;
   left: 13%;
@@ -216,6 +217,12 @@ export default {
   top: 500px;
   left: 300px;
   font-weight: 600;
+}
+.left {
+
+}
+.right {
+
 }
 /*.selcBtn {*/
 /*  position: absolute;*/

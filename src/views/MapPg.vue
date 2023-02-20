@@ -61,6 +61,7 @@
     </div>
     <!--    <div style="position: absolute">-->
     <div class="list-black-bg">
+      <h3 style="color:white; font-weight: 500;">식당 리스트</h3>
       <RestaurantList @changeShop="shopInfo=$event" @changeLat="center.lat=$event" @changeLng="center.lng=$event"></RestaurantList>
     </div>
     <!--    </div>-->
@@ -314,7 +315,7 @@ div {
   /*float: right;*/
   width: 400px;
   height: 80vh;
-  background: rgba(0, 0, 0, 0.3);
+  background-color: #182036d9;
   border-radius: 7px;
   padding: 20px;
   right: 50px;

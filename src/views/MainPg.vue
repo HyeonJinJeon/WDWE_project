@@ -321,12 +321,12 @@ export default {
 
 .receiptDiv {
   position: relative;
-  left: 100px;
+  left: 10%;
   background-color: white;
   /*float: right;*/
   color: black;
   font-weight: bold;
-  width: 30%;
+  width: 24%;
   margin-right: 120px;
   padding: 30px;
   border-radius: 15px;

@@ -7,7 +7,7 @@
   <div class="setDateDiv">
     <p style="font-weight: bold;">기간 설정하기</p>
     <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">시작일 선택</label> <br>
-    <date-picker v-model="startDate" valueType="format" style="margin-left: 20px;"></date-picker>
+    <date-picker v-model="startDate" valueType="format" style="margin-left: 20px;"></date-picker> <br>
     <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">종료일 선택</label> <br>
     <date-picker v-model="finishDate" valueType="format" style="margin-left: 20px;"></date-picker>
     <button class="confirmBtn" @click="getPriceDataSum">검색</button>

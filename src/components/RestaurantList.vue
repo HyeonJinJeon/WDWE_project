@@ -127,8 +127,8 @@ export default {
 }
 
 table {
-  background-color: rgba(255, 255, 255, 0.3);
-  color: white;
+  background-color: rgba(255, 255, 255, 1);
+  color: black;
 
 }
 
@@ -138,7 +138,7 @@ table {
 }
 .selcBtn {
   position: absolute;
-  top:550px;
+  top:60vh;
   color: white;
   width: 40px;
   font-weight: 600;

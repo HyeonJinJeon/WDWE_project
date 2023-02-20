@@ -16,7 +16,7 @@
             <p><span style="font-weight: bold; ">상호명: </span> {{resInfo[frontIndex].name}}</p>
             <p><span style="font-weight: bold; ">상호타입: </span> {{resInfo[frontIndex].type}}</p>
             <p><span style="font-weight: bold; ">전화번호: </span> {{resInfo[frontIndex].number}}</p>
-            <p><span style="font-weight: bold; ">주소: </span> {{resInfo[frontIndex].geo}}</p>
+            <p><span style="font-weight: bold; ">주소: </span> {{resInfo[frontIndex].address}}</p>
             <div class="horizontal-line"></div>
           </div>
           <div v-if="resInfo.length == 0">
