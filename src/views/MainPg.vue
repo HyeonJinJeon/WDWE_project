@@ -57,6 +57,7 @@ export default {
       resNumber: "",
       resGeo: "",
       resUid: "",
+      receiptUid: [],
       groupUid: "",
       whose: [], //getDatalist()에서 _data의 who만 push한 값
       whoCnt: 0,
@@ -79,6 +80,7 @@ export default {
       this.whose.splice(0, this.whose.length);
       this.sumMyOneResPrice = 0;
       this.sumAllOneResPrice = 0;
+      this.$refs.onNextBtn.editModal = false;
       this.$refs.onNextBtn.frontIndex = 0;
       this.$refs.onNextBtn.onNext = false;
       this.$refs.onNextBtn.onPrev = false;
@@ -231,6 +233,7 @@ export default {
             });
             for (let i = 0; i < self.dataList.length; i++) {
               await self.getData(i);
+              self.receiptUid.push(self.dataList[i].id)
               self.whose.push(self.dataList[i].who)
               console.log(self.whose.length)
             }
@@ -318,12 +321,12 @@ export default {
 
 .receiptDiv {
   position: relative;
-  left: 100px;
+  left: 10%;
   background-color: white;
   /*float: right;*/
   color: black;
   font-weight: bold;
-  width: 30%;
+  width: 24%;
   margin-right: 120px;
   padding: 30px;
   border-radius: 15px;

@@ -44,7 +44,7 @@
       <div class="receiptAdd">
         <div v-for="index in receiptNums" :key="index" style="margin-bottom:10px; ">
           <p style="position: absolute; margin-left: 30px; margin-top: 5px;">{{ index }}</p>
-          <select class="engNameInput" v-model="selectedName[index-1]">
+          <b-select class="engNameInput" v-model="selectedName[index-1]">
             <option disabled value="">멤버 선택</option>
             <option
                 v-for="member in members"
@@ -52,10 +52,10 @@
                 v-text="member"
                 :value="member">
             </option>
-          </select>
+          </b-select>
           <div class="input-line">
-            <input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder="메뉴"/>
-            <input v-model="price[index-1]" type="number" min="0" class="form-control priceInput" placeholder="가격"
+            <b-input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder=""/>
+            <b-input v-model="price[index-1]" type="number" min="0" class="form-control priceInput" placeholder=""
                    oninput="javascript: this.value = this.value.replace(/[^0-9]/, '');"/>
             <b-icon class="aniBtn" @click="deleteRow(index-1)" icon="dash-circle"
                     aria-hidden="true"></b-icon>
@@ -178,7 +178,7 @@ export default {
               who: self.list,
               groupCode: self.groupInfo.enterCode,
               resUid: self.shopInfo.id,
-              star: self.rating
+              star: self.rating,
             })
             .then(async () => {
               await self.getReceiptStar()
@@ -305,10 +305,10 @@ export default {
 .inputs {
   position: absolute;
   background-color: white;
-  width: 600px;
+  width: 25%;
   height: 80vh;
   top: 120px;
-  left: 200px;
+  left: 15%;
   border-radius: 15px;
   padding:12px;
 }
@@ -335,9 +335,8 @@ export default {
 
 .engNameInput {
   position: absolute;
-  width: 100px;
-  height: 38px;
-  margin-left: 110px;
+  width: 90px;
+  margin-left: 100px;
   /*margin-top: 5px;*/
 }
 
@@ -381,7 +380,7 @@ export default {
 .receiptAdd {
   position: absolute;
   overflow: auto;
-  left: 200px;
+  left: 20%;
   top: 680px;
   width: 600px;
   height: 18vh;
