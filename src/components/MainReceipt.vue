@@ -1,71 +1,104 @@
 <template>
   <div>
-<!--    <v-app>-->
-<!--      <v-main class="calMain">-->
-        <div class="receiptDiv">
-          <div class="main">
-            <div class="title">영수증</div>
-            <!-- Add Items -->
-            <!-- Item List -->
-            <div class="item-list">
-              <div v-if="resInfo.length !== 0">
-                <p><span style="font-weight: bold; ">상호명: </span> {{resInfo[frontIndex].name}}</p>
-                <p><span style="font-weight: bold; ">상호타입: </span> {{resInfo[frontIndex].type}}</p>
-                <p><span style="font-weight: bold; ">전화번호: </span> {{resInfo[frontIndex].number}}</p>
-                <p><span style="font-weight: bold; ">주소: </span> {{resInfo[frontIndex].geo}}</p>
-                <div class="horizontal-line"></div>
-              </div>
-              <div v-if="resInfo.length == 0">
-                <p><span style="font-weight: bold; ">상호명: </span></p>
-                <p><span style="font-weight: bold; ">상호타입: </span></p>
-                <p><span style="font-weight: bold; ">전화번호: </span></p>
-                <p><span style="font-weight: bold; ">주소: </span></p>
-                <div class="horizontal-line"></div>
-              </div>
-              <div class="item" style="font-weight: bold; margin-top: 50px;">
-                <div class="item_name"><p>이름</p></div>
-                <div class="item_menu"><p>메뉴</p></div>
-                <div class="item_price"><p>가격</p></div>
-              </div>
-              <div v-for="(whose,i) in whose[frontIndex]" :key="i" class="item">
-                <div class="item_name"><p>{{whose.name}}</p></div>
-                <div class="item_menu"><p>{{whose.menu}}</p></div>
-                <div class="item_price"><p>{{whose.price}}원</p></div>
-              </div>
-            </div>
-            <!-- Summary -->
+    <div class="receiptDiv">
+      <div class="main">
+        <div class="title">영수증</div>
+        <div class="editIcon" v-if="resInfo.length !== 0">
+          <b-icon id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="editButton" @click="goEdit"></b-icon>
+        </div>
+        <!-- Add Items -->
+        <!-- Item List -->
+        <div class="item-list">
+          <div v-if="resInfo.length !== 0">
+            <p><span style="font-weight: bold; ">상호명: </span> {{ resInfo[frontIndex].name }}</p>
+            <p><span style="font-weight: bold; ">상호타입: </span> {{ resInfo[frontIndex].type }}</p>
+            <p><span style="font-weight: bold; ">전화번호: </span> {{ resInfo[frontIndex].number }}</p>
+            <p><span style="font-weight: bold; ">주소: </span> {{ resInfo[frontIndex].address }}</p>
             <div class="horizontal-line"></div>
-            <div class="sum">
-              <div class="sum_total">총 금액: {{sumAllOneResPrice}} </div>
-              <div class="sum_checked-price">나의 금액: {{sumMyOneResPrice}}</div>
-              <div class="sum_unchecked-price"></div>
+          </div>
+          <div v-if="resInfo.length == 0">
+            <p><span style="font-weight: bold; ">상호명: </span></p>
+            <p><span style="font-weight: bold; ">상호타입: </span></p>
+            <p><span style="font-weight: bold; ">전화번호: </span></p>
+            <p><span style="font-weight: bold; ">주소: </span></p>
+            <div class="horizontal-line"></div>
+          </div>
+          <div v-if="edit=false" class="item" style="font-weight: bold;">
+            <div class="item_name"><p>이름</p></div>
+            <div class="item_menu"><p>메뉴</p></div>
+            <div class="item_price"><p>가격</p></div>
+          </div>
+          <div v-if="edit=true" class="item" style="font-weight: bold;">
+            <div class="item_name"><p>이름</p></div>
+            <div class="item_menu"><p>메뉴</p></div>
+            <div class="item_price"><p>가격</p></div>
+          </div>
+          <hr>
+        </div>
+        <div class="showReceipt">
+          <div v-if="edit=false">
+            <div v-for="(whose,i) in whose[frontIndex]" :key="i" class="item">
+              <div class="item_name"><p>{{ whose.name }}</p></div>
+              <div class="item_menu"><p>{{ whose.menu }}</p></div>
+              <div class="item_price"><p>{{ whose.price }}원</p></div>
+            </div>
+          </div>
+          <div v-if="edit=true">
+            <div v-for="(whose,i) in whose[frontIndex]" :key="i" class="item">
+              <div class="item_name"><p>{{ whose.name }}</p></div>
+              <div class="item_menu"><p>{{ whose.menu }}</p></div>
+              <div class="item_price"><p>{{ whose.price }}원</p></div>
             </div>
           </div>
         </div>
-        <button style="margin-left: 110px; white-space:nowrap;" v-if="onPrev == true" class="btn" @click="prevPage">이전</button>
-        <button style="margin-left: 230px; white-space:nowrap;" v-if="onNext == true" class="btn" @click="nextPage">다음</button>
-
-<!--      </v-main>-->
-<!--    </v-app>-->
+        <!-- Summary -->
+        <div class="horizontal-line"></div>
+        <div class="sum">
+          <div class="sum_total">총 금액: {{ sumAllOneResPrice }}</div>
+          <div class="sum_checked-price">나의 금액: {{ sumMyOneResPrice }}</div>
+          <div class="sum_unchecked-price"></div>
+        </div>
+      </div>
+    </div>
+    <div v-if="edit=false">
+      <button class="buttons" style="margin-left: 110px; white-space:nowrap;" v-if="onPrev = true" @click="prevPage">이전
+      </button>
+      <button class="buttons" style="margin-left: 230px; white-space:nowrap;" v-if="onNext = true" @click="nextPage">다음
+      </button>
+    </div>
+    <div v-if="edit">
+      <button class="buttons delBtn" style="margin-left: 110px;" @click="delReceipt">삭제</button>
+      <span>
+      <button class="buttons noBtn" style="margin-left: 230px;" @click="noEdit">취소</button>
+      </span>
+    </div>
   </div>
 </template>
 
 <script>
+import {firebase} from "@/firebase/firebaseConfig";
+
 export default {
   name: "MainReceipt",
-  data(){
-    return{
+  data() {
+    return {
       pageNum: 0,
       frontIndex: 0,
       onPrev: false,
       onNext: false,
       totalPrice: 0,
+      edit: false,
+      receiptNums: 1,
+      selectedName: [],
+      menu: [],
+      price: [],
     }
   },
   props: {
     whoCnt: Number,
     resInfo: [],
     whose: [],
+    nullData: {},
     dataList: [],
     sumMyOneResPrice: Number,
     sumAllOneResPrice: Number
@@ -74,11 +107,12 @@ export default {
     this.onNextBtn();
   },
   methods: {
+
     prevPage() {
       this.frontIndex--;
       this.onNext = true;
-      if(this.frontIndex == 0){
-        this.onPrev= false;
+      if (this.frontIndex == 0) {
+        this.onPrev = false;
       }
       this.$parent.sumMyOneResDayPrice();
       this.$parent.sumAllOneResDayPrice();
@@ -87,30 +121,47 @@ export default {
       this.frontIndex++;
       this.onPrev = true;
       console.log(this.resInfo.length)
-      console.log(this.frontIndex+1)
-      if (this.frontIndex + 1 == this.resInfo.length){
+      console.log(this.frontIndex + 1)
+      if (this.frontIndex + 1 == this.resInfo.length) {
         this.onNext = false;
       }
       this.$parent.sumMyOneResDayPrice();
       this.$parent.sumAllOneResDayPrice();
     },
-    onNextBtn(){
-      if(this.whose.length == 0){
+    onNextBtn() {
+      if (this.whose.length == 0) {
         this.onNext = false;
-      }else{
-          this.onNext = true;
+      } else {
+        this.onNext = true;
       }
+    },
+    goEdit() {
+      const self = this;
+      self.edit = true;
+      console.log(self.edit)
+    },
+    noEdit() {
+      const self = this;
+      self.edit = false;
+      console.log(self.edit)
+    },
+    delReceipt() {
+      // const self = this;
+      const db = firebase.firestore();
+      db.collection("receipt")
+          // .doc()
     },
   },
 }
 </script>
 
 <style scoped>
-.calMain{
-  background-color:rgba(255,255,255,0.7);
+.calMain {
+  background-color: rgba(255, 255, 255, 0.7);
 
 }
-.receiptDiv{
+
+.receiptDiv {
 
   display: flex;
   /*float: left;*/
@@ -121,12 +172,13 @@ export default {
 .main {
   position: relative;
   /*margin-top: 1px;*/
+  margin: 0 auto;
   background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 500px;
-  background-color:rgba(255,255,255,0.1);
+  background-color: rgba(255, 255, 255, 0.1);
 
 }
 
@@ -189,9 +241,11 @@ export default {
 .item_name {
   width: 40%;
 }
-.item_menu{
+
+.item_menu {
   width: 30%
 }
+
 .item_price {
   width: 20%;
   text-align: right;
@@ -224,5 +278,36 @@ export default {
   margin: auto;
   transform: rotate(180deg);
   width: 500px;
+}
+
+.editIcon {
+  position: absolute;
+  left: 98%;
+}
+
+.editButton:active {
+  transform: scale(0.9);
+}
+
+.aniBtn:active {
+  transform: scale(0.9);
+}
+.buttons {
+  /*background-color: #2c3e50;*/
+  position:absolute;;
+  color: white;
+  width: 100px;
+  height: 38px;
+  border-radius: 5px;
+}
+.delBtn {
+  background-color: #2c3e50;
+}
+.noBtn {
+  background-color: #51637c;
+}
+.showReceipt {
+  width: 450px;
+  height:250px;
 }
 </style>

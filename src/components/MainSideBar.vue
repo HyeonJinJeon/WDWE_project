@@ -9,14 +9,16 @@
             {{ userInfo.engName }}
             <span>
               <button class="logOutBtn" @click="logout">Logout</button>
-
             </span>
           </h3>
+          <h6 style="color: #FFFFFF;">
+            ({{firstGroupName}})
+          </h6>
         </div>
         <div style="margin-top: 100px;">
 
           <select v-model="selected">
-            <option disabled value="">그룹 선택</option>
+            <option disabled value="">{{firstGroupName}}</option>
               <option
                   v-for="(groupName, i) in groupNames"
                   :key="groupName"
@@ -54,6 +56,7 @@ export default {
   data() {
     return {
       fbCollection: 'users',
+      firstGroupName: localStorage.groupName,
       userInfo: [],
       userId: this.$store.state.user.uid,
       groups: [],

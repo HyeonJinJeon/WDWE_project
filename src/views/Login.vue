@@ -85,7 +85,8 @@ export default {
                 const userGroups = self.userInfo.groups;
                 console.log('userGroups 첫번째', userGroups[0].enterCode)
                 delete localStorage.groupCode
-                localStorage.groupCode = userGroups[0].enterCode
+                localStorage.groupCode = userGroups[0].enterCode;
+                localStorage.groupName = userGroups[0].groupName;
               });
             })
           .catch((error) => {
