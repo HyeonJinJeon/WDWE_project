@@ -18,7 +18,7 @@
         <div style="margin-top: 100px;">
 
           <select v-model="selected">
-            <option disabled value="">그룹 선택</option>
+            <option disabled value="">{{firstGroupName}}</option>
               <option
                   v-for="(groupName, i) in groupNames"
                   :key="groupName"
