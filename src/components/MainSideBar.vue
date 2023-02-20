@@ -62,6 +62,7 @@ export default {
       groups: [],
       enterCodes: [],
       groupNames: [],
+      groupName:[],
       selected: '',
     }
   },
@@ -94,11 +95,41 @@ export default {
             // }
           })
     },
-    groupChange(selected){    //현재 그룹 변경
+    getGroupName() {
+      const self = this;
+      const db = firebase.firestore();
+      db.collection("group")
+          .where("groupCode", "==", localStorage.groupCode)
+          .get()
+          .then(async (querySnapshot) => {
+            if (querySnapshot.size === 0) {
+              return
+            }
+            querySnapshot.forEach((doc) => {
+              const _data = doc.data();
+              _data.id = doc.id
+              // const date = new Date(_data.date.seconds * 1000);
+              // _data.date = getDate(date);
+              self.groupName.push(_data.groupName);
+              console.log(self.groupName)
+            });
+          })
+    },
+    async groupChange(selected) {    //현재 그룹 변경
+      const self = this;
+      await this.getGroupName()
+      console.log(this.groupName[0])
       delete localStorage.groupCode
+      delete localStorage.groupName
       localStorage.groupCode = selected
+      localStorage.groupName = this.groupName[0]
+      for(let i =0; i<self.groups[0].length; i++) {
+        if(self.enterCodes[i] == selected) {
+          localStorage.groupName = self.groupNames[i]
+        }
+      }
       this.$router.go();
-      // console.log(selected)
+
     },
     logout() {
       delete localStorage.groupCode
