@@ -168,6 +168,7 @@ export default {
     },
     receiptAdd() {
       const self = this;
+      const star = self.rating.map(Number);
       const db = firebase.firestore();
       if ((self.shopInfo.name != '') && (self.shopInfo.type != '') && (self.shopInfo.number != '') && (self.shopInfo.address != '') && (self.date != '') && (self.rating != '') && (self.selectedName != '') && (self.menu != '') && (self.price[0] != null)){
         const timestamp = new Date(self.date + " 00:00:00");
@@ -178,7 +179,7 @@ export default {
               who: self.list,
               groupCode: self.groupInfo.enterCode,
               resUid: self.shopInfo.id,
-              star: self.rating,
+              star: star,
             })
             .then(async () => {
               await self.getReceiptStar()
