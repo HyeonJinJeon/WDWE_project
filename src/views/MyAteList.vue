@@ -4,15 +4,25 @@
   <MainSideBar></MainSideBar>
   <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars"
      style="margin-top: 30px; margin-left: 30px; color: white"></i>
-  <div class="setDateDiv">
-    <p style="font-weight: bold;">기간 설정하기</p>
-    <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">시작일 선택</label> <br>
-    <date-picker v-model="startDate" valueType="format" style="margin-left: 20px;"></date-picker> <br>
-    <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">종료일 선택</label> <br>
-    <date-picker v-model="finishDate" valueType="format" style="margin-left: 20px;"></date-picker>
-    <button class="confirmBtn" @click="getPriceDataSum">검색</button>
-  </div>
+<!--  <div class="setDateDiv">-->
+<!--&lt;!&ndash;    <p style="font-weight: bold;">기간 설정하기</p>&ndash;&gt;-->
+<!--&lt;!&ndash;    <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">시작일 선택</label> <br>&ndash;&gt;-->
+<!--&lt;!&ndash;    <date-picker v-model="startDate" valueType="format" style="margin-left: 20px;"></date-picker> <br>&ndash;&gt;-->
+<!--&lt;!&ndash;    <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">종료일 선택</label> <br>&ndash;&gt;-->
+<!--&lt;!&ndash;    <date-picker v-model="finishDate" valueType="format" style="margin-left: 20px;"></date-picker>&ndash;&gt;-->
+<!--&lt;!&ndash;    <button class="confirmBtn" @click="getPriceDataSum">검색</button>&ndash;&gt;-->
+<!--  </div>-->
   <div class="tableDiv">
+    <p style="font-weight: bold;">기간 설정하기</p>
+    <div>
+      <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">시작일 선택</label> <br>
+      <date-picker v-model="startDate" valueType="format" style="margin-left: 20px;"></date-picker>
+    </div>
+    <div>
+      <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">종료일 선택</label> <br>
+      <date-picker v-model="finishDate" valueType="format" style="margin-left: 20px;"></date-picker>
+    </div>
+      <button class="confirmBtn" @click="getPriceDataSum">검색</button>
     <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
       <thead>
       <tr>
@@ -150,7 +160,8 @@ export default {
   width: 90px;
   height: 38px;
   color: white;
-  top: 70vh;
+  top: 16.5vh;
+  left: 70vh;
   background-color: #2c3e50;
   border-radius: 5px;
   font-weight: 700;
@@ -170,14 +181,15 @@ export default {
 .tableDiv{
   position: absolute;
   /*float: right;*/
-  width: 65%;
+  width: 80%;
   height: 80vh;
   background-color: #FFFFFF;
   border-radius: 7px;
   padding: 20px;
-  right: 50px;
+  left: 10%;
   top: 100px;
   overflow: auto;
+  margin: auto;
   /*margin-right: 0;*/
 }
 </style>
