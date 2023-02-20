@@ -5,7 +5,7 @@
       <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars"
          style="position: absolute; z-index:3; margin-top: 30px; margin-left: 30px; color:white;"></i>
       <div class="inputs">
-        <h3 style="margin-left:240px; font-weight: 600;">영수증</h3>
+        <h3 style="margin-left:43%; font-weight: 600;">영수증</h3>
         <hr class="dashed-lind">
         <div style="margin-left: 10px;">
           <h5 class="grey-text" style=" font-weight: 400; color: black;">상호 정보</h5>
@@ -30,10 +30,10 @@
         <hr class="dashed-lind">
         <p style="font-weight: 400; font-size: 20px; margin-left: 20px;">
           <span>No.</span>
-          <span style="margin-left: 70px;">이름</span>
-          <span style="margin-left: 110px;">메뉴</span>
-          <span style="margin-left: 120px;">가격</span>
-          <b-icon class="aniBtn" @click="addNum" style="margin-left: 100px;" icon="plus-circle"
+          <span style="margin-left: 12%;">이름</span>
+          <span style="margin-left: 20%;">메뉴</span>
+          <span style="margin-left: 22%;">가격</span>
+          <b-icon class="aniBtn" @click="addNum" style="margin-left: 30%;" icon="plus-circle"
                   aria-hidden="true"></b-icon>
         </p>
         <hr class="dashed-lind">
@@ -43,7 +43,7 @@
 
       <div class="receiptAdd">
         <div v-for="index in receiptNums" :key="index" style="margin-bottom:10px; ">
-          <p style="position: absolute; margin-left: 30px; margin-top: 5px;">{{ index }}</p>
+          <p style="position: absolute; margin-left: 5%; margin-top: 5px;">{{ index }}</p>
           <b-select class="engNameInput" v-model="selectedName[index-1]">
             <option disabled value="">멤버 선택</option>
             <option
@@ -305,7 +305,7 @@ export default {
 .inputs {
   position: absolute;
   background-color: white;
-  width: 25%;
+  width: 30%;
   height: 80vh;
   top: 120px;
   left: 15%;
@@ -326,7 +326,7 @@ export default {
   z-index: 3;
   left: 450px;
   margin-top: 10px;
-  margin-left: 100px;
+  margin-left: 30%;
 }
 
 .aniBtn:active {
@@ -336,20 +336,20 @@ export default {
 .engNameInput {
   position: absolute;
   width: 90px;
-  margin-left: 100px;
+  margin-left: 18%;
   /*margin-top: 5px;*/
 }
 
 .menuInput {
   position: absolute;
   width: 120px;
-  margin-left: 210px;
+  margin-left: 35%;
 }
 
 .priceInput {
   position: absolute;
   width: 120px;
-  margin-left: 360px;
+  margin-left: 60%;
 }
 
 .confirmBtn {
@@ -380,9 +380,9 @@ export default {
 .receiptAdd {
   position: absolute;
   overflow: auto;
-  left: 20%;
+  left: 15%;
   top: 680px;
-  width: 600px;
+  width: 30%;
   height: 18vh;
 }
 
