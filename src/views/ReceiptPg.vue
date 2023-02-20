@@ -335,9 +335,10 @@ export default {
 
 .engNameInput {
   position: absolute;
-  width: 90px;
+  width: 100px;
+  height: 38px;
   margin-left: 110px;
-  margin-top: 5px;
+  /*margin-top: 5px;*/
 }
 
 .menuInput {
