@@ -163,36 +163,44 @@ export default {
           shopName: self.shopInfo.name,
         });
       }
-      console.log(self.list);
+      console.log(self.list.menu);
       self.receiptAdd();
     },
     receiptAdd() {
       const self = this;
       const db = firebase.firestore();
-      const timestamp = new Date(self.date + " 00:00:00");
-      db.collection('receipt')
-          .add({
-            shopName: self.shopInfo.name,
-            date: timestamp,
-            who: self.list,
-            groupCode: self.groupInfo.enterCode,
-            resUid: self.shopInfo.id,
-            star: self.rating,
-          })
-          .then(async () => {
-            await self.getReceiptStar()
-            console.log(self.allStar)
-            // await self.getAvrStar()
-            // console.log(self.sumStar)
-            // console.log(self.avrStar)
-            // await self.changeResStar()
-            alert("등록되었습니다.")
-            self.F5();
-          })
-          .catch((e) => {          // 실패하면 catch가 실행된다.
-            console.log(e)
-            alert("저장에 실패했습니다.")
-          })
+      if ((self.shopInfo.name != '') && (self.shopInfo.type != '') && (self.shopInfo.number != '') && (self.shopInfo.address != '') && (self.date != '') && (self.rating != '') && (self.selectedName != '') && (self.menu != '') && (self.price[0] != null)){
+        const timestamp = new Date(self.date + " 00:00:00");
+        db.collection('receipt')
+            .add({
+              shopName: self.shopInfo.name,
+              date: timestamp,
+              who: self.list,
+              groupCode: self.groupInfo.enterCode,
+              resUid: self.shopInfo.id,
+              star: self.rating,
+            })
+            .then(async () => {
+              await self.getReceiptStar()
+              console.log(self.allStar)
+              // await self.getAvrStar()
+              // console.log(self.sumStar)
+              // console.log(self.avrStar)
+              // await self.changeResStar()
+              alert("등록되었습니다.")
+              self.F5();
+            })
+            .catch((e) => {          // 실패하면 catch가 실행된다.
+              console.log(e)
+              alert("저장에 실패했습니다.")
+            })
+      }
+      else{
+        alert("모든 항목을 입력해주세요")
+        self.list = [];
+        // return false
+      }
+
 
     },
     F5(){
