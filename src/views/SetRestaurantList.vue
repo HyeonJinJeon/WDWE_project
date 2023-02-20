@@ -9,7 +9,9 @@
 
       <div class="left">
       <div v-if="edit == false" class="editShop">
-        <b-icon id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="editButton" @click="goEdit"></b-icon>
+        <div v-if="shopInfo.length !=0">
+          <b-icon id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="editButton" @click="goEdit"></b-icon>
+        </div>
         <div>
           <div style="margin-top: 100px;">
             <!--            <h5 class="grey-text" style=" font-weight: 400; color: black;">상호 정보</h5>-->
@@ -19,7 +21,7 @@
             <p class="lines"><span style="font-weight: bold">주소: </span> {{ shopInfo.address }}</p>
             <p class="lines"><span style="font-weight: bold">별점: </span> {{ shopInfo.star }}</p>
             <star-rating
-                v-bind:increment="0.1"
+                v-bind:increment="0.01"
                 v-bind:read-only="true"
                 v-model="shopInfo.star">
             </star-rating>

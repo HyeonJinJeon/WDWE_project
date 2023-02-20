@@ -285,6 +285,7 @@ export default {
           number: obj1.data.number,
           type: obj1.data.type,
           address: obj1.data.address,
+          star: obj1.data.star,
         }
         self.modal = true
         self.openModal()
@@ -316,7 +317,7 @@ div {
   width: 400px;
   height: 80vh;
   background-color: #182036d9;
-  border-radius: 7px;
+  border-radius: 10px;
   padding: 20px;
   right: 50px;
   top: 100px;

@@ -24,7 +24,7 @@
             <p><span style="font-weight: bold; ">상호타입: </span></p>
             <p><span style="font-weight: bold; ">전화번호: </span></p>
             <p><span style="font-weight: bold; ">주소: </span></p>
-            <div class="horizontal-line"></div>
+            <hr>
           </div>
           <div class="item" style="font-weight: bold; margin-top: 50px;">
             <div class="item_name"><p>이름</p></div>
@@ -38,7 +38,7 @@
           </div>
         </div>
         <!-- Summary -->
-        <div class="horizontal-line"></div>
+        <hr>
         <div class="sum">
           <div class="sum_total">총 금액: {{sumAllOneResPrice}} </div>
           <div class="sum_checked-price">나의 금액: {{sumMyOneResPrice}}</div>
@@ -147,6 +147,7 @@ export default {
 .main {
   position: relative;
   /*margin-top: 1px;*/
+  margin: 0 auto;
   background-color: white;
   display: flex;
   flex-direction: column;
