@@ -5,11 +5,11 @@
       <h4><span style="font-weight: bold">전화 번호: </span> {{obj.number}}</h4>
       <h4><span style="font-weight: bold">가게 타입: </span> {{obj.type}}</h4>
       <h4><span style="font-weight: bold">주소: </span> {{obj.address}}</h4>
-      <h4><span style="font-weight: bold">별점: </span> {{ shopInfo.star }}</h4>
+      <h4><span style="font-weight: bold">별점: </span> {{ obj.star }}</h4>
       <star-rating
           v-bind:increment="0.1"
           v-bind:read-only="true"
-          v-model="shopInfo.star">
+          v-model="obj.star">
       </star-rating>
       <button class="closeBtn" @click="$emit('closeModal')">닫기</button>
     </div>
@@ -17,8 +17,10 @@
 </template>
 
 <script>
+import StarRating from 'vue-star-rating'
 export default {
   name: "Detail",
+  components: {StarRating},
   data() {
     return {}
   },

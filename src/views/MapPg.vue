@@ -284,6 +284,7 @@ export default {
           number: obj1.data.number,
           type: obj1.data.type,
           address: obj1.data.address,
+          star: obj1.data.star,
         }
         self.modal = true
         self.openModal()
