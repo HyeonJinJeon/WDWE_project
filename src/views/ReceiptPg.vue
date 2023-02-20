@@ -6,7 +6,7 @@
          style="position: absolute; z-index:3; margin-top: 30px; margin-left: 30px; color:white;"></i>
       <div class="inputs">
         <h3 style="margin-left:240px; font-weight: 600;">영수증</h3>
-        <hr>
+        <hr class="dashed-lind">
         <div style="margin-left: 10px;">
           <h5 class="grey-text" style=" font-weight: 400; color: black;">상호 정보</h5>
           <p><span style="font-weight: bold">상호명: </span> {{ shopInfo.name }}</p>
@@ -25,9 +25,9 @@
               v-bind:increment="0.5"
               v-model="rating">
           </star-rating>
-          {{ rating }}
+          {{rating}}
         </div>
-        <hr>
+        <hr class="dashed-lind">
         <p style="font-weight: 400; font-size: 20px; margin-left: 20px;">
           <span>No.</span>
           <span style="margin-left: 70px;">이름</span>
@@ -36,7 +36,7 @@
           <b-icon class="aniBtn" @click="addNum" style="margin-left: 100px;" icon="plus-circle"
                   aria-hidden="true"></b-icon>
         </p>
-        <hr>
+        <hr class="dashed-lind">
 
         <button class="confirmBtn" @click="getReceipt">등록</button>
       </div>
@@ -45,7 +45,7 @@
         <div v-for="index in receiptNums" :key="index" style="margin-bottom:10px; ">
           <p style="position: absolute; margin-left: 30px; margin-top: 5px;">{{ index }}</p>
           <b-select class="engNameInput" v-model="selectedName[index-1]">
-            <option value="">멤버 선택</option>
+            <option disabled value="">멤버 선택</option>
             <option
                 v-for="member in members"
                 :key="member"
@@ -54,25 +54,25 @@
             </option>
           </b-select>
           <div class="input-line">
-            <input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder="메뉴"/>
-            <input v-model="price[index-1]" type="number" min="0" class="form-control priceInput" placeholder="가격"
+            <b-input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder=""/>
+            <b-input v-model="price[index-1]" type="number" min="0" class="form-control priceInput" placeholder=""
                    oninput="javascript: this.value = this.value.replace(/[^0-9]/, '');"/>
             <b-icon class="aniBtn" @click="deleteRow(index-1)" icon="dash-circle"
                     aria-hidden="true"></b-icon>
           </div>
         </div>
       </div>
-    </div>
+      <!--    </div>-->
 
-    <!--    </div>-->
-    <div class="shopList">
-      <div>
-        <h3 style="color:white; font-weight: 500;">식당 리스트<span>
+      <div class="shopList">
+        <div>
+          <h3 style="color:white; font-weight: 500;">식당 리스트<span>
       <b-icon style="margin-left: 10px;" icon="plus-square"
               aria-hidden="true" @click="addShop"></b-icon>
       </span></h3>
+        </div>
+        <RestaurantList @changeShop="shopInfo=$event"></RestaurantList>
       </div>
-      <RestaurantList @changeShop="shopInfo=$event"></RestaurantList>
     </div>
   </div>
 </template>
@@ -169,7 +169,7 @@ export default {
     receiptAdd() {
       const self = this;
       const db = firebase.firestore();
-      if ((self.shopInfo.name != '') && (self.shopInfo.type != '') && (self.shopInfo.number != '') && (self.shopInfo.address != '') && (self.date != '') && (self.rating != '') && (self.selectedName != '') && (self.menu != '') && (self.price[0] != null)) {
+      if ((self.shopInfo.name != '') && (self.shopInfo.type != '') && (self.shopInfo.number != '') && (self.shopInfo.address != '') && (self.date != '') && (self.rating != '') && (self.selectedName != '') && (self.menu != '') && (self.price[0] != null)){
         const timestamp = new Date(self.date + " 00:00:00");
         db.collection('receipt')
             .add({
@@ -178,7 +178,7 @@ export default {
               who: self.list,
               groupCode: self.groupInfo.enterCode,
               resUid: self.shopInfo.id,
-              star: self.rating
+              star: self.rating,
             })
             .then(async () => {
               await self.getReceiptStar()
@@ -194,7 +194,8 @@ export default {
               console.log(e)
               alert("저장에 실패했습니다.")
             })
-      } else {
+      }
+      else{
         alert("모든 항목을 입력해주세요")
         self.list = [];
         // return false
@@ -202,10 +203,10 @@ export default {
 
 
     },
-    F5() {
+    F5(){
       this.$router.push("/mainPg")
     },
-    getReceiptStar() {
+    getReceiptStar(){
       const self = this;
       const db = firebase.firestore();
       db.collection('receipt')
@@ -218,7 +219,7 @@ export default {
             querySnapshot.forEach((doc) => {
               const _data = doc.data();
               self.allStar.push(_data.star)
-              console.log("allStar length ", self.allStar.length)
+              console.log("allStar length ",self.allStar.length)
               self.getAvrStar()
             });
           })
@@ -228,15 +229,15 @@ export default {
       self.sumStar = 0;
       for (let i = 0; i < self.allStar.length; i++) {
         self.sumStar = self.sumStar + self.allStar[i]
-        console.log("for문 돌아가니?", self.allStar[i])
+        console.log("for문 돌아가니?",self.allStar[i])
       }
       console.log("총합", self.sumStar)
       self.avrStar = self.sumStar / self.allStar.length
-      console.log("평균", self.avrStar)
+      console.log("평균",self.avrStar)
       self.avrStar = self.avrStar.toFixed(2);
       self.changeResStar()
     },
-    changeResStar() {
+    changeResStar(){
       const self = this;
       const db = firebase.firestore();
       db.collection('restaurant')
@@ -290,10 +291,9 @@ export default {
   position: fixed;
 }
 
-.dashed-lind {
-  border-style: dashed;
+.dashed-lind{
+  border-style:dashed;
 }
-
 .input-line {
   display: flex;
   height: 38px;
@@ -308,11 +308,18 @@ export default {
   width: 25%;
   height: 80vh;
   top: 120px;
-  left: 20%;
+  left: 15%;
   border-radius: 15px;
-  padding: 12px;
+  padding:12px;
 }
 
+/* Summary */
+.horizontal-line {
+  /*width: 90%;*/
+  height: 2px;
+  margin: 10px;
+  background-color: black;
+}
 
 .aniBtn {
   position: absolute;
@@ -328,9 +335,8 @@ export default {
 
 .engNameInput {
   position: absolute;
-  width: 100px;
-  height: 38px;
-  margin-left: 110px;
+  width: 90px;
+  margin-left: 100px;
   /*margin-top: 5px;*/
 }
 
@@ -350,9 +356,7 @@ export default {
   position: absolute;
   width: 90px;
   height: 38px;
-  /*margin-left: 80%;*/
-  /*margin: 10px;*/
-  top: 90%;
+  margin-left: 500px;
   color: white;
   background-color: #2c3e50;
   border-radius: 5px;
@@ -371,7 +375,6 @@ export default {
   overflow: auto;
   padding: 20px;
   border-radius: 15px;
-  margin: 0 auto;
 }
 
 .receiptAdd {
