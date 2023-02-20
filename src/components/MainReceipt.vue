@@ -23,7 +23,12 @@
                 <p><span style="font-weight: bold; ">주소: </span></p>
                 <div class="horizontal-line"></div>
               </div>
-              <div class="item" style="font-weight: bold; margin-top: 50px;">
+              <div v-if="edit==false" class="item" style="font-weight: bold; margin-top: 50px;">
+                <div class="item_name"><p>이름</p></div>
+                <div class="item_menu"><p>메뉴</p></div>
+                <div class="item_price"><p>가격</p></div>
+              </div>
+              <div v-if="edit==true" class="item" style="font-weight: bold; margin-top: 50px;">
                 <div class="item_name"><p>이름</p></div>
                 <div class="item_menu"><p>메뉴</p></div>
                 <div class="item_price"><p>가격</p></div>
