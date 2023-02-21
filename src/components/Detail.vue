@@ -5,8 +5,8 @@
       <h4><span style="font-weight: bold">전화 번호: </span> {{obj.number}}</h4><br>
       <h4><span style="font-weight: bold">가게 타입: </span> {{obj.type}}</h4><br>
       <h4><span style="font-weight: bold">주소: </span> {{obj.address}}</h4><br>
-      <h4><span style="font-weight: bold">별점: </span> {{ obj.star }}</h4><br>
-      <star-rating>
+      <h4><span style="font-weight: bold">별점: </span> {{ obj.star }}</h4>
+      <star-rating
           v-bind:increment="0.1"
           v-bind:read-only="true"
           v-model="obj.star">
