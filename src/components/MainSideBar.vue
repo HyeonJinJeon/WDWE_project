@@ -27,7 +27,7 @@
             </option>
           </b-select>
           <span> <button class="groupSetBtn" @click="groupChange(selected)">그룹 변경</button></span> <br>
-          <hr>룹
+          <hr>
           <router-link to="mainPg" style="color:white; font-weight: 600;">메인 화면</router-link>
           <br>
           <hr>
