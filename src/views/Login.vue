@@ -120,7 +120,7 @@ export default {
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
-  padding: 50px;
+  padding: 11%;
 }
 .white-bg {
   position: relative;
