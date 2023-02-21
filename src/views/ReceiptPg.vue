@@ -1,80 +1,85 @@
 <template>
-  <div class="bgImg">
-    <div class="black-bg">
-      <MainSideBar></MainSideBar>
-      <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars"
-         style="position: absolute; z-index:3; margin-top: 30px; margin-left: 30px; color:white;"></i>
-      <div class="inputs">
-        <h3 style="margin-left:240px; font-weight: 600;">영수증</h3>
-        <hr class="dashed-lind">
-        <div style="margin-left: 10px;">
-          <h5 class="grey-text" style=" font-weight: 400; color: black;">상호 정보</h5>
-          <p><span style="font-weight: bold">상호명: </span> {{ shopInfo.name }}</p>
-          <p><span style="font-weight: bold">상호타입: </span> {{ shopInfo.type }}</p>
-          <p><span style="font-weight: bold">전화번호: </span> {{ shopInfo.number }}</p>
-          <p><span style="font-weight: bold">주소: </span> {{ shopInfo.address }}</p>
-        </div>
-        <div>
-          <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">날짜 선택</label> <br>
-          <date-picker v-model="date" valueType="format" style="margin-left: 20px;"></date-picker>
-          <!--          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>-->
-        </div>
-        <div>
-          <label for="" class="grey-text" style="margin: 10px; font-weight: 400;">별점 등록</label> <br>
-          <star-rating
-              v-bind:increment="0.5"
-              v-model="rating">
-          </star-rating>
-          {{rating}}
-        </div>
-        <hr class="dashed-lind">
-        <p style="font-weight: 400; font-size: 20px; margin-left: 20px;">
-          <span>No.</span>
-          <span style="margin-left: 70px;">이름</span>
-          <span style="margin-left: 110px;">메뉴</span>
-          <span style="margin-left: 120px;">가격</span>
-          <b-icon class="aniBtn" @click="addNum" style="margin-left: 100px;" icon="plus-circle"
-                  aria-hidden="true"></b-icon>
-        </p>
-        <hr class="dashed-lind">
+  <v-aap>
+    <v-main>
+      <div class="bgImg">
+        <div class="black-bg">
+          <MainSideBar></MainSideBar>
+          <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars"
+             style="position: absolute; z-index:3; margin-top: 30px; margin-left: 30px; color:white;"></i>
+          <div class="inputs">
+            <h3 style="margin-left:43%; font-weight: 600;">영수증</h3>
+            <hr class="dashed-lind">
+            <div style="margin-left: 10px;">
+              <h5 class="grey-text" style=" font-weight: 400; color: black;">상호 정보</h5>
+              <p><span style="font-weight: bold">상호명: </span> {{ shopInfo.name }}</p>
+              <p><span style="font-weight: bold">상호타입: </span> {{ shopInfo.type }}</p>
+              <p><span style="font-weight: bold">전화번호: </span> {{ shopInfo.number }}</p>
+              <p><span style="font-weight: bold">주소: </span> {{ shopInfo.address }}</p>
+            </div>
+            <div>
+              <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">날짜 선택</label> <br>
+              <date-picker v-model="date" valueType="format" style="margin-left: 20px;"></date-picker>
+              <!--          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>-->
+            </div>
+            <div>
+              <label for="" class="grey-text" style="margin: 10px; font-weight: 400;">별점 등록</label> <br>
+              <star-rating
+                  v-bind:increment="0.5"
+                  v-model="rating">
+              </star-rating>
+              {{rating}}
+            </div>
+            <hr class="dashed-lind">
+            <p style="font-weight: 400; font-size: 20px; margin-left: 20px;">
+              <span>No.</span>
+              <span style="margin-left: 12%;">이름</span>
+              <span style="margin-left: 20%;">메뉴</span>
+              <span style="margin-left: 22%;">가격</span>
+              <b-icon class="aniBtn" @click="addNum" style="margin-left: 10%;" icon="plus-circle"
+                      aria-hidden="true"></b-icon>
+            </p>
+            <hr class="dashed-lind">
 
-        <button class="confirmBtn" @click="getReceipt">등록</button>
-      </div>
-
-      <div class="receiptAdd">
-        <div v-for="index in receiptNums" :key="index" style="margin-bottom:10px; ">
-          <p style="position: absolute; margin-left: 30px; margin-top: 5px;">{{ index }}</p>
-          <b-select class="engNameInput" v-model="selectedName[index-1]">
-            <option disabled value="">멤버 선택</option>
-            <option
-                v-for="member in members"
-                :key="member"
-                v-text="member"
-                :value="member">
-            </option>
-          </b-select>
-          <div class="input-line">
-            <b-input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder=""/>
-            <b-input v-model="price[index-1]" type="number" min="0" class="form-control priceInput" placeholder=""
-                   oninput="javascript: this.value = this.value.replace(/[^0-9]/, '');"/>
-            <b-icon class="aniBtn" @click="deleteRow(index-1)" icon="dash-circle"
-                    aria-hidden="true"></b-icon>
+            <button class="confirmBtn" @click="getReceipt">등록</button>
           </div>
-        </div>
-      </div>
-      <!--    </div>-->
 
-      <div class="shopList">
-        <div>
-          <h3 style="color:white; font-weight: 500;">식당 리스트<span>
+          <div class="receiptAdd">
+            <div v-for="index in receiptNums" :key="index" style="margin-bottom:10px; ">
+              <p style="position: absolute; margin-left: 5%; margin-top: 5px;">{{ index }}</p>
+              <b-select class="engNameInput" v-model="selectedName[index-1]">
+                <option disabled value="">멤버 선택</option>
+                <option
+                    v-for="member in members"
+                    :key="member"
+                    v-text="member"
+                    :value="member">
+                </option>
+              </b-select>
+              <div class="input-line">
+                <b-input v-model="menu[index-1]" type="text" class="form-control menuInput" placeholder=""/>
+                <b-input v-model="price[index-1]" type="number" min="0" class="form-control priceInput" placeholder=""
+                         oninput="javascript: this.value = this.value.replace(/[^0-9]/, '');"/>
+                <b-icon class="aniBtn" @click="deleteRow(index-1)" icon="dash-circle"
+                        aria-hidden="true" style="margin-left:85%;"></b-icon>
+              </div>
+            </div>
+          </div>
+          <!--    </div>-->
+
+          <div class="shopList">
+            <div>
+              <h3 style="color:white; font-weight: 500;">식당 리스트<span>
       <b-icon style="margin-left: 10px;" icon="plus-square"
               aria-hidden="true" @click="addShop"></b-icon>
       </span></h3>
+            </div>
+            <RestaurantList @changeShop="shopInfo=$event"></RestaurantList>
+          </div>
         </div>
-        <RestaurantList @changeShop="shopInfo=$event"></RestaurantList>
       </div>
-    </div>
-  </div>
+    </v-main>
+  </v-aap>
+
 </template>
 
 <script>
@@ -305,9 +310,9 @@ export default {
 .inputs {
   position: absolute;
   background-color: white;
-  width: 25%;
+  width: 30%;
   height: 80vh;
-  top: 120px;
+  top: 10%;
   left: 15%;
   border-radius: 15px;
   padding:12px;
@@ -324,9 +329,7 @@ export default {
 .aniBtn {
   position: absolute;
   z-index: 3;
-  left: 450px;
-  margin-top: 10px;
-  margin-left: 100px;
+  margin-top: 5px;
 }
 
 .aniBtn:active {
@@ -336,27 +339,27 @@ export default {
 .engNameInput {
   position: absolute;
   width: 90px;
-  margin-left: 100px;
+  margin-left: 18%;
   /*margin-top: 5px;*/
 }
 
 .menuInput {
   position: absolute;
   width: 120px;
-  margin-left: 210px;
+  margin-left: 35%;
 }
 
 .priceInput {
   position: absolute;
   width: 120px;
-  margin-left: 360px;
+  margin-left: 60%;
 }
 
 .confirmBtn {
   position: absolute;
   width: 90px;
   height: 38px;
-  margin-left: 500px;
+  margin-left:70%;
   color: white;
   background-color: #2c3e50;
   border-radius: 5px;
@@ -371,7 +374,7 @@ export default {
   width: 500px;
   height: 80vh;
   right: 200px;
-  top: 100px;
+  top:10%;
   overflow: auto;
   padding: 20px;
   border-radius: 15px;
@@ -380,9 +383,9 @@ export default {
 .receiptAdd {
   position: absolute;
   overflow: auto;
-  left: 20%;
-  top: 680px;
-  width: 600px;
+  left: 15%;
+  top: 687px;
+  width: 30%;
   height: 18vh;
 }
 
