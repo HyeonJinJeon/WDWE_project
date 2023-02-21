@@ -17,6 +17,7 @@
                 <i class="fas fa-utensils fa-3x"></i>
               </p>
             </div>
+
             <div class="white-bg">
               <p class="h4 text-center mb-4">Sign in</p>
               <label for="idIn" class="grey-text">Your id</label>
@@ -33,6 +34,8 @@
           </div>
         </div>
       </div>
+
+      <!--      </div>-->
     </v-main>
   </v-app>
 </template>
@@ -110,8 +113,8 @@ export default {
   height: 100vh;
   width: 100%;
   background-size: cover;
+  /*padding-top: 30vh;*/
 }
-
 .black-bg {
   width: 100%;
   height: 100vh;
@@ -119,33 +122,14 @@ export default {
   position: fixed;
   padding: 50px;
 }
-
-.center {
-  /*position: absolute;*/
-  width: 700px;
-  margin: auto;
-  /*text-align: center;*/
-}
-
-.title {
-  /*text-align: center;*/
-  font-style: normal;
-  font-weight: 700;
-  font-size: 1000px;
-  line-height: 59px;
-  color: #FFFFFF;
-
-  text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
-}
-
 .white-bg {
-  max-width: 700px;
+  position: relative;
+  max-width: 400px;
   align: center;
   background: white;
   border-radius: 8px;
   padding: 50px;
-  position: relative;
-  /*top: 25%;*/
+  top: 50%;
   /*left: 24vh;*/
   margin: 0 auto;
 }
@@ -157,17 +141,17 @@ a {
 }
 
 .title {
-  position: fixed;
-  top: 25%;
-  left: 35%;
-  /*left: 35%;*/
-  /*top: 10vh;*/
-  font-family: 'Roboto';
+  /*text-align: center;*/
+  /*padding-top: 10%;*/
   font-style: normal;
+  font-weight: 700;
+  font-size: 1000px;
+  line-height: 59px;
   color: #FFFFFF;
-  text-align: center;
+
   text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
 }
+
 
 .center {
   /*position: absolute;*/
@@ -176,24 +160,32 @@ a {
   /*text-align: center;*/
 }
 
-/*h2 {*/
-/*  font-style: normal;*/
-/*  font-weight: 700;*/
-/*  font-size: 75px;*/
-/*  line-height: 59px;*/
-/*}*/
+h2 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 75px;
+  line-height: 59px;
+}
 
-/*h3 {*/
-/*  position: relative;*/
-/*  top: 29vh;*/
-/*  font-style: normal;*/
-/*  font-weight: 500;*/
-/*  font-size: 27px;*/
-/*  color: white;*/
-/*  line-height: 59px;*/
-/*  float: right;*/
-/*  padding-right: 15px;*/
-/*}*/
+hr {
+  position: relative;
+  top: 30vh;
+  height: 3px;
+  color: #ffffff;
+  float: right;
+}
+
+h3 {
+  position: relative;
+  top: 29vh;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 27px;
+  color: white;
+  line-height: 59px;
+  float: right;
+  padding-right: 15px;
+}
 
 </style>
 
