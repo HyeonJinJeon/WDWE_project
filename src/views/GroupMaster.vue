@@ -8,7 +8,7 @@
         <div class="title">
           <span style="font-size:60px;">Group Setting</span>
           <span><i class="fas fa-utensils fa-3x"></i></span>
-          <hr>
+          <hr style="width: 45%">
         </div>
         <div class="white-bg">
           <p class="h4 text-center mb-4" style="color: black">그룹 설정 <span><i class="fas fa-utensils"></i></span></p>
