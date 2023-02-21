@@ -16,7 +16,7 @@
               <label class="custom-control-label" :for="i"></label>
             </div>
           </td>
-          <td style="font-weight: 400;">{{ shopList.name }}<br> {{ shopList.type }}</td>
+          <td style="font-weight: 400;"><span style="font-weight: bold">{{ shopList.name }}</span><br> {{ shopList.type }}</td>
           <!--        <td><img class="img1" :src="memoryList.image"/></td>-->
         </tr>
         </tbody>
@@ -129,11 +129,11 @@ export default {
 table {
   background-color: rgba(255, 255, 255, 1);
   color: black;
-
+  font-family: 'Gowun Dodum', sans-serif;
 }
 
 .firstDiv {
-  height: 500px;
+  height: 65vh;
   overflow: auto;
 }
 .selcBtn {
