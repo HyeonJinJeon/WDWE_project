@@ -29,11 +29,11 @@
             <p><span style="font-weight: bold; ">주소: </span></p>
             <hr>
           </div>
-          <div class="item" style="font-weight: bold; margin-top: 5px;">
-            <div class="item_name"><p>이름</p></div>
-            <div class="item_menu"><p>메뉴</p></div>
-            <div class="item_price"><p>가격</p></div>
-          </div>
+            <div class="item" style="font-weight: bold; margin-top: 5px;">
+              <div class="item_name"><p>이름</p></div>
+              <div class="item_menu"><p>메뉴</p></div>
+              <div class="item_price"><p>가격</p></div>
+            </div>
           <div class="receiptScroll" style="overflow: auto; height: 50%;">
             <div v-for="(whose,i) in whose[frontIndex]" :key="i" class="item">
               <div class="item_name"><p>{{ whose.name }}</p></div>
@@ -51,16 +51,14 @@
         </div>
       </div>
     </div>
-    <div v-if="editModal == true">
-      <button class="btn" style="margin-left: 110px; white-space:nowrap;" @click="deleteReceipt">삭제하기</button>
-       <span>
-      <button class="btn" style="margin-left: 230px; white-space:nowrap;" @click="cancelDelete">취소하기</button>
-       </span>
+    <div style="position: absolute; top: 90%; height: 10%; width: 50%" v-if="editModal == true">
+      <button class="btn" style="position: absolute; margin-left: 20%; white-space:nowrap;" @click="deleteReceipt">삭제하기</button>
+      <button class="btn" style="position:absolute; margin-left: 100%; white-space:nowrap;" @click="cancelDelete">취소하기</button>
     </div>
-    <div v-if="editModal == false">
-      <button style="margin-left: 110px; white-space:nowrap;" v-if="onPrev == true" class="btn" @click="prevPage">이전
+    <div style="position: absolute; top: 90%; width: 50%" v-if="editModal == false">
+      <button style="margin-left: 30%; white-space:nowrap;" v-if="onPrev == true" class="btn" @click="prevPage">이전
       </button>
-      <button style="margin-left: 230px; white-space:nowrap;" v-if="onNext == true" class="btn" @click="nextPage">다음
+      <button style="margin-left: 100%; white-space:nowrap;" v-if="onNext == true" class="btn" @click="nextPage">다음
       </button>
     </div>
     <!--      </v-main>-->
@@ -215,6 +213,9 @@ export default {
   justify-content: space-between;
 }
 
+.item_checkbox {
+  margin-right: 10px;
+}
 
 .item_name {
   width: 40%;
@@ -228,6 +229,14 @@ export default {
   width: 20%;
   text-align: right;
   margin-right: 10px;
+}
+
+/* Summary */
+.horizontal-line {
+  width: 90%;
+  height: 2px;
+  margin: 10px 0;
+  background-color: black;
 }
 
 .sum {
@@ -256,5 +265,4 @@ export default {
   position: absolute;
   left: 98%;
 }
-
 </style>
