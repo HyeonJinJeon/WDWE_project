@@ -27,7 +27,7 @@
             </option>
           </b-select>
           <span> <button class="groupSetBtn" @click="groupChange(selected)">그룹 변경</button></span> <br>
-          <hr>
+          <hr>룹
           <router-link to="mainPg" style="color:white; font-weight: 600;">메인 화면</router-link>
           <br>
           <hr>
@@ -38,6 +38,9 @@
           <br>
           <hr>
           <router-link to="setRestaurantList" style="color:white; font-weight: 600;">상호 정보</router-link>
+          <br>
+          <hr>
+          <router-link to="groupMaster" style="color: white; font-weight: 600;">그룹 설정</router-link>
           <br>
           <hr>
           <router-link to="myAteList" style="color: white; font-weight: 600;">나의 정산</router-link>
