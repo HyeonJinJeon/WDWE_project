@@ -88,8 +88,8 @@ export default {
           .doc(self.shopInfo.id)
           .set({
             shopName: self.shopInfo.name,
-            groupCode: self.groupInfo.enterCode,
-            resUid: self.shopInfo.id,
+            type: self.shopInfo.type,
+            number: self.shopInfo.number,
           }, {merge: true})
           .then(() => {
             alert("수정되었습니다.")
