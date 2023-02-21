@@ -20,7 +20,6 @@
             <div class="white-bg">
               <p class="h4 text-center mb-4" style="color: black">그룹 설정 <span><i class="fas fa-utensils"></i></span></p>
               <hr>
-              {{ userInfo }}
               <div style="margin-top:50px;">
                 <h3 class="h4 mb-4" style="color: black;">
                   <b-icon icon="circle-fill" font-scale="0.5"></b-icon>
@@ -117,6 +116,7 @@ export default {
                 .update({groups: firebase.firestore.FieldValue.arrayUnion(_data2)})
                 .then(() => {
                   alert("그룹 생성완료")
+
                   self.$router.push('/mainPg')
                 })
           })
@@ -151,18 +151,31 @@ export default {
         uid: self.userId,
         name: self.userInfo.engName,
       }
-      // console.log(_data1)
-      // console.log(_data2)
       db.collection("users")    //users에 등록한 그룹 정보 저장
           .doc(self.userId)
-          .update({groups: firebase.firestore.FieldValue.arrayUnion(_data1)})
-          .then(() => {
-            db.collection("group")    //group에 유저 정보 저장
-                .doc(self.groupInfo.id)
-                .update({member: firebase.firestore.FieldValue.arrayUnion(_data2)})
-            alert("등록 완료!")
-            self.$router.push('/mainPg')
+          .update({
+            groups:  firebase.firestore.FieldValue.delete(),
           })
+          .then(() => {
+            db.collection("users")    //users에 등록한 그룹 정보 저장
+                .doc(self.userId)
+                .update({
+                  groups:  firebase.firestore.FieldValue.arrayUnion(_data1),
+                })
+                .then(() => {
+                  db.collection("group")    //group에 유저 정보 저장
+                      .doc(self.groupInfo.id)
+                      .update({member: firebase.firestore.FieldValue.arrayUnion(_data2)})
+                  alert("등록 완료!")
+                  delete localStorage.groupCode;
+                  delete localStorage.groupName;
+                  localStorage.groupCode = self.enterCode;
+                  localStorage.groupName = self.groupInfo.groupName;
+                  self.$router.push('/mainPg')
+                })
+          })
+      // console.log(_data1)
+      // console.log(_data2)
     },
 
   }
