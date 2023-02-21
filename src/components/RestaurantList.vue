@@ -16,15 +16,25 @@
               <label class="custom-control-label" :for="i"></label>
             </div>
           </td>
-          <td style="font-weight: 400;">{{ shopList.name }}<br> {{ shopList.type }}</td>
+          <td style="font-weight: 400;"><span style="font-weight: bold">{{ shopList.name }}</span><br> {{ shopList.type }}
+            <star-rating
+              v-bind:increment="0.01"
+              v-bind:read-only="true"
+              v-bind:star-size="20"
+              v-model="shopList.star">
+            </star-rating>
+          </td>
           <!--        <td><img class="img1" :src="memoryList.image"/></td>-->
         </tr>
         </tbody>
       </table>
     </div>
-    <button v-if="deleteCheck == false" @click="onCheck" class="selcBtn">선택</button>
-    <button v-if="deleteCheck == true" @click="deleteList" class="delBtn">삭제</button>
-    <button v-if="deleteCheck == true" @click="offCheck" class="endBtn">취소</button>
+    <div v-if="setRest">
+      <button v-if="deleteCheck == false" @click="onCheck" class="selcBtn">선택</button>
+      <button v-if="deleteCheck == true" @click="deleteList" class="delBtn">삭제</button>
+      <button v-if="deleteCheck == true" @click="offCheck" class="endBtn">취소</button>
+    </div>
+
   </div>
 
 </template>
@@ -32,9 +42,11 @@
 <script>
 import {firebase} from "@/firebase/firebaseConfig";
 import addRestaurant from "@/views/AddRestaurant.vue";
+import StarRating from 'vue-star-rating'
 
 export default {
   name: "RestaurantList",
+  components: {StarRating},
   computed: {
     addRestaurant() {
       return addRestaurant
@@ -51,12 +63,13 @@ export default {
   props : {
     // arr: Array,
     // deleteCheck : Boolean,
+    setRest: Boolean,
   },
 
   mounted() {
     const self = this;
     self.init();
-    console.log("arr",self.arr);
+    // console.log("arr",self.arr);
   },
 
   methods: {
@@ -68,7 +81,7 @@ export default {
     getDatalist() {
       const self = this;
       const db = firebase.firestore();
-      console.log(self.whatData)
+      // console.log(self.whatData)
       db.collection("restaurant")
           .where("groupCode", '==', localStorage.groupCode)
           .get()
@@ -80,7 +93,7 @@ export default {
               const _data = memory.data();
               _data.id = memory.id
               self.shopList.push(_data)
-              console.log(self.shopList);
+              // console.log(self.shopList);
             });
 
           })
@@ -123,18 +136,20 @@ export default {
 }
 
 table {
-  background-color: rgba(255, 255, 255, 0.3);
-  color: white;
+  background-color: rgba(255, 255, 255, 1);
+  color: black;
 
 }
 
 .firstDiv {
-  height: 500px;
+  font-family: 'Gowun Dodum', sans-serif;
+  height: 65vh;
   overflow: auto;
 }
 .selcBtn {
   position: absolute;
-  top:550px;
+  left: 55vh;
+  top:70vh;
   color: white;
   width: 40px;
   font-weight: 600;

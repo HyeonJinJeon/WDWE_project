@@ -50,6 +50,7 @@ export default {
       id: '',
       pw: '',
       userInfo: [],
+      userGroups: [],
     }
   },
   methods: {
@@ -58,8 +59,7 @@ export default {
       firebase.auth().signInWithEmailAndPassword(self.id + '@wdweproject.co.kr', self.pw)
           .then(() => {
             self.setStartGroup()
-            alert('로그인 완료')
-            self.$router.push('/mainPg')
+            // self.$router.push('/mainPg')
           })
           .catch((error) => {
             alert(error)
@@ -73,21 +73,29 @@ export default {
       console.log("?")
       const db = firebase.firestore();
       db.collection("users")
-            .where("id",'==',self.id)
-            .get()
-            .then((querySnapshot) => {
-              if (querySnapshot.size === 0) {
-                return
-              }
-              querySnapshot.forEach((doc) => {
-                self.userInfo = doc.data();
-                // self.curGroupUid = doc.id
-                const userGroups = self.userInfo.groups;
-                console.log('userGroups 첫번째', userGroups[0].enterCode)
-                delete localStorage.groupCode
-                localStorage.groupCode = userGroups[0].enterCode
-              });
-            })
+          .where("id", '==', self.id)
+          .get()
+          .then((querySnapshot) => {
+            if (querySnapshot.size === 0) {
+              return
+            }
+            querySnapshot.forEach((doc) => {
+              self.userInfo = doc.data();
+              // self.curGroupUid = doc.id
+              self.userGroups = self.userInfo.groups;
+              // console.log('userGroups 첫번째', self.userGroups[0].enterCode)
+            });
+            if (self.userInfo.groups == '') {
+              alert('그룹이 존재하지 않습니다. 그룹설정 페이지로 이동합니다.')
+              this.$router.push('/groupSet')
+            } else {
+              delete localStorage.groupCode
+              localStorage.groupCode = self.userGroups[0].enterCode;
+              localStorage.groupName = self.userGroups[0].groupName;
+              alert('로그인 완료')
+              self.$router.push('/mainPg')
+            }
+          })
           .catch((error) => {
             alert(error)
           })

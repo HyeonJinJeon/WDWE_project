@@ -1,18 +1,26 @@
 <template>
   <div v-if="modal == true" class="black-bg">
     <div class="white-bg">
-      <h4>상호 명: {{obj.name}}</h4>
-      <h4>전화 번호: {{obj.number}}</h4>
-      <h4>가게 타입: {{obj.type}}</h4>
-      <h4>주소: {{obj.geo}}</h4>
+      <h4><span style="font-weight: bold">상호 명: </span> {{obj.name}}</h4><br>
+      <h4><span style="font-weight: bold">전화 번호: </span> {{obj.number}}</h4><br>
+      <h4><span style="font-weight: bold">가게 타입: </span> {{obj.type}}</h4><br>
+      <h4><span style="font-weight: bold">주소: </span> {{obj.address}}</h4><br>
+      <h4><span style="font-weight: bold">별점: </span> {{ obj.star }}</h4>
+      <star-rating
+          v-bind:increment="0.1"
+          v-bind:read-only="true"
+          v-model="obj.star">
+      </star-rating>
       <button class="closeBtn" @click="$emit('closeModal')">닫기</button>
     </div>
   </div>
 </template>
 
 <script>
+import StarRating from 'vue-star-rating'
 export default {
   name: "Detail",
+  components: {StarRating},
   data() {
     return {}
   },
@@ -35,6 +43,7 @@ export default {
 
 <style scoped>
 .white-bg {
+  font-family: 'Gowun Dodum', sans-serif;
   padding:20px;
   width: 700px; background: white;
   height: 500px;

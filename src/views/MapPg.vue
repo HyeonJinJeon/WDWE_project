@@ -61,8 +61,8 @@
     </div>
     <!--    <div style="position: absolute">-->
     <div class="list-black-bg">
+      <h3 style="color:white; font-weight: 500;">식당 리스트</h3>
       <RestaurantList @changeShop="shopInfo=$event" @changeLat="center.lat=$event" @changeLng="center.lng=$event"></RestaurantList>
-      <p style="color:white;font-weight: 600;">{{ shopInfo }}</p>
     </div>
     <!--    </div>-->
 
@@ -283,7 +283,9 @@ export default {
           title: obj1.data.title,
           name: obj1.data.name,
           number: obj1.data.number,
-          type: obj1.data.type
+          type: obj1.data.type,
+          address: obj1.data.address,
+          star: obj1.data.star,
         }
         self.modal = true
         self.openModal()
@@ -314,8 +316,8 @@ div {
   /*float: right;*/
   width: 400px;
   height: 80vh;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 7px;
+  background-color: #182036d9;
+  border-radius: 10px;
   padding: 20px;
   right: 50px;
   top: 100px;
@@ -463,10 +465,10 @@ div {
 }
 
 #btnRoadmap.selected_btn {
-  color: #fff;
+  color: white;
   background: #24376e;
   /*background:linear-gradient(#425470, #5b6d8a);*/
-  width: 54px;
+  width: 70px;
   height: 38px;
   border-radius: 7px;
   border: none;
@@ -476,10 +478,11 @@ div {
 }
 
 #btnSkyview.selected_btn {
-  color: #fff;
+  color: white;
+  font-weight: 300;
   background: #24376e;
   /*background:linear-gradient(#425470, #5b6d8a);*/
-  width: 81px;
+  width: 100px;
   height: 38px;
   border-radius: 7px;
   border: none;
@@ -488,9 +491,23 @@ div {
   text-align: center;
   margin: 0px;
 }
-
-.btn {
+#btnSkyview.btn {
+  margin: 0;
+  width: 100px;
+  height: 38px;
+  padding: 3px 0 3px;
+  text-align: center;
+}
+#btnRoadmap.btn {
+  margin: 0;
+  width: 70px;
+  height: 38px;
+  padding: 3px 0 3px;
+  text-align: center;
+}
+.btn{
   margin: 0px;
+  border-radius: 7px;
 }
 
 .plusMinus {

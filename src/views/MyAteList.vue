@@ -1,14 +1,31 @@
 <template>
-<div>
-  <div>
-    <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">시작일 선택</label> <br>
-    <date-picker v-model="startDate" valueType="format" style="margin-left: 20px;"></date-picker>
-    <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">종료일 선택</label> <br>
-    <date-picker v-model="finishDate" valueType="format" style="margin-left: 20px;"></date-picker>
-  </div>
-  <button class="confirmBtn" @click="getPriceDataSum">검색</button>
+  <v-app>
+    <v-main>
+<div class="bgImg">
+  <div class="black-bg">
+  <MainSideBar></MainSideBar>
+  <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars"
+     style="margin-top: 30px; margin-left: 30px; color: white"></i>
+<!--  <div class="setDateDiv">-->
+<!--&lt;!&ndash;    <p style="font-weight: bold;">기간 설정하기</p>&ndash;&gt;-->
+<!--&lt;!&ndash;    <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">시작일 선택</label> <br>&ndash;&gt;-->
+<!--&lt;!&ndash;    <date-picker v-model="startDate" valueType="format" style="margin-left: 20px;"></date-picker> <br>&ndash;&gt;-->
+<!--&lt;!&ndash;    <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">종료일 선택</label> <br>&ndash;&gt;-->
+<!--&lt;!&ndash;    <date-picker v-model="finishDate" valueType="format" style="margin-left: 20px;"></date-picker>&ndash;&gt;-->
+<!--&lt;!&ndash;    <button class="confirmBtn" @click="getPriceDataSum">검색</button>&ndash;&gt;-->
+<!--  </div>-->
   <div class="tableDiv">
-    <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
+    <div class="startDate">
+      <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">시작일 선택</label> <br>
+      <date-picker v-model="startDate" valueType="format" style="margin-left: 20px;"></date-picker>
+    </div>
+
+    <div class="finishDate">
+      <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">종료일 선택</label> <br>
+      <date-picker v-model="finishDate" valueType="format" style="margin-left: 20px;"></date-picker>
+    </div>
+      <button class="confirmBtn" @click="getPriceDataSum">검색</button>
+    <table class="table" border="1" style="margin-left: auto; margin-right: auto; position: absolute; top: 20%; width: 96%">
       <thead>
       <tr>
         <th>날짜</th>
@@ -20,7 +37,7 @@
       </thead>
       <tbody>
       <template v-for="data in setDateMyData">
-      <tr v-for="(cnt,index) in data" :key="index">
+      <tr v-for="(cnt,index) in data" :key=index>
         <td>{{dateFormat(new Date(cnt.date.seconds*1000))}}</td>
         <td>{{cnt.shopName}}</td>
         <td>{{cnt.name}}</td>
@@ -28,26 +45,30 @@
         <td>{{cnt.price}}원</td>
       </tr>
       </template>
+        <tr>
+          <td style="font-weight: bold; font-size: 20px;">총액</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="font-weight: bold; font-size: 20px;">{{setDateMyPrice}}원</td>
+        </tr>
       </tbody>
     </table>
   </div>
-
-
-
-  <div>
-    <p>내가 먹은 총 금액</p>
-    <h3>{{setDateMyPrice}}</h3>
   </div>
 </div>
+      </v-main>
+  </v-app>
 </template>
 
 <script>
 import {firebase} from "@/firebase/firebaseConfig";
 import DatePicker from 'vue2-datepicker';
+import MainSideBar from '@/components/MainSideBar.vue';
 export default {
   name: "MyAteList",
   components: {
-    DatePicker,
+    DatePicker, MainSideBar
   },
   data(){
     return{
@@ -125,15 +146,64 @@ export default {
 </script>
 
 <style scoped>
+.bgImg {
+  background-image: url("../assets/images/startBg.jpg");
+  background-color: rgba(0, 0, 0, 0.9);
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+}
+.black-bg {
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+}
+.startDate{
+  position: absolute;
+  top: 5%;
+  left: 3%;
+}
+.finishDate{
+  position: absolute;
+  top: 5%;
+  left: 23%;
+}
 .confirmBtn {
+  position: absolute;
   width: 90px;
   height: 38px;
   color: white;
+  top: 9vh;
+  left: 65vh;
   background-color: #2c3e50;
   border-radius: 5px;
   font-weight: 700;
 }
-.tableDiv{
+.setDateDiv{
+  position: absolute;
+  width: 20%;
+  height: 80vh;
+  left: 50px;
+  top: 100px;
+  border-radius: 7px;
 
+  background-color: #FFFFFF;
+  padding: 20px;
+
+}
+.tableDiv{
+  position: absolute;
+  /*float: right;*/
+  width: 80%;
+  height: 80vh;
+  background-color: #FFFFFF;
+  border-radius: 7px;
+  padding: 20px;
+  left: 10%;
+  top: 100px;
+  overflow: auto;
+  margin: auto;
+  /*margin-right: 0;*/
 }
 </style>

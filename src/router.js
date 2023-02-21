@@ -55,6 +55,11 @@ const router = new Router({
       name: 'SetRestaurantList',
       component: () => import('./views/SetRestaurantList.vue'),
     },
+    {
+      path: '/groupMaster',
+      name: 'GroupMaster',
+      component: () => import('./views/GroupMaster.vue'),
+    },
   ]
 })
 const makeTitle = (title) =>
