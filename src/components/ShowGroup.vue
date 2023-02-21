@@ -16,7 +16,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import {firebase} from "@/firebase/firebaseConfig";
 
