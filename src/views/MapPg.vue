@@ -314,10 +314,10 @@ div {
 .list-black-bg {
   position: absolute;
   /*float: right;*/
-  width: 300px;
+  width: 400px;
   height: 80vh;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 7px;
+  background-color: #182036d9;
+  border-radius: 10px;
   padding: 20px;
   right: 50px;
   top: 100px;
