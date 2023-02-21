@@ -136,6 +136,7 @@ export default {
     },
     logout() {
       delete localStorage.groupCode
+      delete localStorage.groupName
       firebase.auth().signOut()
       this.$router.push('/')
     },
