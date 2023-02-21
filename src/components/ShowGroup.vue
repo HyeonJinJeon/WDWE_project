@@ -8,7 +8,7 @@
         <tbody>
 
         <tr v-for="(group,i) in groupNames" :key="i">
-          <td style="font-weight: 400;">{{ group }}<br> 입장코드: {{ enterCodes[i] }}</td>
+          <td style="font-weight: 400;"><span style="font-weight: bold">{{ group }}</span><br> 입장코드: {{ enterCodes[i] }}</td>
           <!--        <td><img class="img1" :src="memoryList.image"/></td>-->
         </tr>
         </tbody>
@@ -82,7 +82,6 @@ table {
   max-width: 700px;
   height: 500px;
   align: center;
-  background-color: rgba(255,255,255,0.3);
   border-radius: 8px;
   padding: 50px;
   position: relative;
