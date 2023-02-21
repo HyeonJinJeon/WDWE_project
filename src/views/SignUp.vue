@@ -95,6 +95,7 @@ export default {
                       name: self.name,
                       engName: self.engName,
                       id: self.id,
+                      groups: '',
                     })
                 alert('회원가입 완료!');
                 user.updateProfile({displayName: self.engName})
