@@ -17,7 +17,7 @@
               <p><span style="font-weight: bold">주소: </span> {{ shopInfo.address }}</p>
             </div>
             <div>
-              <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">날짜 선택</label>
+              <label for="example-datepicker" class="grey-text" style="margin-left: 10px; font-weight: 400;">날짜 선택</label>
               <br>
               <date-picker v-model="date" valueType="format" style="margin-left: 20px;"></date-picker>
               <!--          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>-->
