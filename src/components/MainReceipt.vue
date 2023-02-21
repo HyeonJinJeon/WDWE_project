@@ -20,7 +20,7 @@
             <p><span style="font-weight: bold; ">상호타입: </span> {{ resInfo[frontIndex].type }}</p>
             <p><span style="font-weight: bold; ">전화번호: </span> {{ resInfo[frontIndex].number }}</p>
             <p><span style="font-weight: bold; ">주소: </span> {{ resInfo[frontIndex].address }}</p>
-            <div class="horizontal-line"></div>
+            <hr>
           </div>
           <div v-if="resInfo.length == 0">
             <p><span style="font-weight: bold; ">상호명: </span></p>
@@ -29,15 +29,17 @@
             <p><span style="font-weight: bold; ">주소: </span></p>
             <hr>
           </div>
-          <div class="item" style="font-weight: bold; margin-top: 50px;">
+          <div class="item" style="font-weight: bold; margin-top: 5px;">
             <div class="item_name"><p>이름</p></div>
             <div class="item_menu"><p>메뉴</p></div>
             <div class="item_price"><p>가격</p></div>
           </div>
-          <div v-for="(whose,i) in whose[frontIndex]" :key="i" class="item">
-            <div class="item_name"><p>{{ whose.name }}</p></div>
-            <div class="item_menu"><p>{{ whose.menu }}</p></div>
-            <div class="item_price"><p>{{ whose.price }}원</p></div>
+          <div class="receiptScroll" style="overflow: auto; height: 50%;">
+            <div v-for="(whose,i) in whose[frontIndex]" :key="i" class="item">
+              <div class="item_name"><p>{{ whose.name }}</p></div>
+              <div class="item_menu"><p>{{ whose.menu }}</p></div>
+              <div class="item_price"><p>{{ whose.price }}원</p></div>
+            </div>
           </div>
         </div>
         <!-- Summary -->
@@ -50,8 +52,10 @@
       </div>
     </div>
     <div v-if="editModal == true">
-      <button style="margin-left: 110px; white-space:nowrap;" @click="deleteReceipt">삭제하기</button>
-      <button style="margin-left: 230px; white-space:nowrap;" @click="cancelDelete">취소하기</button>
+      <button class="btn" style="margin-left: 110px; white-space:nowrap;" @click="deleteReceipt">삭제하기</button>
+       <span>
+      <button class="btn" style="margin-left: 230px; white-space:nowrap;" @click="cancelDelete">취소하기</button>
+       </span>
     </div>
     <div v-if="editModal == false">
       <button style="margin-left: 110px; white-space:nowrap;" v-if="onPrev == true" class="btn" @click="prevPage">이전
@@ -211,9 +215,6 @@ export default {
   justify-content: space-between;
 }
 
-.item_checkbox {
-  margin-right: 10px;
-}
 
 .item_name {
   width: 40%;
@@ -229,18 +230,12 @@ export default {
   margin-right: 10px;
 }
 
-/* Summary */
-.horizontal-line {
-  width: 90%;
-  height: 2px;
-  margin: 10px 0;
-  background-color: black;
-}
-
 .sum {
+  position: absolute;
   display: flex;
   flex-direction: column;
   width: 90%;
+  top: 80%;
 }
 
 .sum_item {
@@ -261,4 +256,5 @@ export default {
   position: absolute;
   left: 98%;
 }
+
 </style>
