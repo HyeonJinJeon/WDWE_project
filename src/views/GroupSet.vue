@@ -161,7 +161,7 @@ export default {
                 .doc(self.groupInfo.id)
                 .update({member: firebase.firestore.FieldValue.arrayUnion(_data2)})
             alert("등록 완료!")
-            // self.$router.push('/mainPg')
+            self.$router.push('/mainPg')
           })
     },
 
