@@ -40,6 +40,9 @@
           <router-link to="setRestaurantList" style="color:white; font-weight: 600;">상호 정보</router-link>
           <br>
           <hr>
+          <router-link to="groupMaster" style="color: white; font-weight: 600;">그룹 설정</router-link>
+          <br>
+          <hr>
           <router-link to="myAteList" style="color: white; font-weight: 600;">나의 정산</router-link>
         </div>
 
@@ -133,6 +136,7 @@ export default {
     },
     logout() {
       delete localStorage.groupCode
+      delete localStorage.groupName
       firebase.auth().signOut()
       this.$router.push('/')
     },

@@ -8,7 +8,7 @@
         <div class="title">
           <span style="font-size:60px;">Group Setting</span>
           <span><i class="fas fa-utensils fa-3x"></i></span>
-          <hr>
+          <hr style="width: 45%">
         </div>
         <div class="white-bg">
           <p class="h4 text-center mb-4" style="color: black">그룹 설정 <span><i class="fas fa-utensils"></i></span></p>
@@ -37,10 +37,11 @@
             </div>
           </div>
         </div>
+        <div class="groupList">
+          <ShowGroup></ShowGroup>
+        </div>
       </div>
-      <div class="groupList">
-        <ShowGroup></ShowGroup>
-      </div>
+
     </div>
   </div>
 </template>
@@ -201,8 +202,9 @@ export default {
 }
 
 .center {
-  /*position: absolute;*/
-  width: 700px;
+  position: absolute;
+  left: 15%;
+  width: 90%;
   margin: auto;
   /*text-align: center;*/
 }
@@ -219,7 +221,7 @@ export default {
 
 .white-bg {
   position: absolute;
-  width: 700px;
+  width: 45%;
   height: 500px;
   align: center;
   background-color: white;
@@ -254,14 +256,28 @@ export default {
 }
 
 .groupList {
-  position: relative;
+  position: absolute;
   background-color: rgba(255, 255, 255, 0.2);
+  align: center;
   float: right;
-  width: 400px;
+  width: 25%;
   height: 500px;
-  right: 200px;
-  overflow: auto;
+  right: 20%;
+  /*overflow: auto;*/
   padding: 20px;
   border-radius: 15px;
+  margin: 0 auto;
+
+
+  /*position: absolute;*/
+  /*width: 40%;*/
+  /*height: 500px;*/
+  /*align: center;*/
+  /*background-color: white;*/
+  /*border-radius: 8px;*/
+  /*padding: 50px;*/
+  /*!*top: 25%;*!*/
+  /*!*left: 24vh;*!*/
+  /*margin: 0 auto;*/
 }
 </style>

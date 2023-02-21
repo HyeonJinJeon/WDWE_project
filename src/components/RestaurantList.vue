@@ -16,7 +16,14 @@
               <label class="custom-control-label" :for="i"></label>
             </div>
           </td>
-          <td style="font-weight: 400;">{{ shopList.name }}<br> {{ shopList.type }}</td>
+          <td style="font-weight: 400;"><span style="font-weight: bold">{{ shopList.name }}</span><br> {{ shopList.type }}
+            <star-rating
+              v-bind:increment="0.01"
+              v-bind:read-only="true"
+              v-bind:star-size="20"
+              v-model="shopList.star">
+            </star-rating>
+          </td>
           <!--        <td><img class="img1" :src="memoryList.image"/></td>-->
         </tr>
         </tbody>
@@ -35,9 +42,11 @@
 <script>
 import {firebase} from "@/firebase/firebaseConfig";
 import addRestaurant from "@/views/AddRestaurant.vue";
+import StarRating from 'vue-star-rating'
 
 export default {
   name: "RestaurantList",
+  components: {StarRating},
   computed: {
     addRestaurant() {
       return addRestaurant
@@ -133,12 +142,14 @@ table {
 }
 
 .firstDiv {
-  height: 500px;
+  font-family: 'Gowun Dodum', sans-serif;
+  height: 65vh;
   overflow: auto;
 }
 .selcBtn {
   position: absolute;
-  top:60vh;
+  left: 55vh;
+  top:70vh;
   color: white;
   width: 40px;
   font-weight: 600;

@@ -1,4 +1,6 @@
 <template>
+  <v-app>
+    <v-main>
 <div class="bgImg">
   <div class="black-bg">
   <MainSideBar></MainSideBar>
@@ -13,17 +15,17 @@
 <!--&lt;!&ndash;    <button class="confirmBtn" @click="getPriceDataSum">검색</button>&ndash;&gt;-->
 <!--  </div>-->
   <div class="tableDiv">
-    <p style="font-weight: bold;">기간 설정하기</p>
-    <div>
+    <div class="startDate">
       <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">시작일 선택</label> <br>
       <date-picker v-model="startDate" valueType="format" style="margin-left: 20px;"></date-picker>
     </div>
-    <div>
+
+    <div class="finishDate">
       <label for="example-datepicker" class="grey-text" style="margin: 10px; font-weight: 400;">종료일 선택</label> <br>
       <date-picker v-model="finishDate" valueType="format" style="margin-left: 20px;"></date-picker>
     </div>
       <button class="confirmBtn" @click="getPriceDataSum">검색</button>
-    <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
+    <table class="table" border="1" style="margin-left: auto; margin-right: auto; position: absolute; top: 20%; width: 96%">
       <thead>
       <tr>
         <th>날짜</th>
@@ -55,6 +57,8 @@
   </div>
   </div>
 </div>
+      </v-main>
+  </v-app>
 </template>
 
 <script>
@@ -155,13 +159,23 @@ export default {
   background: rgba(0, 0, 0, 0.7);
   position: fixed;
 }
+.startDate{
+  position: absolute;
+  top: 5%;
+  left: 3%;
+}
+.finishDate{
+  position: absolute;
+  top: 5%;
+  left: 23%;
+}
 .confirmBtn {
   position: absolute;
   width: 90px;
   height: 38px;
   color: white;
-  top: 16.5vh;
-  left: 70vh;
+  top: 9vh;
+  left: 65vh;
   background-color: #2c3e50;
   border-radius: 5px;
   font-weight: 700;
