@@ -4,7 +4,6 @@
       <MainSideBar></MainSideBar>
       <i v-b-toggle.sidebar-1 id="sidebar_openBtn" class="fas fa-bars"
          style="position: absolute; z-index:3; margin-top: 30px; margin-left: 30px; color:white;"></i>
-      <i class="fas fa-utensils"></i>
       <h1 class="title"> 상호 정보 <i class="fas fa-utensils"></i></h1>
 
       <div class="left">
