@@ -20,7 +20,7 @@
             <p><span style="font-weight: bold; ">상호타입: </span> {{ resInfo[frontIndex].type }}</p>
             <p><span style="font-weight: bold; ">전화번호: </span> {{ resInfo[frontIndex].number }}</p>
             <p><span style="font-weight: bold; ">주소: </span> {{ resInfo[frontIndex].address }}</p>
-            <div class="horizontal-line"></div>
+            <hr>
           </div>
           <div v-if="resInfo.length == 0">
             <p><span style="font-weight: bold; ">상호명: </span></p>
@@ -29,15 +29,17 @@
             <p><span style="font-weight: bold; ">주소: </span></p>
             <hr>
           </div>
-          <div class="item" style="font-weight: bold; margin-top: 50px;">
-            <div class="item_name"><p>이름</p></div>
-            <div class="item_menu"><p>메뉴</p></div>
-            <div class="item_price"><p>가격</p></div>
-          </div>
-          <div v-for="(whose,i) in whose[frontIndex]" :key="i" class="item">
-            <div class="item_name"><p>{{ whose.name }}</p></div>
-            <div class="item_menu"><p>{{ whose.menu }}</p></div>
-            <div class="item_price"><p>{{ whose.price }}원</p></div>
+            <div class="item" style="font-weight: bold; margin-top: 5px;">
+              <div class="item_name"><p>이름</p></div>
+              <div class="item_menu"><p>메뉴</p></div>
+              <div class="item_price"><p>가격</p></div>
+            </div>
+          <div class="receiptScroll" style="overflow: auto; height: 50%;">
+            <div v-for="(whose,i) in whose[frontIndex]" :key="i" class="item">
+              <div class="item_name"><p>{{ whose.name }}</p></div>
+              <div class="item_menu"><p>{{ whose.menu }}</p></div>
+              <div class="item_price"><p>{{ whose.price }}원</p></div>
+            </div>
           </div>
         </div>
         <!-- Summary -->
@@ -49,14 +51,14 @@
         </div>
       </div>
     </div>
-    <div v-if="editModal == true">
-      <button style="margin-left: 110px; white-space:nowrap;" @click="deleteReceipt">삭제하기</button>
-      <button style="margin-left: 230px; white-space:nowrap;" @click="cancelDelete">취소하기</button>
+    <div style="position: absolute; top: 90%; height: 10%; width: 50%" v-if="editModal == true">
+      <button class="btn" style="position: absolute; margin-left: 20%; white-space:nowrap;" @click="deleteReceipt">삭제하기</button>
+      <button class="btn" style="position:absolute; margin-left: 100%; white-space:nowrap;" @click="cancelDelete">취소하기</button>
     </div>
-    <div v-if="editModal == false">
-      <button style="margin-left: 110px; white-space:nowrap;" v-if="onPrev == true" class="btn" @click="prevPage">이전
+    <div style="position: absolute; top: 90%; width: 50%" v-if="editModal == false">
+      <button style="margin-left: 30%; white-space:nowrap;" v-if="onPrev == true" class="btn" @click="prevPage">이전
       </button>
-      <button style="margin-left: 230px; white-space:nowrap;" v-if="onNext == true" class="btn" @click="nextPage">다음
+      <button style="margin-left: 100%; white-space:nowrap;" v-if="onNext == true" class="btn" @click="nextPage">다음
       </button>
     </div>
     <!--      </v-main>-->
@@ -238,9 +240,11 @@ export default {
 }
 
 .sum {
+  position: absolute;
   display: flex;
   flex-direction: column;
   width: 90%;
+  top: 80%;
 }
 
 .sum_item {
