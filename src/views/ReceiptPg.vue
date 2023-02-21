@@ -22,26 +22,24 @@
               <!--          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>-->
             </div>
             <div>
-              <label for="" class="grey-text" style="margin: 10px; font-weight: 400;">별점 등록</label> <br>
               <star-rating
                   v-bind:increment="0.5"
                   v-model="rating">
               </star-rating>
-              {{rating}}
             </div>
             <hr class="dashed-lind">
-            <p style="font-weight: 400; font-size: 20px; margin-left: 20px;">
-              <span>No.</span>
-              <span style="margin-left: 12%;">이름</span>
+            <p style="font-weight: 400; font-size: 20px;">
+              <span style="margin-left: 2%;">No.</span>
+              <span style="margin-left: 10%;">이름</span>
               <span style="margin-left: 20%;">메뉴</span>
-              <span style="margin-left: 22%;">가격</span>
-              <b-icon class="aniBtn" @click="addNum" style="margin-left: 10%;" icon="plus-circle"
+              <span style="margin-left: 20%;">가격</span>
+              <b-icon class="aniBtn" @click="addNum" style="margin-left: 9%;" icon="plus-circle"
                       aria-hidden="true"></b-icon>
             </p>
             <hr class="dashed-lind">
 
-            <button class="confirmBtn" @click="getReceipt">등록</button>
           </div>
+          <button class="confirmBtn" @click="getReceipt">등록</button>
 
           <div class="receiptAdd">
             <div v-for="index in receiptNums" :key="index" style="margin-bottom:10px; ">
@@ -60,7 +58,7 @@
                 <b-input v-model="price[index-1]" type="number" min="0" class="form-control priceInput" placeholder=""
                          oninput="javascript: this.value = this.value.replace(/[^0-9]/, '');"/>
                 <b-icon class="aniBtn" @click="deleteRow(index-1)" icon="dash-circle"
-                        aria-hidden="true" style="margin-left:85%;"></b-icon>
+                        aria-hidden="true" style="margin-left:90%;"></b-icon>
               </div>
             </div>
           </div>
@@ -338,33 +336,33 @@ export default {
 
 .engNameInput {
   position: absolute;
-  width: 90px;
-  margin-left: 18%;
+  width: 25%;
+  margin-left: 14%;
   /*margin-top: 5px;*/
 }
 
 .menuInput {
   position: absolute;
-  width: 120px;
-  margin-left: 35%;
+  width: 25%;
+  margin-left: 36%;
 }
 
 .priceInput {
   position: absolute;
-  width: 120px;
-  margin-left: 60%;
+  width: 25%;
+  margin-left: 62%;
 }
 
 .confirmBtn {
   position: absolute;
   width: 90px;
   height: 38px;
-  margin-left:70%;
+  margin-left: 38%;
   color: white;
   background-color: #2c3e50;
   border-radius: 5px;
   font-weight: 700;
-  top: 800px;
+  top: 91vh;
 }
 
 .shopList {
@@ -384,7 +382,7 @@ export default {
   position: absolute;
   overflow: auto;
   left: 15%;
-  top: 687px;
+  top: 575px;
   width: 30%;
   height: 18vh;
 }
