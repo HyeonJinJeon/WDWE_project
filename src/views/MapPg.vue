@@ -33,7 +33,7 @@
 
     <div class="viewsBack">
       <button id="btnRoadmap" class="selected_btn" @click="setMapType('roadmap')">지도</button>
-      <button id="btnSkyview" class="btn" @click="setMapType('skyview')">스카이뷰</button>
+      <button id="btnSkyview" class="unSelected_btn" @click="setMapType('skyview')">스카이뷰</button>
     </div>
 
     <div class="weatherCard">
@@ -469,7 +469,7 @@ div {
   background: #24376e;
   /*background:linear-gradient(#425470, #5b6d8a);*/
   width: 54px;
-  height: 38px;
+  height: 40px;
   border-radius: 7px;
   border: none;
   /*padding-top: 4px;*/
@@ -482,7 +482,33 @@ div {
   background: #24376e;
   /*background:linear-gradient(#425470, #5b6d8a);*/
   width: 81px;
-  height: 38px;
+  height: 40px;
+  border-radius: 7px;
+  border: none;
+  /*padding-top: 4px;*/
+  padding: 3px 0 3px;
+  text-align: center;
+  margin: 0px;
+}
+#btnRoadmap.unSelected_btn {
+  color: black;
+  background: white;
+  /*background:linear-gradient(#425470, #5b6d8a);*/
+  width: 54px;
+  height: 40px;
+  border-radius: 7px;
+  border: none;
+  /*padding-top: 4px;*/
+  padding: 5px 0 5px;
+  text-align: center;
+}
+
+#btnSkyview.unSelected_btn {
+  color: black;
+  background: white;
+  /*background:linear-gradient(#425470, #5b6d8a);*/
+  width: 81px;
+  height: 40px;
   border-radius: 7px;
   border: none;
   /*padding-top: 4px;*/
